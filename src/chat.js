@@ -1,4 +1,6 @@
 export const chatWidget = (config) => {
+  const listeners = []
+
   const dateFormatter = new Intl.DateTimeFormat('en-US', {
     dateStyle: 'short',
     timeStyle: 'short'
@@ -34,28 +36,37 @@ export const chatWidget = (config) => {
   }, { passive: true })
   
   const handleUserSubmit = () => {
-    if (input.value !== '') {
-      insertMessage({
-        color: '#4FC3F7',
-        align: 'right',
-        text: input.value
-      })
+    if (input.value === '') return
 
-      input.value = ''
+    const text = input.value
+
+    insertMessage({
+      text,
+      align: 'right',
+    })
+
+    for (const fn of listeners) {
+      fn(text)
     }
+
+    input.value = ''
+  }
+
+  const onUserInput = (callback) => {
+    listeners.push(callback)
   }
 
   const insertMessage = ({
-    color = '#eee',
     text = '',
     align = 'left'
   }) => {
     const messageBubble = document.createElement('message-bubble')
 
+    messageBubble.classList.toggle('left', align === 'left')
     messageBubble.classList.toggle('right', align === 'right')
 
     messageBubble.innerHTML = `
-      <message-bubble-text style="background-color: ${color};">
+      <message-bubble-text>
         ${text}
       </message-bubble-text>
       <message-bubble-timestamp>
@@ -64,9 +75,12 @@ export const chatWidget = (config) => {
     `
 
     messagesBox.appendChild(messageBubble)
+
+    messageBubble.scrollIntoView()
   }
 
   return {
+    onUserInput,
     insertMessage
   }
 }

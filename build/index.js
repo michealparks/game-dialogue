@@ -1,4 +1,6 @@
 const chatWidget = (config) => {
+  const listeners = [];
+
   const dateFormatter = new Intl.DateTimeFormat('en-US', {
     dateStyle: 'short',
     timeStyle: 'short'
@@ -34,28 +36,37 @@ const chatWidget = (config) => {
   }, { passive: true });
   
   const handleUserSubmit = () => {
-    if (input.value !== '') {
-      insertMessage({
-        color: '#4FC3F7',
-        align: 'right',
-        text: input.value
-      });
+    if (input.value === '') return
 
-      input.value = '';
+    const text = input.value;
+
+    insertMessage({
+      text,
+      align: 'right',
+    });
+
+    for (const fn of listeners) {
+      fn(text);
     }
+
+    input.value = '';
+  };
+
+  const onUserInput = (callback) => {
+    listeners.push(callback);
   };
 
   const insertMessage = ({
-    color = '#eee',
     text = '',
     align = 'left'
   }) => {
     const messageBubble = document.createElement('message-bubble');
 
+    messageBubble.classList.toggle('left', align === 'left');
     messageBubble.classList.toggle('right', align === 'right');
 
     messageBubble.innerHTML = `
-      <message-bubble-text style="background-color: ${color};">
+      <message-bubble-text>
         ${text}
       </message-bubble-text>
       <message-bubble-timestamp>
@@ -64,15 +75,55 @@ const chatWidget = (config) => {
     `;
 
     messagesBox.appendChild(messageBubble);
+
+    messageBubble.scrollIntoView();
   };
 
   return {
+    onUserInput,
     insertMessage
   }
 };
 
+const sleep = (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  })
+};
+
 const chat = chatWidget({
   root: document.body
+});
+
+chat.onUserInput(async (text) => {
+  await sleep(3000);
+  chat.insertMessage({
+    text: 'Thank you, we have validated your email.'
+  });
+  
+  await sleep(4000);
+
+  chat.insertMessage({
+    text: 'Connecting to Jesse Wright, Support Specialist...'
+  });
+
+  await sleep(6000);
+
+  chat.insertMessage({
+    text: 'Hi! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board.'
+  });
+
+  await sleep(5000);
+
+  chat.insertMessage({
+    text: `I'm sure you've got a lot of work ahead of you, so I won't take up any of your time:`
+  });
+
+  await sleep(6000);
+
+  chat.insertMessage({
+    text: ``
+  });
 });
 
 chat.insertMessage({

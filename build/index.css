@@ -48,7 +48,11 @@ input-box button {
 }
 
 message-bubble {
+  
+}
 
+message-bubble.left {
+  
 }
 
 message-bubble.right {
@@ -58,13 +62,45 @@ message-bubble.right {
 }
 
 message-bubble-text {
+  position: relative;
   width: fit-content;
   max-width: 75%;
   padding: 10px 15px;
   border-radius: 4px;
 }
 
+message-bubble-text:after {
+  position: absolute;
+  bottom: 0;
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+message-bubble.left message-bubble-text {
+  background-color: #eee;
+  border-bottom-left-radius: 0px;
+}
+
+message-bubble.right message-bubble-text {
+  background-color: #4FC3F7;
+  border-bottom-right-radius: 0px;
+}
+
+message-bubble.left message-bubble-text:after {
+  left: -8px;
+  border-width: 0 0 8px 8px;
+  border-color: transparent transparent #eee transparent;
+}
+
+message-bubble.right message-bubble-text:after {
+  right: -8px;
+  border-width: 8px 0 0 8px;
+  border-color: transparent transparent transparent #4FC3F7;
+}
+
 message-bubble-timestamp {
-  padding: 5px 15px;
+  padding: 5px 15px 15px;
   font-size: 12px;
 }
