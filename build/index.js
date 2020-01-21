@@ -33,7 +33,12 @@ const chatWidget = (config) => {
 
   button.addEventListener('click', (e) => {
     handleUserSubmit();
+    input.focus();
   }, { passive: true });
+
+  messagesBox.addEventListener('pointerdown', (e) => {
+    input.blur();
+  });
   
   const handleUserSubmit = () => {
     if (input.value === '') return
@@ -85,6 +90,8 @@ const chatWidget = (config) => {
   }
 };
 
+document.head.querySelector('title').textContent = 'Koschei Society';
+
 const sleep = (ms) => {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -101,10 +108,10 @@ chat.onUserInput(async (text) => {
     text: 'Thank you, we have validated your email.'
   });
   
-  await sleep(4000);
+  await sleep(2000);
 
   chat.insertMessage({
-    text: 'Connecting to Jesse Wright, Support Specialist...'
+    text: 'Connecting to Jesse Wright, Onboarding Specialist...'
   });
 
   await sleep(6000);

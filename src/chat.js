@@ -33,7 +33,12 @@ export const chatWidget = (config) => {
 
   button.addEventListener('click', (e) => {
     handleUserSubmit()
+    input.focus()
   }, { passive: true })
+
+  messagesBox.addEventListener('pointerdown', (e) => {
+    input.blur()
+  })
   
   const handleUserSubmit = () => {
     if (input.value === '') return

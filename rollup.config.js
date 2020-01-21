@@ -1,3 +1,4 @@
+import os from 'os'
 import replace from 'rollup-plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
 import serve from 'rollup-plugin-serve'
@@ -22,7 +23,10 @@ export default [{
     serve({
       open: true,
       contentBase: ['build'],
-      port: 7000
+      port: 7000,
+      host: Object.values(os.networkInterfaces())
+        .flat()
+        .find((iface) => !iface.internal && iface.family === 'IPv4').address
     }),
     DEV ? undefined : terser()
   ]

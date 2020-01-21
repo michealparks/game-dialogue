@@ -1,5 +1,7 @@
 import { chatWidget } from './chat.js'
 
+document.head.querySelector('title').textContent = 'Koschei Society'
+
 const sleep = (ms) => {
   return new Promise((resolve) => {
     setTimeout(resolve, ms)
@@ -16,10 +18,10 @@ chat.onUserInput(async (text) => {
     text: 'Thank you, we have validated your email.'
   })
   
-  await sleep(4000)
+  await sleep(2000)
 
   chat.insertMessage({
-    text: 'Connecting to Jesse Wright, Support Specialist...'
+    text: 'Connecting to Jesse Wright, Onboarding Specialist...'
   })
 
   await sleep(6000)
