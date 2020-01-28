@@ -1,3 +1,5 @@
+import smoothscroll from 'smoothscroll-polyfill';
+
 const chatWidget = (config) => {
   const listeners = [];
 
@@ -97,6 +99,8 @@ const chatWidget = (config) => {
 
 // @TODO move inputs onto a stack, sleeping could disrupt them
 const main = async () => {
+  smoothscroll.polyfill();
+
   const inputs = {};
 
   let modifiedText = '';
