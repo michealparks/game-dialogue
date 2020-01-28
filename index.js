@@ -1,3 +1,5 @@
+import smoothscroll from 'smoothscroll-polyfill';
+
 const chatWidget = (config) => {
   const listeners = [];
 
@@ -97,6 +99,8 @@ const chatWidget = (config) => {
 
 // @TODO move inputs onto a stack, sleeping could disrupt them
 const main = async () => {
+  smoothscroll.polyfill();
+
   const inputs = {};
 
   let modifiedText = '';
@@ -162,7 +166,7 @@ const main = async () => {
       let match;
 
       for (const child of waitFor) {
-        let accepted = child.acceptedInputs.map((str) => str.toLowerCase());
+        let accepted = child.acceptedInputs;
 
         for (const [key, value] of Object.entries(variables)) {
           if (accepted.includes(key)) {
@@ -171,10 +175,12 @@ const main = async () => {
           }
         }
 
-        if (accepted.includes(input.toLowerCase())) {
-          match = child;
-          waitFor.splice(waitFor.indexOf(child), 1);
-          break
+        for (const str of accepted) {
+          if (input.toLowerCase().includes(str.toLowerCase())) {
+            match = child;
+            waitFor.splice(waitFor.indexOf(child), 1);
+            break
+          }
         }
       }
 
