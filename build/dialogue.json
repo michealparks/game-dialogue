@@ -131,7 +131,10 @@
     }, {
       "text": "As soon as I get downstairs, there is a path east and a path south. Enter the number of units and either E or S for the direction. Keep in mind that if we don’t find anything at a particular spot then the bot will just return to its previous position.",
       "waitFor": [
-        
+        {
+          "acceptedInputs": ["6s"],
+          "text": "Okay, I’ve arrived at a four-way intersection and can go south, east, or west."
+        }
       ],
       "incorrectResponses": [
         {
