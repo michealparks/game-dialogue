@@ -22,7 +22,7 @@
       "text": "Please enter your first name to continue.",
       "saveInputAs": "name"
     }, {
-      "text": "Connecting to Jesse Wright, Onboarding Specialist..."
+      "text": "Connecting to User: Jesse Wright..."
     }, {
       "text": "Hi {name}! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board.",
       "sleepFor": 4
