@@ -1,9 +1,9 @@
-import smoothscroll from 'smoothscroll-polyfill'
+// import smoothscroll from 'smoothscroll-polyfill'
 import { chatWidget } from './chat.js'
 
 // @TODO move inputs onto a stack, sleeping could disrupt them
 const main = async () => {
-  smoothscroll.polyfill()
+  // smoothscroll.polyfill()
 
   const inputs = {}
 
