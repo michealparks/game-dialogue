@@ -35,11 +35,16 @@ const main = async () => {
     const {
       text,
       sleepFor = defaultSleepFor,
+      sleepBefore,
       saveInputAs,
       waitFor = [],
       waitForAnyInput = false,
       defaultResponses = config.defaultResponses
     } = item
+
+    if (sleepBefore) {
+      await sleep(sleepBefore)
+    }
 
     modifiedText = text
 
