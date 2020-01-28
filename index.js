@@ -2,6 +2,11 @@ const chatWidget = (config) => {
   const listeners = [];
 
   const dateFormatter = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
     dateStyle: 'short',
     timeStyle: 'short'
   });
