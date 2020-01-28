@@ -89,7 +89,6 @@ const main = async () => {
       await listenForInput()
     }
 
-    console.log(sleepFor)
     await sleep(sleepFor)
   }
 
