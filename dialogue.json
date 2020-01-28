@@ -45,19 +45,23 @@
         {
           "acceptedInputs": ["cathedral", "vitus"],
           "sleepBefore": 2,
-          "text": "Ah, the entrance must be inside the Cathedral of St. Vitus then! Good work."
+          "text": "Ah, the entrance must be inside the Cathedral of St. Vitus then! Good work.",
+          "sleepFor": 0
         }, {
           "acceptedInputs": ["davius"],
           "sleepBefore": 2,
-          "text": "A truly fascinating species of butterfly. Well done."
+          "text": "A truly fascinating species of butterfly. Well done.",
+          "sleepFor": 0
         }, {
           "acceptedInputs": ["malachite"],
           "sleepBefore": 2,
-          "text": "Oh great, you figured out which crystal we need."
+          "text": "Oh great, you figured out which crystal we need.",
+          "sleepFor": 0
         }, {
           "acceptedInputs": ["sambucus"],
           "sleepBefore": 2,
-          "text": "Good work, now we know we need the sambucus plant."
+          "text": "Good work, now we know we need the sambucus plant.",
+          "sleepFor": 0
         }
       ],
       "sleepFor": 1
@@ -79,20 +83,19 @@
       "text": "Hi {name}, great to hear from you again. Did you receive the second package and are ready to continue?",
       "waitFor": [
         {
-          "acceptedInputs": [
-            "$yes",
-            "second package",
-            "2nd package"
-          ]
+          "acceptedInputs": ["$yes", "second package", "2nd package"],
+          "sleepBefore": 2,
+          "text": "Great, thanks for letting me know!",
+          "sleepFor": 0
         }
       ],
       "defaultResponses": [
         {
-          "text": "Okay, just let me know when you're ready."
+          "sleepBefore": 2,
+          "text": "Okay, just let me know when you're ready.",
+          "sleepFor": 0
         }
       ]
-    }, {
-      "text": "Great, thanks for letting me know!"
     }, {
       "text": "With the items from this package you will need to find the names of 3 more potion ingredients (the snake, flower, and mushroom), the layout of the tunnels, and the location of the lab.",
       "sleepFor": 4
@@ -107,13 +110,19 @@
       "waitFor": [
         {
           "acceptedInputs": ["eryx"],
-          "text": "Great, you’ve figured out which snake bone we need."
+          "sleepBefore": 2,
+          "text": "Great, you’ve figured out which snake bone we need.",
+          "sleepFor": 0
         }, {
           "acceptedInputs": ["vantia"],
-          "text": "Excellent, now we know which flower to use."
+          "sleepBefore": 2,
+          "text": "Excellent, now we know which flower to use.",
+          "sleepFor": 0
         }, {
           "acceptedInputs": ["campanella"],
-          "text": "So that’s the mushroom we’re looking for! Good work."
+          "sleepBefore": 2,
+          "text": "So that’s the mushroom we’re looking for! Good work.",
+          "sleepFor": 0
         }
       ]
     }, {
