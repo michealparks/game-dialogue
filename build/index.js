@@ -90,49 +90,114 @@ const chatWidget = (config) => {
   }
 };
 
-document.head.querySelector('title').textContent = 'Koschei Society';
+const main = async () => {
+  const inputs = {};
 
-const sleep = (ms) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  })
+  let modifiedText = '';
+  let inputPromiseResolve;
+
+  const response = await window.fetch('./dialogue.json');
+  const config = await response.json();
+
+  const {
+    textItems = [],
+    defaultSleepFor = 2,
+    variables
+  } = config;
+
+  /**
+   * @param {number} seconds
+   * @returns {Promise}
+   */
+  const sleep = (seconds) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, seconds * 1000);
+    })
+  };
+
+  const listenForInput = () => {
+    return new Promise((resolve) => {
+      inputPromiseResolve = resolve;
+    })
+  };
+
+  const textItem = async (item) => {
+    const {
+      text,
+      sleepFor = defaultSleepFor,
+      saveInputAs,
+      waitFor = [],
+      waitForAnyInput = false,
+      defaultResponses = config.defaultResponses
+    } = item;
+
+    modifiedText = text;
+
+    if (modifiedText) {
+      for (const [key, value] of Object.entries(inputs)) {
+        modifiedText = modifiedText.replace(`{${key}}`, value);
+      }
+
+      chat.insertMessage({ text: modifiedText });
+    }
+
+    if (saveInputAs) {
+      inputs[saveInputAs] = await listenForInput();
+    }
+
+    while (waitFor.length > 0) {
+      const input = await listenForInput();
+
+      let match;
+
+      for (const child of waitFor) {
+        let accepted = child.acceptedInputs.map((str) => str.toLowerCase());
+
+        for (const [key, value] of Object.entries(variables)) {
+          if (accepted.includes(key)) {
+            accepted.splice(accepted.indexOf(key), 1);
+            accepted = [...accepted, ...value];
+          }
+        }
+
+        if (accepted.includes(input.toLowerCase())) {
+          match = child;
+          waitFor.splice(waitFor.indexOf(child), 1);
+          break
+        }
+      }
+
+      if (match) {
+        await textItem(match);
+      } else {
+        const rand = Math.random() * defaultResponses.length | 0;
+        await textItem(defaultResponses[rand]);
+      }
+    }
+
+    if (waitForAnyInput) {
+      await listenForInput();
+    }
+
+    console.log(sleepFor);
+    await sleep(sleepFor);
+  };
+
+  document.head.querySelector('title').textContent = 'Koschei Society';
+
+  const chat = chatWidget({
+    root: document.body
+  });
+
+  chat.onUserInput((text) => {
+    if (inputPromiseResolve) {
+      inputPromiseResolve(text);
+    }
+  });
+
+  for (const item of textItems) {
+    await textItem(item);
+  }
 };
 
-const chat = chatWidget({
-  root: document.body
-});
-
-chat.onUserInput(async (text) => {
-  await sleep(3000);
-  chat.insertMessage({
-    text: 'Thank you, we have validated your email.'
-  });
-  
-  await sleep(2000);
-
-  chat.insertMessage({
-    text: 'Connecting to Jesse Wright, Onboarding Specialist...'
-  });
-
-  await sleep(6000);
-
-  chat.insertMessage({
-    text: 'Hi! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board.'
-  });
-
-  await sleep(5000);
-
-  chat.insertMessage({
-    text: `I'm sure you've got a lot of work ahead of you, so I won't take up any of your time:`
-  });
-
-  await sleep(6000);
-
-  chat.insertMessage({
-    text: ``
-  });
-});
-
-chat.insertMessage({
-  text: 'Hello! Welcome to Koschei Society webchat service. Please enter your email address below to get started.'
-});
+main();
