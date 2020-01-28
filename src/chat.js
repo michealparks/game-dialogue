@@ -86,7 +86,7 @@ export const chatWidget = (config) => {
 
     messagesBox.appendChild(messageBubble)
 
-    messageBubble.scrollIntoView()
+    messageBubble.scrollIntoView({ behavior: 'smooth' })
   }
 
   return {

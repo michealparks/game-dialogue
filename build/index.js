@@ -86,7 +86,7 @@ const chatWidget = (config) => {
 
     messagesBox.appendChild(messageBubble);
 
-    messageBubble.scrollIntoView();
+    messageBubble.scrollIntoView({ behavior: 'smooth' });
   };
 
   return {
@@ -95,6 +95,7 @@ const chatWidget = (config) => {
   }
 };
 
+// @TODO move inputs onto a stack, sleeping could disrupt them
 const main = async () => {
   const inputs = {};
 

@@ -1,5 +1,6 @@
 import { chatWidget } from './chat.js'
 
+// @TODO move inputs onto a stack, sleeping could disrupt them
 const main = async () => {
   const inputs = {}
 
