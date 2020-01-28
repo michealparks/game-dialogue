@@ -1,0 +1,149 @@
+{
+  "defaultSleepFor": 2,
+  "defaultResponses": [
+    {
+      "text": "Hmm, I get the feeling that’s not quite right. Try taking another look."
+    }, {
+      "text": "I don’t think that’s what we’re looking for. Maybe take another look at that."
+    }, {
+      "text": "That doesn’t seem right, I think you should double check your work."
+    }, {
+      "text": "I’m not sure if that makes any sense. Try again and let me know what you get."
+    }
+  ],
+  "variables": {
+    "$yes": ["ready", "yes", "yep", "yeah", "okay", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"]
+  },
+  "textItems": [
+    {
+      "text": "Hello! Welcome to Koschei Society webchat service."
+    }, {
+      "text": "Please enter your first name to continue.",
+      "saveInputAs": "name"
+    }, {
+      "text": "Connecting to Jesse Wright, Onboarding Specialist...",
+      "sleepFor": 3
+    }, {
+      "text": "Hi {name}! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board."
+    }, {
+      "text": "I'm sure you've got a lot of work ahead of you, so I won't take up any of your time."
+    }, {
+      "text": "Just to confirm, our immediate goal with these documents is to find the names of 3 potion ingredients, the location of the tunnel entrance."
+    }, {
+      "text": "When you have figured out any one of those things, please send them over, one at a time.",
+      "waitFor": [
+        {
+          "acceptedInputs": ["cathedral", "vitus"],
+          "text": "Ah, the entrance must be inside the Cathedral of St. Vitus then! Good work."
+        }, {
+          "acceptedInputs": ["davius"],
+          "text": "A truly fascinating species of butterfly. Well done."
+        }, {
+          "acceptedInputs": ["malachite"],
+          "text": "Oh great, you figured out which crystal we need."
+        }, {
+          "acceptedInputs": ["sambucus"],
+          "text": "Good work, now we know we need the sambucus plant."
+        }
+      ],
+      "sleepFor": 1
+    }, {
+      "text": "Thank you so much, {name}, you clearly have a talent for this."
+    }, {
+      "text": "If we manage to gain access to the tunnels underneath Prague, I have a strong feeling the answers we’re looking for are in there.",
+      "sleepFor": 4
+      }, {
+      "text": "I’m going to search the cathedral for an entrance and dig around in our archives for any other relevant information."
+    }, {
+      "text": "Keep an eye out for another package from us soon, and let me know once you’ve opened it and are ready to continue. Until then, take care."
+    }, {
+      "text": "Your chat session has ended. Send any message to begin a new session.",
+      "waitForAnyInput": true
+    }, {
+      "text": "Hi {name}, great to hear from you again. Did you receive the second package and are ready to continue?",
+      "waitFor": [
+        {
+          "acceptedInputs": [
+            "$yes",
+            "second package",
+            "2nd package"
+          ]
+        }
+      ],
+      "defaultResponses": [
+        {
+          "text": "Okay, just let me know when you're ready."
+        }
+      ]
+    }, {
+      "text": "Great, thanks for letting me know!"
+    }, {
+      "text": "With the items from this package you will need to find the names of 3 more potion ingredients (the snake, flower, and mushroom), the layout of the tunnels, and the location of the lab."
+    }, {
+      "text": "You can work on finding all this information simultaneously, but I won’t plan on going down to the tunnels until you have everything."
+    }, {
+      "text": "As I mentioned in the letter, I’ll need your help to program navigation instructions into the bot since we don’t know what the conditions are like down there."
+    }, {
+      "text": "But first things first! Let me know the names of the 3 potion ingredients, one at a time.",
+      "waitFor": [
+        {
+          "acceptedInputs": ["eryx"],
+          "text": "Great, you’ve figured out which snake bone we need."
+        }, {
+          "acceptedInputs": ["vantia"],
+          "text": "Excellent, now we know which flower to use."
+        }, {
+          "acceptedInputs": ["campanella"],
+          "text": "So that’s the mushroom we’re looking for! Good work."
+        }
+      ]
+    }, {
+      "text": "Now that we know the 3 ingredients, have you used the map and the window images to figure out the tunnel layout and where the lab is located?",
+      "waitFor": [
+        {
+          "acceptedInputs": ["$yes"]
+        }
+      ],
+      "defaultResponses": [
+        {
+          "text": "Okay, just let me know when you're ready."
+        }
+      ]
+    }, {
+      "text": "Great, then are you ready to help me navigate to it through the tunnels?",
+      "waitFor": [
+        {
+          "acceptedInputs": ["$yes"]
+        }
+      ],
+      "defaultResponses": [
+        {
+          "text": "Okay, just let me know when you’re ready."
+        }
+      ]
+    }, {
+      "text": "Excellent, I’m setting up our little explorer bot now."
+    }, {
+      "text": "Remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W."
+    }, {
+      "text": "I’m going to head down below the cathedral now!",
+      "sleepFor": 5
+    }, {
+      "text": "As soon as I get downstairs, there is a path east and a path south. Enter the number of units and either E or S for the direction. Keep in mind that if we don’t find anything at a particular spot then the bot will just return to its previous position.",
+      "waitFor": [
+        
+      ],
+      "incorrectResponses": [
+        {
+          "acceptedInputs": ["e"],
+          "text": "It looks like there is nothing east of here, so let’s go back to the entrance - let me know how far south I should go."
+        }
+      ],
+      "defaultResponses": [
+        {
+          "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
+        }
+      ]
+    }
+  ]
+}
