@@ -16,33 +16,39 @@
   },
   "textItems": [
     {
-      "text": "Hello! Welcome to Koschei Society webchat service."
+      "text": "Hello! Welcome to Koschei Society webchat service.",
+      "sleepFor": 2
     }, {
       "text": "Please enter your first name to continue.",
       "saveInputAs": "name"
     }, {
-      "text": "Connecting to Jesse Wright, Onboarding Specialist...",
-      "sleepFor": 3
+      "text": "Connecting to Jesse Wright, Onboarding Specialist..."
     }, {
-      "text": "Hi {name}! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board."
+      "text": "Hi {name}! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board.",
+      "sleepFor": 4
     }, {
       "text": "I'm sure you've got a lot of work ahead of you, so I won't take up any of your time."
     }, {
-      "text": "Just to confirm, our immediate goal with these documents is to find the names of 3 potion ingredients, the location of the tunnel entrance."
+      "text": "Just to confirm, our immediate goal with these documents is to find the names of 3 potion ingredients, the location of the tunnel entrance.",
+      "sleepFor": 4
     }, {
       "text": "When you have figured out any one of those things, please send them over, one at a time.",
       "waitFor": [
         {
           "acceptedInputs": ["cathedral", "vitus"],
+          "sleepBefore": 2,
           "text": "Ah, the entrance must be inside the Cathedral of St. Vitus then! Good work."
         }, {
           "acceptedInputs": ["davius"],
+          "sleepBefore": 2,
           "text": "A truly fascinating species of butterfly. Well done."
         }, {
           "acceptedInputs": ["malachite"],
+          "sleepBefore": 2,
           "text": "Oh great, you figured out which crystal we need."
         }, {
           "acceptedInputs": ["sambucus"],
+          "sleepBefore": 2,
           "text": "Good work, now we know we need the sambucus plant."
         }
       ],
@@ -53,9 +59,11 @@
       "text": "If we manage to gain access to the tunnels underneath Prague, I have a strong feeling the answers we’re looking for are in there.",
       "sleepFor": 4
       }, {
-      "text": "I’m going to search the cathedral for an entrance and dig around in our archives for any other relevant information."
+      "text": "I’m going to search the cathedral for an entrance and dig around in our archives for any other relevant information.",
+      "sleepFor": 4
     }, {
-      "text": "Keep an eye out for another package from us soon, and let me know once you’ve opened it and are ready to continue. Until then, take care."
+      "text": "Keep an eye out for another package from us soon, and let me know once you’ve opened it and are ready to continue. Until then, take care.",
+      "sleepFor": 4
     }, {
       "text": "Your chat session has ended. Send any message to begin a new session.",
       "waitForAnyInput": true
@@ -78,11 +86,14 @@
     }, {
       "text": "Great, thanks for letting me know!"
     }, {
-      "text": "With the items from this package you will need to find the names of 3 more potion ingredients (the snake, flower, and mushroom), the layout of the tunnels, and the location of the lab."
+      "text": "With the items from this package you will need to find the names of 3 more potion ingredients (the snake, flower, and mushroom), the layout of the tunnels, and the location of the lab.",
+      "sleepFor": 4
     }, {
-      "text": "You can work on finding all this information simultaneously, but I won’t plan on going down to the tunnels until you have everything."
+      "text": "You can work on finding all this information simultaneously, but I won’t plan on going down to the tunnels until you have everything.",
+      "sleepFor": 4
     }, {
-      "text": "As I mentioned in the letter, I’ll need your help to program navigation instructions into the bot since we don’t know what the conditions are like down there."
+      "text": "As I mentioned in the letter, I’ll need your help to program navigation instructions into the bot since we don’t know what the conditions are like down there.",
+      "sleepFor": 4
     }, {
       "text": "But first things first! Let me know the names of the 3 potion ingredients, one at a time.",
       "waitFor": [
@@ -124,7 +135,8 @@
     }, {
       "text": "Excellent, I’m setting up our little explorer bot now."
     }, {
-      "text": "Remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W."
+      "text": "Remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W.",
+      "sleepFor": 5
     }, {
       "text": "I’m going to head down below the cathedral now!",
       "sleepFor": 5
