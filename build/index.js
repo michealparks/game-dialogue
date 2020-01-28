@@ -12,7 +12,7 @@ const chatWidget = (config) => {
   });
 
   const widget = document.createElement('chat-widget');
-  
+
   widget.innerHTML = `
     <messages-box></messages-box>
     <input-box>
