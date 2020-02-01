@@ -24,10 +24,10 @@
   },
   "textItems": [
     {
-      "text": "Hello! Welcome to Koschei Society webchat service.",
+      "text": "Hello! Welcome to Koschei Society webchat service. To confirm you are human, please enter the name of the month.",
       "sleepFor": 2
     }, {
-      "text": "Please enter your first name to continue.",
+      "text": "Thank you. Please enter your first name to continue.",
       "saveInputAs": "name"
     }, {
       "text": "Connecting to User: Jesse Wright..."
@@ -60,7 +60,7 @@
         }, {
           "acceptedInputs": ["sambucus"],
           "sleepBefore": 2,
-          "text": "Good work, now we know we need the sambucus plant.",
+          "text": "Good work, now we know we need the Sambucus plant.",
           "sleepFor": 0
         }
       ],
@@ -119,7 +119,7 @@
           "text": "Excellent, now we know which flower to use.",
           "sleepFor": 0
         }, {
-          "acceptedInputs": ["campanella"],
+          "acceptedInputs": ["agricosa"],
           "sleepBefore": 2,
           "text": "So that’s the mushroom we’re looking for! Good work.",
           "sleepFor": 0
@@ -149,19 +149,17 @@
           "text": "Okay, just let me know when you’re ready."
         }
       ]
-    }, {
-      "text": "Excellent, I’m setting up our little explorer bot now."
-    }, {
-      "text": "Remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W.",
+    },  {
+      "text": "Excellent. Just remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W.",
       "sleepFor": 5
     }, {
-      "text": "I’m going to head down below the cathedral now!",
+      "text": "I’m going to head down from the cathedral now!",
       "sleepFor": 5
     }, {
       "text": "As soon as I get downstairs, there is a path east and a path south. Enter the number of units and either E or S for the direction. Keep in mind that if we don’t find anything at a particular spot then the bot will just return to its previous position.",
       "waitFor": [
         {
-          "acceptedInputs": ["6s"],
+          "acceptedInputs": ["6s", "s6", "6 south"],
           "text": "Okay, I’ve arrived at a four-way intersection and can go south, east, or west."
         }
       ],
