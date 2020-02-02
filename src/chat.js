@@ -1,96 +1,115 @@
-export const chatWidget = (config) => {
-  const listeners = []
+import { style } from './chat-style'
 
-  const dateFormatter = new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    dateStyle: 'short',
-    timeStyle: 'short'
-  })
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  dateStyle: 'short',
+  timeStyle: 'short'
+})
 
-  const widget = document.createElement('chat-widget')
-
-  widget.innerHTML = `
-    <messages-box></messages-box>
-    <input-box>
-      <input type="text" placeholder="Send a message">
-      <button>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="22" y1="2" x2="11" y2="13" />
-          <polygon points="22 2 15 22 11 13 2 9 22 2" />
-        </svg>
-      </button>
-    </input-box>
-  `
-
-  config.root.appendChild(widget)
-
-  const messagesBox = document.querySelector('messages-box')
-  const input = document.querySelector('input-box input')
-  const button = document.querySelector('input-box button')
-
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') handleUserSubmit()
-  }, { passive: true })
-
-  button.addEventListener('click', (e) => {
-    handleUserSubmit()
-    input.focus()
-  }, { passive: true })
-
-  messagesBox.addEventListener('pointerdown', (e) => {
-    input.blur()
-  })
+window.customElements.define('chat-widget', class ChatWidget extends HTMLElement {
+  constructor (props) {
+    super(props)
   
-  const handleUserSubmit = () => {
-    if (input.value === '') return
+    this.listeners = []
+    this.pendingMessages = { remote: undefined, user: undefined }
+    this.root = this.attachShadow({ mode: 'open' })
+    this.root.innerHTML = `
+      <style>${style}</style>
+      <messages-box></messages-box>
+      <input-box>
+        <input type="text" placeholder="Send a message">
+        <button>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#555"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+        </button>
+      </input-box>
+    `
+  }
 
-    const text = input.value
+  connectedCallback () {
+    this.messagesBox = this.root.querySelector('messages-box')
+    this.input = this.root.querySelector('input-box input')
+    this.button = this.root.querySelector('input-box button')
 
-    insertMessage({
-      text,
-      align: 'right',
-    })
+    const handleUserSubmit = () => {
+      if (this.input.value === '') return
 
-    for (const fn of listeners) {
-      fn(text)
+      const text = this.input.value
+
+      this.startMessage({ origin: 'user' })
+      this.commitMessage({ text, origin: 'user' })
+
+      for (const fn of this.listeners) {
+        fn(text)
+      }
+
+      this.input.value = ''
     }
 
-    input.value = ''
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter') handleUserSubmit()
+    }
+
+    this.input.addEventListener('keydown', handleKeyDown, { passive: true })
+
+    this.messagesBox.addEventListener('pointerdown', this.input.blur, { passive: true })
+
+    this.button.addEventListener('click', (e) => {
+      handleUserSubmit()
+      this.input.focus()
+    }, { passive: true })
   }
 
-  const onUserInput = (callback) => {
-    listeners.push(callback)
+  /**
+   * Listen for when a user submits a message
+   * @param {Function} callback
+   */
+  onUserInput (callback) {
+    this.listeners.push(callback)
   }
 
-  const insertMessage = ({
-    text = '',
-    align = 'left'
-  }) => {
-    const messageBubble = document.createElement('message-bubble')
+  /**
+   * Trigger the start of a new message
+   * @param {Object} props
+   */
+  startMessage ({ origin = 'remote' }) {
+    const message = document.createElement('message-bubble')
+    message.classList.add('empty')
+    message.classList.add(origin === 'remote' ? 'left' : 'right')
 
-    messageBubble.classList.toggle('left', align === 'left')
-    messageBubble.classList.toggle('right', align === 'right')
-
-    messageBubble.innerHTML = `
-      <message-bubble-text>
-        ${text}
-      </message-bubble-text>
-      <message-bubble-timestamp>
-        ${dateFormatter.format(new Date())}
-      </message-bubble-timestamp>
+    message.innerHTML = `
+      <message-text></message-text>
+      <message-timestamp></message-timestamp>
     `
 
-    messagesBox.appendChild(messageBubble)
+    this.pendingMessages[origin] = message
 
-    messageBubble.scrollIntoView({ behavior: 'smooth' })
+    this.messagesBox.appendChild(message)
   }
 
-  return {
-    onUserInput,
-    insertMessage
+  /**
+   * Send the message to the screen
+   * @param {Object} props
+   */
+  commitMessage ({ text = '', origin = 'remote' }) {
+    const message = this.pendingMessages[origin]
+    message.querySelector('message-text').innerHTML = text
+    message.querySelector('message-timestamp').textContent = dateFormatter.format(new Date())
+    message.classList.remove('empty')
+    message.scrollIntoView()
   }
-}
+})
