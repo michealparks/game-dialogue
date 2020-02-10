@@ -1,5 +1,14 @@
 {
-  "defaultSleepFor": 3,
+  "variables": {
+    "$january": ["january", "jan", "1", "01"],
+    "$february": ["february", "feb", "2", "02"],
+    "$march": ["march", "mar", "3", "03"],
+    "$yes": ["ready", "yes", "yep", "yeah", "okay", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"],
+    "$second": ["second", "2nd", "package"],
+    "$third": ["third", "3rd", "package"]
+  },
+  "defaultSleepFor": 1,
+  "defaultSleepBefore": 2,
   "defaultResponses": [
     {
       "sleepBefore": 2,
@@ -19,25 +28,36 @@
       "sleepFor": 0
     }
   ],
-  "variables": {
-    "$yes": ["ready", "yes", "yep", "yeah", "okay", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"]
-  },
   "textItems": [
     {
-      "text": "Hello! Welcome to Koschei Society webchat service.",
-      "sleepFor": 2
+      "text": "Hello! Welcome to Koschei Society webchat service. To confirm you are human, please enter the name of the month.",
+      "waitFor": [
+        {
+          "acceptedInputs": ["$january", "$february", "$march"],
+          "saveInputAs": "month"
+        }
+      ],
+      "defaultResponses": [
+        {
+          "sleepBefore": 2,
+          "text": "Hmm, that's not quite right. Please enter the month.",
+          "sleepFor": 0
+        }
+      ]
     }, {
-      "text": "Please enter your first name to continue.",
+      "text": "Thank you. Please enter your first name to continue.",
       "saveInputAs": "name"
     }, {
-      "text": "Connecting to User: Jesse Wright..."
+      "text": "Connecting to User: Jesse Wright...",
+      "goto": "$month"
     }, {
+      "month": ["$january"],
       "text": "Hi {name}! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board.",
       "sleepFor": 4
     }, {
       "text": "I'm sure you've got a lot of work ahead of you, so I won't take up any of your time."
     }, {
-      "text": "Just to confirm, our immediate goal with these documents is to find the names of 3 potion ingredients, the location of the tunnel entrance.",
+      "text": "Just to confirm, our immediate goal with these documents is to find the names of 3 potion ingredients, and the location of the tunnel entrance.",
       "sleepFor": 4
     }, {
       "text": "When you have figured out any one of those things, please send them over, one at a time.",
@@ -60,7 +80,7 @@
         }, {
           "acceptedInputs": ["sambucus"],
           "sleepBefore": 2,
-          "text": "Good work, now we know we need the sambucus plant.",
+          "text": "Good work, now we know we need the Sambucus plant.",
           "sleepFor": 0
         }
       ],
@@ -79,11 +99,15 @@
     }, {
       "text": "Your chat session has ended. Send any message to begin a new session.",
       "waitForAnyInput": true
-    }, {
+    },
+
+
+    {
+      "month": ["$february"],
       "text": "Hi {name}, great to hear from you again. Did you receive the second package and are ready to continue?",
       "waitFor": [
         {
-          "acceptedInputs": ["$yes", "second package", "2nd package"],
+          "acceptedInputs": ["$yes", "$second"],
           "sleepBefore": 2,
           "text": "Great, thanks for letting me know!",
           "sleepFor": 0
@@ -119,7 +143,7 @@
           "text": "Excellent, now we know which flower to use.",
           "sleepFor": 0
         }, {
-          "acceptedInputs": ["campanella"],
+          "acceptedInputs": ["agricosa"],
           "sleepBefore": 2,
           "text": "So that’s the mushroom we’re looking for! Good work.",
           "sleepFor": 0
@@ -149,19 +173,17 @@
           "text": "Okay, just let me know when you’re ready."
         }
       ]
-    }, {
-      "text": "Excellent, I’m setting up our little explorer bot now."
-    }, {
-      "text": "Remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W.",
+    },  {
+      "text": "Excellent. Just remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W.",
       "sleepFor": 5
     }, {
-      "text": "I’m going to head down below the cathedral now!",
+      "text": "I’m going to head down from the cathedral now!",
       "sleepFor": 5
     }, {
       "text": "As soon as I get downstairs, there is a path east and a path south. Enter the number of units and either E or S for the direction. Keep in mind that if we don’t find anything at a particular spot then the bot will just return to its previous position.",
       "waitFor": [
         {
-          "acceptedInputs": ["6s"],
+          "acceptedInputs": ["6s", "s6", "6 south"],
           "text": "Okay, I’ve arrived at a four-way intersection and can go south, east, or west."
         }
       ],
@@ -174,6 +196,27 @@
       "defaultResponses": [
         {
           "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
+        }
+      ]
+    }, 
+
+
+    {
+      "month": ["$february"],
+      "text": "Hi {name}, great to hear from you again. Did you receive the third package and are ready to continue?",
+      "waitFor": [
+        {
+          "acceptedInputs": ["$yes", "$third"],
+          "sleepBefore": 2,
+          "text": "Great, thanks for letting me know!",
+          "sleepFor": 0
+        }
+      ],
+      "defaultResponses": [
+        {
+          "sleepBefore": 2,
+          "text": "Okay, just let me know when you're ready.",
+          "sleepFor": 0
         }
       ]
     }
