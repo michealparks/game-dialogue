@@ -1,10 +1,7 @@
-// import smoothscroll from 'smoothscroll-polyfill'
-import { chatWidget } from './chat.js'
+import './chat.js'
 
-// @TODO move inputs onto a stack, sleeping could disrupt them
+// @TODO move inputs onto a stack, sleeping could cause bot to miss them
 const main = async () => {
-  // smoothscroll.polyfill()
-
   const inputs = {}
 
   let modifiedText = ''
@@ -46,6 +43,8 @@ const main = async () => {
       defaultResponses = config.defaultResponses
     } = item
 
+    chat.startMessage({ origin: 'remote' })
+
     if (sleepBefore) {
       await sleep(sleepBefore)
     }
@@ -57,7 +56,7 @@ const main = async () => {
         modifiedText = modifiedText.replace(`{${key}}`, value)
       }
 
-      chat.insertMessage({ text: modifiedText })
+      chat.commitMessage({ text: modifiedText })
     }
 
     if (saveInputAs) {
@@ -79,10 +78,15 @@ const main = async () => {
           }
         }
 
+        console.log(accepted)
+
         for (const str of accepted) {
           if (input.toLowerCase().includes(str.toLowerCase())) {
             match = child
             waitFor.splice(waitFor.indexOf(child), 1)
+            if (saveInputAs) {
+              inputs[saveInputAs] = input.toLowerCase()
+            }
             break
           }
         }
@@ -105,9 +109,8 @@ const main = async () => {
 
   document.head.querySelector('title').textContent = 'Koschei Society'
 
-  const chat = chatWidget({
-    root: document.body
-  })
+  const chat = document.createElement('chat-widget')
+  document.body.appendChild(chat)
 
   chat.onUserInput((text) => {
     if (inputPromiseResolve) {

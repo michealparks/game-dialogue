@@ -5,7 +5,7 @@ import resolve from 'rollup-plugin-node-resolve'
 import serve from 'rollup-plugin-serve'
 import { terser } from 'rollup-plugin-terser'
 
-const DEV = process.env.DEV
+const DEV = Boolean(process.env.DEV)
 
 export default [{
   input: './src/index.js',
@@ -22,7 +22,7 @@ export default [{
     replace({
       DEV
     }),
-    serve({
+    DEV && serve({
       open: true,
       contentBase: ['build'],
       port: 7000,
@@ -30,6 +30,6 @@ export default [{
         .flat()
         .find((iface) => !iface.internal && iface.family === 'IPv4').address
     }),
-    DEV ? undefined : terser()
+    DEV === false && terser()
   ]
 }]
