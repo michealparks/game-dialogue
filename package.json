@@ -28,5 +28,10 @@
     "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-terser": "^5.2.0"
   },
+  "standard": {
+    "global": [
+      "HTMLElement"
+    ]
+  },
   "dependencies": {}
 }

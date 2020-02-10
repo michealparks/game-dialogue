@@ -20,12 +20,29 @@
     }
   ],
   "variables": {
-    "$yes": ["ready", "yes", "yep", "yeah", "okay", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"]
+    "$january": ["january", "jan", "j", "1", "01"],
+    "$february": ["february", "feb", "f", "2", "02"],
+    "$march": ["march", "mar", "m", "3", "03"],
+    "$yes": ["ready", "yes", "yep", "yeah", "okay", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"],
+    "$second": ["second", "2nd", "package"],
+    "$third": ["third", "3rd", "package"]
   },
   "textItems": [
     {
       "text": "Hello! Welcome to Koschei Society webchat service. To confirm you are human, please enter the name of the month.",
-      "saveInputAs": "month"
+      "waitFor": [
+        {
+          "acceptedInputs": ["$january", "$february", "$march"],
+          "saveInputAs": "month"
+        }
+      ],
+      "defaultResponses": [
+        {
+          "sleepBefore": 2,
+          "text": "Hmm, that's not quite right.",
+          "sleepFor": 0
+        }
+      ]
     }, {
       "text": "Thank you. Please enter your first name to continue.",
       "saveInputAs": "name"
@@ -33,6 +50,7 @@
       "text": "Connecting to User: Jesse Wright...",
       "goto": "$month"
     }, {
+      "month": ["$january"],
       "text": "Hi {name}! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board.",
       "sleepFor": 4
     }, {
@@ -80,11 +98,15 @@
     }, {
       "text": "Your chat session has ended. Send any message to begin a new session.",
       "waitForAnyInput": true
-    }, {
+    },
+
+
+    {
+      "month": ["$february"],
       "text": "Hi {name}, great to hear from you again. Did you receive the second package and are ready to continue?",
       "waitFor": [
         {
-          "acceptedInputs": ["$yes", "second package", "2nd package"],
+          "acceptedInputs": ["$yes", "$second"],
           "sleepBefore": 2,
           "text": "Great, thanks for letting me know!",
           "sleepFor": 0
@@ -175,6 +197,27 @@
       "defaultResponses": [
         {
           "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
+        }
+      ]
+    }, 
+
+
+    {
+      "month": ["$february"],
+      "text": "Hi {name}, great to hear from you again. Did you receive the third package and are ready to continue?",
+      "waitFor": [
+        {
+          "acceptedInputs": ["$yes", "$third"],
+          "sleepBefore": 2,
+          "text": "Great, thanks for letting me know!",
+          "sleepFor": 0
+        }
+      ],
+      "defaultResponses": [
+        {
+          "sleepBefore": 2,
+          "text": "Okay, just let me know when you're ready.",
+          "sleepFor": 0
         }
       ]
     }

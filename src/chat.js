@@ -92,13 +92,18 @@ window.customElements.define('chat-widget', class ChatWidget extends HTMLElement
     message.classList.add(origin === 'remote' ? 'left' : 'right')
 
     message.innerHTML = `
-      <message-text></message-text>
+      <message-text>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </message-text>
       <message-timestamp></message-timestamp>
     `
 
     this.pendingMessages[origin] = message
 
     this.messagesBox.appendChild(message)
+    message.scrollIntoView()
   }
 
   /**

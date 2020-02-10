@@ -1,5 +1,11 @@
 
 export const style = `
+* {
+  --light-gray: #eee;
+  --light-blue: rgba(79, 195, 247, 0.5);
+  --dot-size: 10px;
+}
+
 :root {
   overflow: hidden;
   position: absolute;
@@ -24,6 +30,7 @@ messages-box {
   width: 100%;
   height: calc(100% - 50px);
   padding: 15px;
+  background-color: var(--light-gray);
 }
 
 input-box {
@@ -32,7 +39,7 @@ input-box {
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #eee;
+  background-color: #fff;
 }
 
 input-box input {
@@ -67,6 +74,7 @@ message-text {
   max-width: 75%;
   padding: 10px 15px;
   border-radius: 4px;
+  box-shadow: -9px 9px 30px 1px rgba(0,0,0,0.3);
 }
 
 message-text:after {
@@ -79,29 +87,50 @@ message-text:after {
 }
 
 message-bubble.left message-text {
-  background-color: #eee;
+  background-color: var(--light-gray);
   border-bottom-left-radius: 0px;
 }
 
 message-bubble.right message-text {
-  background-color: #4FC3F7;
+  background-color: var(--light-blue);
   border-bottom-right-radius: 0px;
 }
 
 message-bubble.left message-text:after {
   left: -8px;
   border-width: 0 0 8px 8px;
-  border-color: transparent transparent #eee transparent;
+  border-color: transparent transparent var(--light-gray) transparent;
 }
 
 message-bubble.right message-text:after {
   right: -8px;
   border-width: 8px 0 0 8px;
-  border-color: transparent transparent transparent #4FC3F7;
+  border-color: transparent transparent transparent var(--light-blue);
 }
 
 message-timestamp {
   padding: 5px 15px 15px;
   font-size: 12px;
+}
+
+.dot {
+  display: inline-block;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  margin: 2px 0;
+  border-radius: 100%;
+  background-color: #aaa;
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+.dot:nth-child(2) { animation-delay: 200ms;  }
+.dot:nth-child(3) { animation-delay: 400ms; }
+
+@keyframes pulse {
+  0%  { opacity: 0.5;  }
+  50% { opacity: 1.0;  }
+  100% { opacity: 0.5; }
 }
 `

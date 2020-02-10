@@ -78,10 +78,15 @@ const main = async () => {
           }
         }
 
+        console.log(accepted)
+
         for (const str of accepted) {
           if (input.toLowerCase().includes(str.toLowerCase())) {
             match = child
             waitFor.splice(waitFor.indexOf(child), 1)
+            if (saveInputAs) {
+              inputs[saveInputAs] = input.toLowerCase()
+            }
             break
           }
         }
