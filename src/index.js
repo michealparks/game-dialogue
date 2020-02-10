@@ -1,6 +1,8 @@
 import './chat.js'
 
-// @TODO move inputs onto a stack, sleeping could cause bot to miss them
+/**
+ * @TODO move inputs onto a stack, sleeping could cause bot to miss them
+ */
 const main = async () => {
   const inputs = {}
 
@@ -11,12 +13,14 @@ const main = async () => {
   const config = await response.json()
 
   const {
-    textItems = [],
-    defaultSleepFor = 2,
+    textItems,
+    defaultSleepFor,
+    defaultSleepBefore,
     variables
   } = config
 
   /**
+   * Promisify setTimeout. Sleeps for n seconds.
    * @param {number} seconds
    * @returns {Promise}
    */
@@ -26,24 +30,35 @@ const main = async () => {
     })
   }
 
+  /**
+   * Sets up a new promise that will resolve
+   * when user input is submitted
+   * @returns {Promise}
+   */
   const listenForInput = () => {
     return new Promise((resolve) => {
       inputPromiseResolve = resolve
     })
   }
 
+  /**
+   * Handles a single text item within the dialogue
+   * @param {Object} item
+   */
   const textItem = async (item) => {
     const {
       text,
       sleepFor = defaultSleepFor,
-      sleepBefore,
+      sleepBefore = defaultSleepBefore,
       saveInputAs,
       waitFor = [],
       waitForAnyInput = false,
       defaultResponses = config.defaultResponses
     } = item
 
-    chat.startMessage({ origin: 'remote' })
+    if (text) {
+      chat.startMessage({ origin: 'remote' })
+    }
 
     if (sleepBefore) {
       await sleep(sleepBefore)
@@ -69,7 +84,7 @@ const main = async () => {
       let match
 
       for (const child of waitFor) {
-        let accepted = child.acceptedInputs
+        let accepted = [...child.acceptedInputs]
 
         for (const [key, value] of Object.entries(variables)) {
           if (accepted.includes(key)) {
@@ -78,23 +93,25 @@ const main = async () => {
           }
         }
 
-        console.log(accepted)
-
         for (const str of accepted) {
           if (input.toLowerCase().includes(str.toLowerCase())) {
             match = child
             waitFor.splice(waitFor.indexOf(child), 1)
-            if (saveInputAs) {
-              inputs[saveInputAs] = input.toLowerCase()
+
+            if (child.saveInputAs) {
+              inputs[child.saveInputAs] = input.toLowerCase()
             }
+
+            console.log(inputs)
+
             break
           }
         }
       }
 
-      if (match) {
+      if (match && match.text) {
         await textItem(match)
-      } else {
+      } else if (!match) {
         const rand = Math.random() * defaultResponses.length | 0
         await textItem(defaultResponses[rand])
       }

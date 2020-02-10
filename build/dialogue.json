@@ -1,5 +1,14 @@
 {
-  "defaultSleepFor": 3,
+  "variables": {
+    "$january": ["january", "jan", "1", "01"],
+    "$february": ["february", "feb", "2", "02"],
+    "$march": ["march", "mar", "3", "03"],
+    "$yes": ["ready", "yes", "yep", "yeah", "okay", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"],
+    "$second": ["second", "2nd", "package"],
+    "$third": ["third", "3rd", "package"]
+  },
+  "defaultSleepFor": 1,
+  "defaultSleepBefore": 2,
   "defaultResponses": [
     {
       "sleepBefore": 2,
@@ -19,14 +28,6 @@
       "sleepFor": 0
     }
   ],
-  "variables": {
-    "$january": ["january", "jan", "j", "1", "01"],
-    "$february": ["february", "feb", "f", "2", "02"],
-    "$march": ["march", "mar", "m", "3", "03"],
-    "$yes": ["ready", "yes", "yep", "yeah", "okay", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"],
-    "$second": ["second", "2nd", "package"],
-    "$third": ["third", "3rd", "package"]
-  },
   "textItems": [
     {
       "text": "Hello! Welcome to Koschei Society webchat service. To confirm you are human, please enter the name of the month.",
@@ -39,7 +40,7 @@
       "defaultResponses": [
         {
           "sleepBefore": 2,
-          "text": "Hmm, that's not quite right.",
+          "text": "Hmm, that's not quite right. Please enter the month.",
           "sleepFor": 0
         }
       ]

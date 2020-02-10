@@ -74,7 +74,7 @@ message-text {
   max-width: 75%;
   padding: 10px 15px;
   border-radius: 4px;
-  box-shadow: -9px 9px 30px 1px rgba(0,0,0,0.3);
+  box-shadow: -9px 9px 30px 1px rgba(0,0,0,0.2);
 }
 
 message-text:after {
