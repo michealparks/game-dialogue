@@ -66,7 +66,8 @@ window.customElements.define('chat-widget', class ChatWidget extends HTMLElement
 
     this.input.addEventListener('keydown', handleKeyDown, { passive: true })
 
-    this.messagesBox.addEventListener('pointerdown', this.input.blur, { passive: true })
+    this.messagesBox.addEventListener('mousedown', this.input.blur, { passive: true })
+    this.messagesBox.addEventListener('touchstart', this.input.blur, { passive: true })
 
     this.button.addEventListener('click', (e) => {
       handleUserSubmit()
