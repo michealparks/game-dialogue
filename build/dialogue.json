@@ -255,11 +255,20 @@
           "acceptedInputs": ["new"],
           "sleepBefore": 2,
           "saveVariable": { "moonPhase": "new" },
-          "sleepFor": 0
+          "sleepFor": 0,
+          "break": true
         }, {
           "acceptedInputs": ["full"],
           "sleepBefore": 2,
           "saveVariable": { "moonPhase": "full" },
+          "sleepFor": 0,
+          "break": true
+        }
+      ],
+      "defaultResponses": [
+        {
+          "sleepBefore": 2,
+          "text": "That doesn’t seem quite right. Historically, alchemists were known to brew their potions under a full or new moon.",
           "sleepFor": 0
         }
       ]
@@ -273,10 +282,10 @@
       "conditionals": [
         {
           "variableEquals": ["moonPhase", "new"],
-          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a href='www.koscheisociety.org/whatsnew'>www.koscheisociety.org/whatsnew</a>"
+          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a target='_tab' href='www.koscheisociety.org/whatsnew'>www.koscheisociety.org/whatsnew</a>"
         }, {
           "variableEquals": ["moonPhase", "full"],
-          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a href='www.koscheisociety.org/news'>www.koscheisociety.org/news</a>"
+          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a target='_tab' href='www.koscheisociety.org/news'>www.koscheisociety.org/news</a>"
         }
       ]
     }

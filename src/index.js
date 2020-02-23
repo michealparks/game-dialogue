@@ -55,6 +55,8 @@ const main = async () => {
    * @returns {Promise}
    */
   const sleep = (seconds) => {
+    if (seconds === 0) return Promise.resolve()
+
     return new Promise((resolve) => {
       setTimeout(resolve, seconds * 1000)
     })
@@ -115,18 +117,17 @@ const main = async () => {
 
     while (waitFor.length > 0) {
       const input = await listenForInput()
-
       let match
 
       for (const child of waitFor) {
-        for (const str of child.acceptedInputs) {
-          if (input.toLowerCase().includes(str.toLowerCase())) {
+        for (const acceptedInput of child.acceptedInputs) {
+          if (input.toLowerCase().includes(acceptedInput.toLowerCase())) {
             match = child
             waitFor.splice(waitFor.indexOf(child), 1)
 
             if (child.saveInputAs) {
               inputs[child.saveInputAs] = input.toLowerCase()
-              child.saveInputAs = undefined
+              delete child.saveInputAs
             }
 
             break
@@ -136,7 +137,9 @@ const main = async () => {
 
       if (match) {
         await textItem(match)
-      } else if (!match) {
+
+        if (match.break) break
+      } else {
         const rand = Math.random() * defaultResponses.length | 0
         await textItem(defaultResponses[rand])
       }
@@ -150,7 +153,7 @@ const main = async () => {
       const { variableEquals } = conditional
       const [key, val] = variableEquals
 
-      if (variableEquals && inputs[key] === val) {
+      if (inputs[key] === val) {
         await textItem(conditional)
         break
       }
