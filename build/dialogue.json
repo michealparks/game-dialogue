@@ -230,12 +230,12 @@
           "text": "14 hours? Wow. I guess that will be a very long an interesting night!",
           "sleepFor": 0
         }, {
-          "acceptedInputs": ["55n", "n55"],
+          "acceptedInputs": ["55n", "n55", "55 north"],
           "sleepBefore": 2,
           "text": "You found the latitude! Great work.",
           "sleepFor": 0
         }, {
-          "acceptedInputs": ["5w", "w5"],
+          "acceptedInputs": ["5w", "w5", "5 west"],
           "sleepBefore": 2,
           "text": "You found the longitude! Great work.",
           "sleepFor": 0
@@ -248,20 +248,37 @@
       "text": "Keep in mind that this step could potentially compromise everything we’ve worked for. I realize that you may be skeptical of his plans, but Mr. Redmond has put his faith in you, and I hope you will not betray his trust.",
       "sleepFor": 4
     }, {
+      "key": "moonChoice",
       "text": "Consider your answer carefully - our fate is in your hands.",
       "waitFor": [
         {
           "acceptedInputs": ["new"],
           "sleepBefore": 2,
-          "saveVariable": { "moonPhase": "new" }
+          "saveVariable": { "moonPhase": "new" },
+          "sleepFor": 0
         }, {
           "acceptedInputs": ["full"],
           "sleepBefore": 2,
-          "saveVariable": { "moonPhase": "full" }
+          "saveVariable": { "moonPhase": "full" },
+          "sleepFor": 0
         }
       ]
     }, {
-      "text": "Okay, then I should be off to begin preparations. Thank you again for all you have done."
+      "text": "Okay, then I should be off to begin preparations. Thank you again for all you have done.",
+      "sleepFor": 4
+    }, {
+      "text": "Oh, I almost forgot! Our research partners at the Emerens Institute in Sweden have shared a letter from their archive with us. We thought you may be interested, so I’ve mailed you a copy in a small envelope as a small token of our appreciation.",
+      "sleepFor": 4
+    }, {
+      "conditionals": [
+        {
+          "variableEquals": ["moonPhase", "new"],
+          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a href='www.koscheisociety.org/whatsnew'>www.koscheisociety.org/whatsnew</a>"
+        }, {
+          "variableEquals": ["moonPhase", "full"],
+          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a href='www.koscheisociety.org/news'>www.koscheisociety.org/news</a>"
+        }
+      ]
     }
   ]
 }

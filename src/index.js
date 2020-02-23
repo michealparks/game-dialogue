@@ -5,7 +5,6 @@ import './chat.js'
  */
 const main = async () => {
   let inputs = {}
-  let modifiedText = ''
   let inputPromiseResolve
   let textItems = []
 
@@ -84,6 +83,7 @@ const main = async () => {
       saveInputAs,
       saveVariable,
       waitFor = [],
+      conditionals = [],
       waitForAnyInput = false,
       defaultResponses = config.defaultResponses,
       goto
@@ -93,13 +93,11 @@ const main = async () => {
       chat.startMessage({ origin: 'remote' })
     }
 
-    if (sleepBefore) {
-      await sleep(sleepBefore)
-    }
+    await sleep(sleepBefore)
 
-    modifiedText = text
+    if (text) {
+      let modifiedText = text
 
-    if (modifiedText) {
       for (const [key, value] of Object.entries(inputs)) {
         modifiedText = modifiedText.replace(`{${key}}`, value)
       }
@@ -112,7 +110,7 @@ const main = async () => {
     }
 
     if (saveVariable) {
-      inputs = { ...inputs, saveVariable }
+      inputs = { ...inputs, ...saveVariable }
     }
 
     while (waitFor.length > 0) {
@@ -128,6 +126,7 @@ const main = async () => {
 
             if (child.saveInputAs) {
               inputs[child.saveInputAs] = input.toLowerCase()
+              child.saveInputAs = undefined
             }
 
             break
@@ -135,7 +134,7 @@ const main = async () => {
         }
       }
 
-      if (match && match.text) {
+      if (match) {
         await textItem(match)
       } else if (!match) {
         const rand = Math.random() * defaultResponses.length | 0
@@ -145,6 +144,16 @@ const main = async () => {
 
     if (waitForAnyInput) {
       await listenForInput()
+    }
+
+    for (const conditional of conditionals) {
+      const { variableEquals } = conditional
+      const [key, val] = variableEquals
+
+      if (variableEquals && inputs[key] === val) {
+        await textItem(conditional)
+        break
+      }
     }
 
     await sleep(sleepFor)
