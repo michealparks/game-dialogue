@@ -8,16 +8,48 @@ const main = async () => {
 
   let modifiedText = ''
   let inputPromiseResolve
+  let textItems = []
 
   const response = await window.fetch('./dialogue.json')
   const config = await response.json()
 
   const {
-    textItems,
     defaultSleepFor,
     defaultSleepBefore,
     variables
   } = config
+
+  const { parse, stringify } = JSON
+
+  const getTextItems = () => {
+    return parse(stringify(config.textItems))
+  }
+
+  const fillVariables = () => {
+    config.textItems = parse(stringify(config.textItems, (_, value) => {
+      if (!Array.isArray(value)) return value
+
+      for (const [varKey, varVal] of Object.entries(variables)) {
+        if (value.includes(varKey)) {
+          value.splice(value.indexOf(varKey), 1)
+          value = [...value, ...varVal]
+        }
+      }
+
+      return value
+    }))
+  }
+
+  const startInputLoop = async () => {
+    for (const item of textItems) {
+      const shouldRestart = await textItem(item)
+
+      if (shouldRestart) {
+        startInputLoop()
+        break
+      }
+    }
+  }
 
   /**
    * Promisify setTimeout. Sleeps for n seconds.
@@ -53,7 +85,8 @@ const main = async () => {
       saveInputAs,
       waitFor = [],
       waitForAnyInput = false,
-      defaultResponses = config.defaultResponses
+      defaultResponses = config.defaultResponses,
+      goto
     } = item
 
     if (text) {
@@ -84,16 +117,7 @@ const main = async () => {
       let match
 
       for (const child of waitFor) {
-        let accepted = [...child.acceptedInputs]
-
-        for (const [key, value] of Object.entries(variables)) {
-          if (accepted.includes(key)) {
-            accepted.splice(accepted.indexOf(key), 1)
-            accepted = [...accepted, ...value]
-          }
-        }
-
-        for (const str of accepted) {
+        for (const str of child.acceptedInputs) {
           if (input.toLowerCase().includes(str.toLowerCase())) {
             match = child
             waitFor.splice(waitFor.indexOf(child), 1)
@@ -101,8 +125,6 @@ const main = async () => {
             if (child.saveInputAs) {
               inputs[child.saveInputAs] = input.toLowerCase()
             }
-
-            console.log(inputs)
 
             break
           }
@@ -122,6 +144,21 @@ const main = async () => {
     }
 
     await sleep(sleepFor)
+
+    if (goto) {
+      const key = goto.slice(1)
+      const index = textItems.find((item) => {
+        const acceptedVals = item[key]
+        const inputval = inputs[key]
+        return acceptedVals && acceptedVals.includes(inputval)
+      })
+
+      textItems = getTextItems().splice(index)
+
+      return true
+    }
+
+    return false
   }
 
   document.head.querySelector('title').textContent = 'Koschei Society'
@@ -135,9 +172,10 @@ const main = async () => {
     }
   })
 
-  for (const item of textItems) {
-    await textItem(item)
-  }
+  fillVariables()
+
+  textItems = getTextItems()
+  startInputLoop()
 }
 
 main()
