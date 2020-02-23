@@ -180,17 +180,17 @@
       "text": "I’m going to head down from the cathedral now!",
       "sleepFor": 5
     }, {
-      "text": "As soon as I get downstairs, there is a path east and a path south. Enter the number of units and either E or S for the direction. Keep in mind that if we don’t find anything at a particular spot then the bot will just return to its previous position.",
+      "text": "As soon as I get downstairs, there is a path east and a path south. Enter the number of units and either E or S for the direction. Keep in mind that if we don’t find anything at a particular spot then the bot will just return to its previous position."
+    }, {
+      "key": "startLocation",
       "waitFor": [
         {
           "acceptedInputs": ["6s", "s6", "6 south"],
           "text": "Okay, I’ve arrived at a four-way intersection and can go south, east, or west."
-        }
-      ],
-      "incorrectResponses": [
-        {
+        }, {
           "acceptedInputs": ["e"],
-          "text": "It looks like there is nothing east of here, so let’s go back to the entrance - let me know how far south I should go."
+          "text": "It looks like there is nothing east of here, so let’s go back to the entrance - let me know how far south I should go.",
+          "goto": "startLocation"
         }
       ],
       "defaultResponses": [
@@ -198,17 +198,16 @@
           "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
         }
       ]
-    }, 
-
+    },
 
     {
-      "month": ["$february"],
+      "month": ["$march"],
       "text": "Hi {name}, great to hear from you again. Did you receive the third package and are ready to continue?",
       "waitFor": [
         {
           "acceptedInputs": ["$yes", "$third"],
           "sleepBefore": 2,
-          "text": "Great, thanks for letting me know!",
+          "text": "Great, I’m happy to know you’re still with us.",
           "sleepFor": 0
         }
       ],
@@ -217,6 +216,76 @@
           "sleepBefore": 2,
           "text": "Okay, just let me know when you're ready.",
           "sleepFor": 0
+        }
+      ]
+    }, {
+      "text": "As mentioned in the letter, we need to find out the latitude and longitude of the next comet’s appearance, how many hours it takes to prepare the potion, and under what phase of the moon it must be brewed, but let’s hold off on the moon phase for now.",
+      "sleepFor": 4
+    }, {
+      "text": "Once you figure out the latitude and longitude of the next comet appearance, enter them one at a time in the format of 10N/10S and 10E/10W, etc. As for the brewing time, enter “2 hours” or “20 hours,” etc.",
+      "waitFor": [
+        {
+          "acceptedInputs": ["14"],
+          "sleepBefore": 2,
+          "text": "14 hours? Wow. I guess that will be a very long an interesting night!",
+          "sleepFor": 0
+        }, {
+          "acceptedInputs": ["55n", "n55", "55 north"],
+          "sleepBefore": 2,
+          "text": "You found the latitude! Great work.",
+          "sleepFor": 0
+        }, {
+          "acceptedInputs": ["5w", "w5", "5 west"],
+          "sleepBefore": 2,
+          "text": "You found the longitude! Great work.",
+          "sleepFor": 0
+        }
+      ]
+    }, {
+      "text": "Thank you for helping us find the brew time and location. I guess a trip to Scotland is in our future! Now all we need to know is under what phase of the moon we should prepare the elixir.",
+      "sleepFor": 4
+    }, {
+      "text": "Keep in mind that this step could potentially compromise everything we’ve worked for. I realize that you may be skeptical of his plans, but Mr. Redmond has put his faith in you, and I hope you will not betray his trust.",
+      "sleepFor": 4
+    }, {
+      "key": "moonChoice",
+      "text": "Consider your answer carefully - our fate is in your hands.",
+      "waitFor": [
+        {
+          "acceptedInputs": ["new"],
+          "sleepBefore": 2,
+          "saveVariable": { "moonPhase": "new" },
+          "sleepFor": 0,
+          "break": true
+        }, {
+          "acceptedInputs": ["full"],
+          "sleepBefore": 2,
+          "saveVariable": { "moonPhase": "full" },
+          "sleepFor": 0,
+          "break": true
+        }
+      ],
+      "defaultResponses": [
+        {
+          "sleepBefore": 2,
+          "text": "That doesn’t seem quite right. Historically, alchemists were known to brew their potions under a full or new moon.",
+          "sleepFor": 0
+        }
+      ]
+    }, {
+      "text": "Okay, then I should be off to begin preparations. Thank you again for all you have done.",
+      "sleepFor": 4
+    }, {
+      "text": "Oh, I almost forgot! Our research partners at the Emerens Institute in Sweden have shared a letter from their archive with us. We thought you may be interested, so I’ve mailed you a copy in a small envelope as a small token of our appreciation.",
+      "sleepFor": 4
+    }, {
+      "conditionals": [
+        {
+          "variableEquals": ["moonPhase", "new"],
+          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a target='_tab' href='www.koscheisociety.org/whatsnew'>www.koscheisociety.org/whatsnew</a>"
+        }, {
+          "variableEquals": ["moonPhase", "full"],
+          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a target='_tab' href='www.koscheisociety.org/news'>www.koscheisociety.org/news</a>"
         }
       ]
     }
