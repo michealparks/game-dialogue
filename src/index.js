@@ -39,13 +39,8 @@ const main = async () => {
   }
 
   const startInputLoop = async () => {
-    for (const item of textItems) {
-      const shouldRestart = await textItem(item)
-
-      if (shouldRestart) {
-        startInputLoop()
-        break
-      }
+    while (textItems.length > 0) {
+      await textItem(textItems.shift())
     }
   }
 
@@ -73,6 +68,31 @@ const main = async () => {
     })
   }
 
+  const jumpToTextItem = (key) => {
+    let index
+
+    if (key[0] === '$') {
+      key = key.slice(1)
+
+      index = config.textItems.findIndex((item) => {
+        const acceptedVals = item[key]
+        const inputval = inputs[key]
+        return acceptedVals && acceptedVals.includes(inputval)
+      })
+    } else {
+      index = config.textItems.findIndex((item) => {
+        return item.key === key
+      })
+    }
+
+    if (index > 0) {
+      console.log(getTextItems().slice(index))
+      return getTextItems().slice(index)
+    }
+
+    return getTextItems()
+  }
+
   /**
    * Handles a single text item within the dialogue
    * @param {Object} item
@@ -95,7 +115,9 @@ const main = async () => {
       chat.startMessage({ origin: 'remote' })
     }
 
-    await sleep(sleepBefore)
+    if (waitFor.length === 0) {
+      await sleep(sleepBefore)
+    }
 
     if (text) {
       let modifiedText = text
@@ -120,10 +142,15 @@ const main = async () => {
       let match
 
       for (const child of waitFor) {
+        if (match) break
+
         for (const acceptedInput of child.acceptedInputs) {
           if (input.toLowerCase().includes(acceptedInput.toLowerCase())) {
             match = child
-            waitFor.splice(waitFor.indexOf(child), 1)
+
+            if (match.continue !== true) {
+              waitFor.splice(waitFor.indexOf(child), 1)
+            }
 
             if (child.saveInputAs) {
               inputs[child.saveInputAs] = input.toLowerCase()
@@ -162,24 +189,8 @@ const main = async () => {
     await sleep(sleepFor)
 
     if (goto) {
-      if (goto[0] === '$') {
-        const key = goto.slice(1)
-        const index = textItems.findIndex((item) => {
-          const acceptedVals = item[key]
-          const inputval = inputs[key]
-          return acceptedVals && acceptedVals.includes(inputval)
-        })
-
-        textItems = getTextItems().slice(index)
-
-        return true
-      } else {
-        const index = textItems.findIndex((item) => {
-          return item.key === goto
-        })
-
-        textItems = getTextItems().slice(index)
-      }
+      textItems = jumpToTextItem(goto)
+      return true
     }
 
     return false
@@ -198,7 +209,12 @@ const main = async () => {
 
   fillVariables()
 
-  textItems = getTextItems()
+  if (config.debugJumpTo) {
+    textItems = jumpToTextItem(config.debugJumpTo)
+  } else {
+    textItems = getTextItems()
+  }
+
   startInputLoop()
 }
 
