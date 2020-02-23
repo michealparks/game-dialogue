@@ -4,8 +4,7 @@ import './chat.js'
  * @TODO move inputs onto a stack, sleeping could cause bot to miss them
  */
 const main = async () => {
-  const inputs = {}
-
+  let inputs = {}
   let modifiedText = ''
   let inputPromiseResolve
   let textItems = []
@@ -83,6 +82,7 @@ const main = async () => {
       sleepFor = defaultSleepFor,
       sleepBefore = defaultSleepBefore,
       saveInputAs,
+      saveVariable,
       waitFor = [],
       waitForAnyInput = false,
       defaultResponses = config.defaultResponses,
@@ -109,6 +109,10 @@ const main = async () => {
 
     if (saveInputAs) {
       inputs[saveInputAs] = await listenForInput()
+    }
+
+    if (saveVariable) {
+      inputs = { ...inputs, saveVariable }
     }
 
     while (waitFor.length > 0) {
@@ -146,16 +150,24 @@ const main = async () => {
     await sleep(sleepFor)
 
     if (goto) {
-      const key = goto.slice(1)
-      const index = textItems.find((item) => {
-        const acceptedVals = item[key]
-        const inputval = inputs[key]
-        return acceptedVals && acceptedVals.includes(inputval)
-      })
+      if (goto[0] === '$') {
+        const key = goto.slice(1)
+        const index = textItems.findIndex((item) => {
+          const acceptedVals = item[key]
+          const inputval = inputs[key]
+          return acceptedVals && acceptedVals.includes(inputval)
+        })
 
-      textItems = getTextItems().splice(index)
+        textItems = getTextItems().slice(index)
 
-      return true
+        return true
+      } else {
+        const index = textItems.findIndex((item) => {
+          return item.key === goto
+        })
+
+        textItems = getTextItems().slice(index)
+      }
     }
 
     return false

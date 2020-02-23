@@ -125,7 +125,7 @@ message-timestamp {
   animation-iteration-count: infinite;
 }
 
-.dot:nth-child(2) { animation-delay: 200ms;  }
+.dot:nth-child(2) { animation-delay: 200ms; }
 .dot:nth-child(3) { animation-delay: 400ms; }
 
 @keyframes pulse {
