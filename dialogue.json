@@ -1,4 +1,5 @@
 {
+  "debugJumpTo": null,
   "variables": {
     "$january": ["january", "jan", "1", "01"],
     "$february": ["february", "feb", "2", "02"],
@@ -33,8 +34,10 @@
       "text": "Hello! Welcome to Koschei Society webchat service. To confirm you are human, please enter the name of the month.",
       "waitFor": [
         {
+          "sleepBefore": 2,
           "acceptedInputs": ["$january", "$february", "$march"],
-          "saveInputAs": "month"
+          "saveInputAs": "month",
+          "sleepFor": 0
         }
       ],
       "defaultResponses": [
@@ -97,10 +100,9 @@
       "text": "Keep an eye out for another package from us soon, and let me know once you’ve opened it and are ready to continue. Until then, take care.",
       "sleepFor": 4
     }, {
-      "text": "Your chat session has ended. Send any message to begin a new session.",
+      "text": "Your chat session has ended. To begin a new session please message me or refresh the page.",
       "waitForAnyInput": true
     },
-
 
     {
       "month": ["$february"],
@@ -178,7 +180,7 @@
       "sleepFor": 5
     }, {
       "text": "I’m going to head down from the cathedral now!",
-      "sleepFor": 5
+      "sleepFor": 3
     }, {
       "text": "As soon as I get downstairs, there is a path east and a path south. Enter the number of units and either E or S for the direction. Keep in mind that if we don’t find anything at a particular spot then the bot will just return to its previous position."
     }, {
@@ -186,11 +188,11 @@
       "waitFor": [
         {
           "acceptedInputs": ["6s", "s6", "6 south"],
-          "text": "Okay, I’ve arrived at a four-way intersection and can go south, east, or west."
+          "break": true
         }, {
           "acceptedInputs": ["e"],
           "text": "It looks like there is nothing east of here, so let’s go back to the entrance - let me know how far south I should go.",
-          "goto": "startLocation"
+          "continue": true
         }
       ],
       "defaultResponses": [
@@ -198,6 +200,87 @@
           "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
         }
       ]
+    }, {
+      "text": "Okay, I’ve arrived at a four-way intersection and can go south, east, or west."
+    }, {
+      "key": "locationTwo",
+      "waitFor": [
+        {
+          "acceptedInputs": ["12e"],
+          "text": "Wow, this path goes pretty far, but I’ve finally reached another intersection. I can go north, south, or keep going east.",
+          "break": true,
+          "goto": "locationFive"
+        }, {
+          "acceptedInputs": ["21e"],
+          "text": "Alright, I’ve gone as far east as I can go now, and I can either turn north or south.",
+          "break": true,
+          "goto": "locationEight"
+        }, {
+          "acceptedInputs": ["6w", "7w"],
+          "text": "Wow, the tunnel gets really narrow down this way. I guess they didn’t want too many people going down here… There is a room here with a lot of containers - boxes, chests, vessels - but they’re all empty. I'll return to that 4-way interaction, and can try going east or south.",
+          "continue": true
+        }, {
+          "acceptedInputs": ["8s", "9s"],
+          "text": "Hmm... I see a room with a whole lot of armour and weaponry, but that seems to be all that's here. I’m going to turn back to the previous intersection and can head east or west.",
+          "continue": true
+        }
+      ],
+      "defaultResponses": [
+        {
+          "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
+        }
+      ]
+    }, {
+      "key": "locationFive",
+      "waitFor": [
+        {
+          "acceptedInputs": ["9e"],
+          "text": "Alright, I’ve gone as far east as I can go now, and I can either turn north or south.",
+          "break": true
+        },
+        {
+          "acceptedInputs": ["7s", "8s"],
+          "text": "This is a really long path… we must be way past the city center at this point... I do see a big cellar full of barrels! I guess they used to store wine down here. I wonder if there’s any still around… but that's for another time. I’m going back to the intersection now, and can head east or north.",
+          "continue": true
+        }, {
+          "acceptedInputs": ["3n", "4n"],
+          "text": "I went north but hit a dead end pretty quickly... and it looks like someone else may have hit a dead end here too… I’m going to go back to the intersection and can go east or south.",
+          "continue": true
+        }
+      ],
+      "defaultResponses": [
+        {
+          "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
+        }
+      ]
+    }, {
+      "key": "locationEight",
+      "waitFor": [
+        {
+          "acceptedInputs": ["4n", "5n"],
+          "break": true
+        }, {
+          "acceptedInputs": ["s"],
+          "text": "Oh no, this is a dead end! I’m going to go back and try going north. Let me know how far to go.",
+          "continue": true
+        }
+      ],
+      "defaultResponses": [
+        {
+          "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
+        }
+      ]
+    }, {
+      "text": "Wow, I think this is it, I can’t believe it!"
+    }, {
+      "text": "<img style='width:100%' src='alchemylab.jpg' />"
+    }, {
+      "text": "Thank you again for all your help, I could have never done it without you."
+    }, {
+      "text": "I’m going to investigate in there and see what I can find. I’m sure there will be a lot to go through, so you can expect another package soon with our findings. Get in touch with me when you open it, and in the meantime, be sure to get some rest, you’ve earned it!"
+    }, {
+      "text": "Your chat session has ended. To begin a new session please message me or refresh the page.",
+      "waitForAnyInput": true
     },
 
     {
