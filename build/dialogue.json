@@ -43,7 +43,7 @@
       "defaultResponses": [
         {
           "sleepBefore": 2,
-          "text": "Hmm, that's not quite right. Please enter the month.",
+          "text": "Invalid input. Please enter the month.",
           "sleepFor": 0
         }
       ]
@@ -100,7 +100,7 @@
       "text": "Keep an eye out for another package from us soon, and let me know once you’ve opened it and are ready to continue. Until then, take care.",
       "sleepFor": 4
     }, {
-      "text": "Your chat session has ended. To begin a new session please message me or refresh the page.",
+      "text": "Jesse Wright has left the chat. To begin a new session with this user please send a new message or refresh the page.",
       "waitForAnyInput": true
     },
 
@@ -164,7 +164,7 @@
         }
       ]
     }, {
-      "text": "Great, then are you ready to help me navigate to it through the tunnels?",
+      "text": "Are you ready to help me navigate to the lab through the tunnels?",
       "waitFor": [
         {
           "acceptedInputs": ["$yes"]
@@ -206,21 +206,21 @@
       "key": "locationTwo",
       "waitFor": [
         {
-          "acceptedInputs": ["12e"],
+          "acceptedInputs": ["12e", "e12", "12 east"],
           "text": "Wow, this path goes pretty far, but I’ve finally reached another intersection. I can go north, south, or keep going east.",
           "break": true,
           "goto": "locationFive"
         }, {
-          "acceptedInputs": ["21e"],
+          "acceptedInputs": ["21e", "e21", "21 east"],
           "text": "Alright, I’ve gone as far east as I can go now, and I can either turn north or south.",
           "break": true,
           "goto": "locationEight"
         }, {
-          "acceptedInputs": ["6w", "7w"],
+          "acceptedInputs": ["6w", "7w", "w6", "w7", "6 west", "7 west"],
           "text": "Wow, the tunnel gets really narrow down this way. I guess they didn’t want too many people going down here… There is a room here with a lot of containers - boxes, chests, vessels - but they’re all empty. I'll return to that 4-way interaction, and can try going east or south.",
           "continue": true
         }, {
-          "acceptedInputs": ["8s", "9s"],
+          "acceptedInputs": ["8s", "9s", "s8", "s9", "8 south", "9 south"],
           "text": "Hmm... I see a room with a whole lot of armour and weaponry, but that seems to be all that's here. I’m going to turn back to the previous intersection and can head east or west.",
           "continue": true
         }
@@ -234,16 +234,16 @@
       "key": "locationFive",
       "waitFor": [
         {
-          "acceptedInputs": ["9e"],
+          "acceptedInputs": ["9e", "e9", "9 east"],
           "text": "Alright, I’ve gone as far east as I can go now, and I can either turn north or south.",
           "break": true
         },
         {
-          "acceptedInputs": ["7s", "8s"],
+          "acceptedInputs": ["7s", "8s", "s7", "s8", "7 south", "8 south"],
           "text": "This is a really long path… we must be way past the city center at this point... I do see a big cellar full of barrels! I guess they used to store wine down here. I wonder if there’s any still around… but that's for another time. I’m going back to the intersection now, and can head east or north.",
           "continue": true
         }, {
-          "acceptedInputs": ["3n", "4n"],
+          "acceptedInputs": ["3n", "4n", "n3", "n4", "3 north", "4 north"],
           "text": "I went north but hit a dead end pretty quickly... and it looks like someone else may have hit a dead end here too… I’m going to go back to the intersection and can go east or south.",
           "continue": true
         }
@@ -257,7 +257,7 @@
       "key": "locationEight",
       "waitFor": [
         {
-          "acceptedInputs": ["4n", "5n"],
+          "acceptedInputs": ["4n", "5n", "n4", "n5", "4 north", "5 north"],
           "break": true
         }, {
           "acceptedInputs": ["s"],
@@ -273,13 +273,13 @@
     }, {
       "text": "Wow, I think this is it, I can’t believe it!"
     }, {
-      "image": "alchemylab.jpg"
+      "text": "You've got to check out the view from the <a target='_tab' href='https://imgur.com/a/7N6NCL7.jpg'>camera feed.</a>"
     }, {
       "text": "Thank you again for all your help, I could have never done it without you."
     }, {
       "text": "I’m going to investigate in there and see what I can find. I’m sure there will be a lot to go through, so you can expect another package soon with our findings. Get in touch with me when you open it, and in the meantime, be sure to get some rest, you’ve earned it!"
     }, {
-      "text": "Your chat session has ended. To begin a new session please message me or refresh the page.",
+      "text": "Jesse Wright has left the chat. To begin a new session with this user please send a new message or refresh the page.",
       "waitForAnyInput": true
     },
 
@@ -365,14 +365,15 @@
       "conditionals": [
         {
           "variableEquals": ["moonPhase", "new"],
-          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a target='_tab' href='https://www.koscheisociety.org/whatsnew'>www.koscheisociety.org/whatsnew</a>"
+          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our <a target='_tab' href='https://www.koscheisociety.org/whatsnew'>news page</a> for any updates."
         }, {
           "variableEquals": ["moonPhase", "full"],
-          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a target='_tab' href='https://www.koscheisociety.org/news'>www.koscheisociety.org/news</a>"
+          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our <a target='_tab' href='https://www.koscheisociety.org/news'>news page</a> for any updates."
         }
       ]
     }, {
       "text": "Until we speak again, take care of yourself."
-    }
+    }, {
+    "text": "Jesse Wright has left the chat. To begin a new chat session please refresh the page."}
   ]
 }
