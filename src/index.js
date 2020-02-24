@@ -100,6 +100,7 @@ const main = async () => {
   const textItem = async (item) => {
     const {
       text,
+      image,
       sleepFor = defaultSleepFor,
       sleepBefore = defaultSleepBefore,
       saveInputAs,
@@ -111,13 +112,11 @@ const main = async () => {
       goto
     } = item
 
-    if (text) {
+    if (text || image) {
       chat.startMessage({ origin: 'remote' })
     }
 
-    if (waitFor.length === 0) {
-      await sleep(sleepBefore)
-    }
+    await sleep(sleepBefore)
 
     if (text) {
       let modifiedText = text
@@ -127,6 +126,10 @@ const main = async () => {
       }
 
       chat.commitMessage({ text: modifiedText })
+    }
+
+    if (image) {
+      chat.commitImage({ image })
     }
 
     if (saveInputAs) {

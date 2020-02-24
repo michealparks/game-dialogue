@@ -1,5 +1,5 @@
 {
-  "debugJumpTo": null,
+  "debugJumpTo": "moonChoice",
   "variables": {
     "$january": ["january", "jan", "1", "01"],
     "$february": ["february", "feb", "2", "02"],
@@ -273,7 +273,7 @@
     }, {
       "text": "Wow, I think this is it, I can’t believe it!"
     }, {
-      "text": "<img style='width:100%' src='alchemylab.jpg' />"
+      "image": "alchemylab.jpg"
     }, {
       "text": "Thank you again for all your help, I could have never done it without you."
     }, {
@@ -365,12 +365,14 @@
       "conditionals": [
         {
           "variableEquals": ["moonPhase", "new"],
-          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a target='_tab' href='www.koscheisociety.org/whatsnew'>www.koscheisociety.org/whatsnew</a>"
+          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a target='_tab' href='https://www.koscheisociety.org/whatsnew'>www.koscheisociety.org/whatsnew</a>"
         }, {
           "variableEquals": ["moonPhase", "full"],
-          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a target='_tab' href='www.koscheisociety.org/news'>www.koscheisociety.org/news</a>"
+          "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our news page for any updates: <a target='_tab' href='https://www.koscheisociety.org/news'>www.koscheisociety.org/news</a>"
         }
       ]
+    }, {
+      "text": "Until we speak again, take care of yourself."
     }
   ]
 }

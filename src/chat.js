@@ -19,24 +19,26 @@ window.customElements.define('chat-widget', class ChatWidget extends HTMLElement
     this.root = this.attachShadow({ mode: 'open' })
     this.root.innerHTML = `
       <style>${style}</style>
-      <messages-box></messages-box>
-      <input-box>
-        <input type="text" placeholder="Send a message">
-        <button>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#555"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round">
-            <line x1="22" y1="2" x2="11" y2="13" />
-            <polygon points="22 2 15 22 11 13 2 9 22 2" />
-          </svg>
-        </button>
-      </input-box>
+      <chat-bg>
+        <messages-box></messages-box>
+        <input-box>
+          <input type="text" placeholder="Send a message">
+          <button>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#555"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+          </button>
+        </input-box>
+      </chat-bg>
     `
   }
 
@@ -89,7 +91,7 @@ window.customElements.define('chat-widget', class ChatWidget extends HTMLElement
    */
   startMessage ({ origin = 'remote' }) {
     const message = document.createElement('message-bubble')
-    message.classList.add('empty')
+    message.classList.add('empty', 'entering')
     message.classList.add(origin === 'remote' ? 'left' : 'right')
 
     message.innerHTML = `
@@ -105,6 +107,7 @@ window.customElements.define('chat-widget', class ChatWidget extends HTMLElement
 
     this.messagesBox.appendChild(message)
     message.scrollIntoView()
+    setTimeout(() => message.classList.remove('entering'), 100)
   }
 
   /**
@@ -117,5 +120,13 @@ window.customElements.define('chat-widget', class ChatWidget extends HTMLElement
     message.querySelector('message-timestamp').textContent = dateFormatter.format(new Date())
     message.classList.remove('empty')
     message.scrollIntoView()
+  }
+
+  commitImage ({ image, origin = 'remote' }) {
+    const message = this.pendingMessages[origin]
+    message.classList.add('image')
+    message.querySelector('message-text').innerHTML = `
+      <img src="${image}" />
+    `
   }
 })
