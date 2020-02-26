@@ -8,8 +8,8 @@
     "$second": ["second", "2nd", "package"],
     "$third": ["third", "3rd", "package"]
   },
-  "defaultSleepFor": 1,
-  "defaultSleepBefore": 2,
+  "defaultSleepFor": 0,
+  "defaultSleepBefore": 3,
   "defaultResponses": [
     {
       "sleepBefore": 2,
@@ -30,7 +30,7 @@
     }
   ],
   "textItems": [
-    {
+    {  "sleepBefore": 0,
       "text": "Hello! Welcome to Koschei Society webchat service. To confirm you are human, please enter the name of the month.",
       "waitFor": [
         {
@@ -47,7 +47,7 @@
           "sleepFor": 0
         }
       ]
-    }, {
+    }, { "sleepBefore": 0,
       "text": "Thank you. Please enter your first name to continue.",
       "saveInputAs": "name"
     }, {
