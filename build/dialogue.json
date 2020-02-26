@@ -34,7 +34,7 @@
       "text": "Hello! Welcome to Koschei Society webchat service. To confirm you are human, please enter the name of the month.",
       "waitFor": [
         {
-          "sleepBefore": 2,
+          "sleepBefore": 0,
           "acceptedInputs": ["$january", "$february", "$march"],
           "saveInputAs": "month",
           "sleepFor": 0
@@ -42,7 +42,7 @@
       ],
       "defaultResponses": [
         {
-          "sleepBefore": 2,
+          "sleepBefore": 0,
           "text": "Invalid input. Please enter the month.",
           "sleepFor": 0
         }
@@ -55,14 +55,17 @@
       "goto": "$month"
     }, {
       "month": ["$january"],
+      "sleepBefore": 3,
       "text": "Hi {name}! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board.",
-      "sleepFor": 4
+      "sleepFor": 1
     }, {
       "text": "I'm sure you've got a lot of work ahead of you, so I won't take up any of your time."
     }, {
+      "sleepBefore": 3,
       "text": "Just to confirm, our immediate goal with these documents is to find the names of 3 potion ingredients, and the location of the tunnel entrance.",
-      "sleepFor": 4
+      "sleepFor": 1
     }, {
+      "sleepBefore": 2,
       "text": "When you have figured out any one of those things, please send them over, one at a time.",
       "waitFor": [
         {
@@ -273,7 +276,7 @@
     }, {
       "text": "Wow, I think this is it, I can’t believe it!"
     }, {
-      "text": "You've got to check out the view from the <a target='_tab' href='https://imgur.com/a/7N6NCL7.jpg'>camera feed.</a>"
+      "text": "You've got to check out the view from the <a target='_tab' href='http://draumskrok.com/emerald/camfeed.jpg'>camera feed.</a>"
     }, {
       "text": "Thank you again for all your help, I could have never done it without you."
     }, {
