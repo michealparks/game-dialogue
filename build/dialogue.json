@@ -37,7 +37,7 @@
           "sleepBefore": 0,
           "acceptedInputs": ["$january", "$february", "$march"],
           "saveInputAs": "month",
-          "sleepFor": 0
+          "sleepFor": 1
         }
       ],
       "defaultResponses": [
@@ -50,7 +50,7 @@
     }, { "sleepBefore": 0,
       "text": "Thank you. Please enter your first name to continue.",
       "saveInputAs": "name"
-    }, {
+    }, {  "sleepBefore": 0,
       "text": "Connecting to User: Jesse Wright...",
       "goto": "$month"
     }, {
@@ -58,15 +58,11 @@
       "sleepBefore": 3,
       "text": "Hi {name}! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board.",
       "sleepFor": 1
-    }, {
+    }, { "sleepBefore": 2,
       "text": "I'm sure you've got a lot of work ahead of you, so I won't take up any of your time."
     }, {
-      "sleepBefore": 3,
-      "text": "Just to confirm, our immediate goal with these documents is to find the names of 3 potion ingredients, and the location of the tunnel entrance.",
-      "sleepFor": 1
-    }, {
-      "sleepBefore": 2,
-      "text": "When you have figured out any one of those things, please send them over, one at a time.",
+      "sleepBefore": 4,
+      "text": "Just to confirm, our immediate goal with these documents is to find the names of 3 potion ingredients, and the location of the tunnel entrance. When you have figured out any one of those things, please send them over, one at a time.",
       "waitFor": [
         {
           "acceptedInputs": ["cathedral", "vitus"],
@@ -87,22 +83,19 @@
           "acceptedInputs": ["sambucus"],
           "sleepBefore": 2,
           "text": "Good work, now we know we need the Sambucus plant.",
-          "sleepFor": 0
+          "sleepFor": 1
         }
       ],
       "sleepFor": 1
-    }, {
+    }, { "sleepBefore": 2,
       "text": "Thank you so much, {name}, you clearly have a talent for this."
-    }, {
+    }, { "sleepBefore": 3,
       "text": "If we manage to gain access to the tunnels underneath Prague, I have a strong feeling the answers we’re looking for are in there.",
+      "sleepFor": 1
+      }, { "sleepBefore": 4,
+      "text": "I’m going to search the cathedral for an entrance and dig around in our archives for any other relevant information. Keep an eye out for another package from us soon, and let me know once you’ve opened it and are ready to continue. Until then, take care.",
       "sleepFor": 4
-      }, {
-      "text": "I’m going to search the cathedral for an entrance and dig around in our archives for any other relevant information.",
-      "sleepFor": 4
-    }, {
-      "text": "Keep an eye out for another package from us soon, and let me know once you’ve opened it and are ready to continue. Until then, take care.",
-      "sleepFor": 4
-    }, {
+    }, { "sleepBefore": 0,
       "text": "Jesse Wright has left the chat. To begin a new session with this user please send a new message or refresh the page.",
       "waitForAnyInput": true
     },
@@ -125,17 +118,15 @@
           "sleepFor": 0
         }
       ]
-    }, {
+    }, { "sleepBefore": 3,
       "text": "With the items from this package you will need to find the names of 3 more potion ingredients (the snake, flower, and mushroom), the layout of the tunnels, and the location of the lab.",
-      "sleepFor": 4
-    }, {
+      "sleepFor": 1
+    }, { "sleepBefore": 3,
       "text": "You can work on finding all this information simultaneously, but I won’t plan on going down to the tunnels until you have everything.",
-      "sleepFor": 4
-    }, {
-      "text": "As I mentioned in the letter, I’ll need your help to program navigation instructions into the bot since we don’t know what the conditions are like down there.",
-      "sleepFor": 4
-    }, {
-      "text": "But first things first! Let me know the names of the 3 potion ingredients, one at a time.",
+      "sleepFor": 1
+    }, 
+{ "sleepBefore": 4,
+      "text": " As I mentioned in the letter, I’ll need your help to program navigation instructions into the bot since we don’t know what the conditions are like down there. But first things first! Let me know the names of the 3 potion ingredients, one at a time.",
       "waitFor": [
         {
           "acceptedInputs": ["eryx"],
@@ -154,7 +145,7 @@
           "sleepFor": 0
         }
       ]
-    }, {
+    }, { "sleepBefore": 3,
       "text": "Now that we know the 3 ingredients, have you used the map and the window images to figure out the tunnel layout and where the lab is located?",
       "waitFor": [
         {
@@ -178,13 +169,11 @@
           "text": "Okay, just let me know when you’re ready."
         }
       ]
-    },  {
-      "text": "Excellent. Just remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W.",
-      "sleepFor": 5
-    }, {
-      "text": "I’m going to head down from the cathedral now!",
+    },  {           "sleepBefore": 4,
+      "text": "Excellent. Just remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W. I’m going to head down from the cathedral now!",
       "sleepFor": 3
-    }, {
+    }, 
+{           "sleepBefore": 4,
       "text": "As soon as I get downstairs, there is a path east and a path south. Enter the number of units and either E or S for the direction. Keep in mind that if we don’t find anything at a particular spot then the bot will just return to its previous position."
     }, {
       "key": "startLocation",
@@ -274,9 +263,9 @@
         }
       ]
     }, {
-      "text": "Wow, I think this is it, I can’t believe it!"
+      "text": "Wow, I think this is it, I can’t believe it! You've got to check out the view from the camera feed."
     }, {
-      "text": "You've got to check out the view from the <a target='_tab' href='http://draumskrok.com/emerald/camfeed.jpg'>camera feed.</a>"
+      "text": " <img src="camfeed.jpg"> </img>"
     }, {
       "text": "Thank you again for all your help, I could have never done it without you."
     }, {
