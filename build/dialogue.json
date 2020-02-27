@@ -342,10 +342,10 @@
           "sleepFor": 0
         }
       ]
-    }, {sleepBefore": 2,
+    }, {"sleepBefore": 2,
       "text": "Okay, then I should be off to begin preparations. Thank you again for all you have done.",
       "sleepFor": 1
-    }, {sleepBefore": 3,
+    }, {"sleepBefore": 3,
       "text": "Oh, I almost forgot! Our research partners at the Emerens Institute in Sweden have shared a letter from their archive with us. We thought you may be interested, so I’ve mailed you a copy in a small envelope as a small token of our appreciation.",
       "sleepFor": 2
     }, {
