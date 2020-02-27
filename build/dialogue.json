@@ -4,12 +4,12 @@
     "$january": ["january", "jan", "1", "01"],
     "$february": ["february", "feb", "2", "02"],
     "$march": ["march", "mar", "3", "03"],
-    "$yes": ["ready", "yes", "yep", "yeah", "okay", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"],
+    "$yes": ["ready", "yes", "yep", "yeah", "okay", "yee", "yea", "ya", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"],
     "$second": ["second", "2nd", "package"],
     "$third": ["third", "3rd", "package"]
   },
-  "defaultSleepFor": 0,
-  "defaultSleepBefore": 3,
+  "defaultSleepFor": 1,
+  "defaultSleepBefore": 2,
   "defaultResponses": [
     {
       "sleepBefore": 2,
