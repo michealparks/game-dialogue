@@ -4,7 +4,7 @@
     "$january": ["january", "jan", "1", "01"],
     "$february": ["february", "feb", "2", "02"],
     "$march": ["march", "mar", "3", "03"],
-    "$yes": ["ready", "yes", "yep", "yeah", "okay", "yee", "yea", "ya", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"],
+    "$yes": ["ready", "yes", "yep", "yeah", "okay", "yee", "yea", "yup", "ya", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"],
     "$second": ["second", "2nd", "package"],
     "$third": ["third", "3rd", "package"]
   },
@@ -118,11 +118,8 @@
           "sleepFor": 0
         }
       ]
-    }, { "sleepBefore": 3,
-      "text": "With the items from this package you will need to find the names of 3 more potion ingredients (the snake, flower, and mushroom), the layout of the tunnels, and the location of the lab.",
-      "sleepFor": 1
-    }, { "sleepBefore": 3,
-      "text": "You can work on finding all this information simultaneously, but I won’t plan on going down to the tunnels until you have everything.",
+    }, { "sleepBefore": 4,
+      "text": "With the items from this package you will need to find the names of 3 more potion ingredients (the snake, flower, and mushroom), the layout of the tunnels, and the location of the lab. You can work on finding all this information simultaneously, but I won’t plan on going down to the tunnels until you have everything.",
       "sleepFor": 1
     }, 
 { "sleepBefore": 4,
@@ -263,10 +260,8 @@
         }
       ]
     }, {
-      "text": "Wow, I think this is it, I can’t believe it! You've got to check out the view from the camera feed."
-    }, {
-      "text": " <a target='_tab' href='http://draumskrok.com/emerald/camfeed.jpg'>camera feed.</img>"
-    }, {
+      "text": "Wow, I think this is it, I can’t believe it! You've got to check out the view from the <a target='_tab' href='http://draumskrok.com/emerald/camfeed.jpg'>camera feed.</img>"
+    },  {
       "text": "Thank you again for all your help, I could have never done it without you."
     }, {
       "text": "I’m going to investigate in there and see what I can find. I’m sure there will be a lot to go through, so you can expect another package soon with our findings. Get in touch with me when you open it, and in the meantime, be sure to get some rest, you’ve earned it!"
@@ -294,7 +289,7 @@
         }
       ]
     }, {
-      "text": "As mentioned in the letter, we need to find out the latitude and longitude of the next comet’s appearance, how many hours it takes to prepare the potion, and under what phase of the moon it must be brewed, but let’s hold off on the moon phase for now.",
+      "text": "As mentioned in the letter, we need to find out the latitude and longitude of the next comet’s appearance, how many hours it takes to prepare the potion, and under what phase of the moon it must be brewed... but let’s hold off on the moon phase for now.",
       "sleepFor": 4
     }, {
       "text": "Once you figure out the latitude and longitude of the next comet appearance, enter them one at a time in the format of 10N/10S and 10E/10W, etc. As for the brewing time, enter “2 hours” or “20 hours,” etc.",
@@ -317,7 +312,7 @@
         }
       ]
     }, {
-      "text": "Thank you for helping us find the brew time and location. I guess a trip to Scotland is in our future! Now all we need to know is under what phase of the moon we should prepare the elixir.",
+      "text": "Thank you for helping us find the brew time and location! Now all we need to know is under what phase of the moon we should prepare the elixir.",
       "sleepFor": 4
     }, {
       "text": "Keep in mind that this step could potentially compromise everything we’ve worked for. I realize that you may be skeptical of his plans, but Mr. Redmond has put his faith in you, and I hope you will not betray his trust.",
@@ -347,12 +342,12 @@
           "sleepFor": 0
         }
       ]
-    }, {
+    }, {sleepBefore": 2,
       "text": "Okay, then I should be off to begin preparations. Thank you again for all you have done.",
-      "sleepFor": 4
-    }, {
+      "sleepFor": 1
+    }, {sleepBefore": 3,
       "text": "Oh, I almost forgot! Our research partners at the Emerens Institute in Sweden have shared a letter from their archive with us. We thought you may be interested, so I’ve mailed you a copy in a small envelope as a small token of our appreciation.",
-      "sleepFor": 4
+      "sleepFor": 2
     }, {
       "conditionals": [
         {
