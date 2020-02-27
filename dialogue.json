@@ -265,7 +265,7 @@
     }, {
       "text": "Wow, I think this is it, I can’t believe it! You've got to check out the view from the camera feed."
     }, {
-      "text": " <a target='_tab' href='http://draumskrok.com/emerald/camfeed.jpg'>camera feed.</img>"
+      "text": " <img src="camfeed.jpg"> </img>"
     }, {
       "text": "Thank you again for all your help, I could have never done it without you."
     }, {
