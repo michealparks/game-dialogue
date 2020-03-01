@@ -290,14 +290,14 @@
           "sleepFor": 0
         }
       ]
-    }, {
+    }, {"sleepBefore": 4,
       "text": "As mentioned in the letter, we need to find out the latitude and longitude of the next comet’s appearance, how many hours it takes to prepare the potion, and under what phase of the moon it must be brewed... but let’s hold off on the moon phase for now.",
-      "sleepFor": 4
-    }, {
-      "text": "Once you figure out the latitude and longitude of the next comet appearance, enter them one at a time in the format of 10N/10S and 10E/10W, etc. As for the brewing time, enter “2 hours” or “20 hours,” etc.",
+      "sleepFor": 2
+    }, {"sleepBefore": 4,
+      "text": "Once you figure out the latitude and longitude of the next comet appearance, enter them one at a time in the format of 10N/10S and 10E/10W, etc. As for the brewing time, enter “3h” or “3 hours.”",
       "waitFor": [
         {
-          "acceptedInputs": ["14"],
+          "acceptedInputs": ["14h", "14hr", "14 h", "14 hr", "14hrs", "14 hrs", "14hours", "14 hour", "14 hours,"],
           "sleepBefore": 2,
           "text": "14 hours? Wow. I guess that will be a very long an interesting night!",
           "sleepFor": 0
