@@ -4,6 +4,7 @@ import './chat.js'
  * @TODO move inputs onto a stack, sleeping could cause bot to miss them
  */
 const main = async () => {
+  let missedInputs = []
   let inputs = {}
   let inputPromiseResolve
   let textItems = []
@@ -205,6 +206,7 @@ const main = async () => {
   document.body.appendChild(chat)
 
   chat.onUserInput((text) => {
+    missedInputs.push(text)
     if (inputPromiseResolve) {
       inputPromiseResolve(text)
     }

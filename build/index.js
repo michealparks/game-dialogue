@@ -1,1 +1,494 @@
-const e=new Intl.DateTimeFormat("en-US",{year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric",dateStyle:"short",timeStyle:"short"});window.customElements.define("chat-widget",class extends HTMLElement{constructor(e){super(e),this.listeners=[],this.pendingMessages={remote:void 0,user:void 0},this.root=this.attachShadow({mode:"open"}),this.root.innerHTML='\n      <style>\n* {\n  --light-gray: #eee;\n  --light-blue: rgba(79, 195, 247, 0.5);\n  --dot-size: 10px;\n}\n:root {\n  overflow: hidden;\n  position: absolute;\n  height: 100%;\n  width: 100%;\n  margin: 0;\n}\n* {\n  font-size: 16px;\n  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";\n}\n*:not(style) {\n  display: block;\n  box-sizing: border-box;\n}\nchat-bg {\n  height: 100%;\n  width: 100%;\n  background-color: var(--light-gray);\n}\nmessages-box {\n  overflow-y: auto;\n  position: absolute;\n  width: 100%;\n  bottom: 50px;\n  max-height: calc(100vh - 50px);\n  padding: 15px;\n}\ninput-box {\n  display: flex;\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: #fff;\n}\ninput-box input {\n  height: 50px;\n  width: calc(100% - 50px);\n  padding: 15px;\n  margin: 0;\n  border: 0;\n  background-color: transparent;\n  outline: none;\n}\ninput-box button {\n  display: flex;\n  justify-content: center;\n  width: 50px;\n  padding: 0;\n  border: 0;\n  background: transparent;\n  outline: 0;\n}\nmessage-bubble {\n  width: 100%;\n  transition: transform 0.3s, opacity 0.3s;\n  transform-origin: 0% 100%;\n  opacity: 1;\n  transform: scale(1.0);\n}\nmessage-bubble.entering {\n  opacity: 0;\n  transform: scale(0.7);\n}\nmessage-bubble.right {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n  transform-origin: 100% 100%;\n}\nmessage-text {\n  position: relative;\n  width: fit-content;\n  max-width: 75%;\n  padding: 10px 15px;\n  border-radius: 4px;\n  box-shadow: -9px 9px 30px 1px rgba(0,0,0,0.2);\n}\nmessage-bubble.image message-text,\nmessage-bubble img {\n  width: 100%;\n  max-width: 100%;\n  border-radius: 4px;\n}\nmessage-text:after {\n  position: absolute;\n  bottom: 0;\n  content: \'\';\n  width: 0;\n  height: 0;\n  border-style: solid;\n}\nmessage-bubble.left message-text {\n  background-color: var(--light-gray);\n  border-bottom-left-radius: 0px;\n}\nmessage-bubble.right message-text {\n  background-color: var(--light-blue);\n  border-bottom-right-radius: 0px;\n}\nmessage-bubble.left message-text:after {\n  left: -8px;\n  border-width: 0 0 8px 8px;\n  border-color: transparent transparent var(--light-gray) transparent;\n}\nmessage-bubble.right message-text:after {\n  right: -8px;\n  border-width: 8px 0 0 8px;\n  border-color: transparent transparent transparent var(--light-blue);\n}\nmessage-timestamp {\n  padding: 5px 15px 15px;\n  font-size: 12px;\n}\n.dot {\n  display: inline-block;\n  width: var(--dot-size);\n  height: var(--dot-size);\n  margin: 2px 0;\n  border-radius: 100%;\n  background-color: #aaa;\n  animation-name: pulse;\n  animation-duration: 1s;\n  animation-iteration-count: infinite;\n}\n.dot:nth-child(2) { animation-delay: 200ms; }\n.dot:nth-child(3) { animation-delay: 400ms; }\n@keyframes pulse {\n  0%  { opacity: 0.5;  }\n  50% { opacity: 1.0;  }\n  100% { opacity: 0.5; }\n}\n</style>\n      <chat-bg>\n        <messages-box></messages-box>\n        <input-box>\n          <input type="text" placeholder="Send a message">\n          <button>\n            <svg\n              width="24"\n              height="24"\n              viewBox="0 0 24 24"\n              fill="none"\n              stroke="#555"\n              stroke-width="2"\n              stroke-linecap="round"\n              stroke-linejoin="round">\n              <line x1="22" y1="2" x2="11" y2="13" />\n              <polygon points="22 2 15 22 11 13 2 9 22 2" />\n            </svg>\n          </button>\n        </input-box>\n      </chat-bg>\n    '}connectedCallback(){this.messagesBox=this.root.querySelector("messages-box"),this.input=this.root.querySelector("input-box input"),this.button=this.root.querySelector("input-box button");const e=()=>{if(""===this.input.value)return;const e=this.input.value;this.startMessage({origin:"user"}),this.commitMessage({text:e,origin:"user"});for(const t of this.listeners)t(e);this.input.value=""};this.input.addEventListener("keydown",t=>{"Enter"===t.key&&e()},{passive:!0}),this.messagesBox.addEventListener("mousedown",this.input.blur,{passive:!0}),this.messagesBox.addEventListener("touchstart",this.input.blur,{passive:!0}),this.button.addEventListener("click",t=>{e(),this.input.focus()},{passive:!0})}onUserInput(e){this.listeners.push(e)}startMessage({origin:e="remote"}){const t=document.createElement("message-bubble");t.classList.add("empty","entering"),t.classList.add("remote"===e?"left":"right"),t.innerHTML='\n      <message-text>\n        <div class="dot"></div>\n        <div class="dot"></div>\n        <div class="dot"></div>\n      </message-text>\n      <message-timestamp></message-timestamp>\n    ',this.pendingMessages[e]=t,this.messagesBox.appendChild(t),t.scrollIntoView(),setTimeout(()=>t.classList.remove("entering"),100)}commitMessage({text:t="",origin:n="remote"}){const s=this.pendingMessages[n];s.querySelector("message-text").innerHTML=t,s.querySelector("message-timestamp").textContent=e.format(new Date),s.classList.remove("empty"),s.scrollIntoView()}commitImage({image:e,origin:t="remote"}){const n=this.pendingMessages[t];n.classList.add("image"),n.querySelector("message-text").innerHTML=`\n      <img src="${e}" />\n    `}});(async()=>{let e,t={},n=[];const s=await window.fetch("./dialogue.json"),i=await s.json(),{defaultSleepFor:o,defaultSleepBefore:a,variables:r}=i,{parse:l,stringify:d}=JSON,m=()=>l(d(i.textItems)),c=e=>0===e?Promise.resolve():new Promise(t=>{setTimeout(t,1e3*e)}),g=()=>new Promise(t=>{e=t}),p=e=>{let n;return"$"===e[0]?(e=e.slice(1),n=i.textItems.findIndex(n=>{const s=n[e],i=t[e];return s&&s.includes(i)})):n=i.textItems.findIndex(t=>t.key===e),n>0?(console.log(m().slice(n)),m().slice(n)):m()},u=async e=>{const{text:s,image:r,sleepFor:l=o,sleepBefore:d=a,saveInputAs:m,saveVariable:h,waitFor:x=[],conditionals:f=[],waitForAnyInput:y=!1,defaultResponses:w=i.defaultResponses,goto:v}=e;if((s||r)&&b.startMessage({origin:"remote"}),await c(d),s){let e=s;for(const[n,s]of Object.entries(t))e=e.replace(`{${n}}`,s);b.commitMessage({text:e})}for(r&&b.commitImage({image:r}),m&&(t[m]=await g()),h&&(t={...t,...h});x.length>0;){const e=await g();let n;for(const s of x){if(n)break;for(const i of s.acceptedInputs)if(e.toLowerCase().includes(i.toLowerCase())){n=s,!0!==n.continue&&x.splice(x.indexOf(s),1),s.saveInputAs&&(t[s.saveInputAs]=e.toLowerCase(),delete s.saveInputAs);break}}if(n){if(await u(n),n.break)break}else{const e=Math.random()*w.length|0;await u(w[e])}}y&&await g();for(const e of f){const{variableEquals:n}=e,[s,i]=n;if(t[s]===i){await u(e);break}}return await c(l),!!v&&(n=p(v),!0)};document.head.querySelector("title").textContent="Koschei Society";const b=document.createElement("chat-widget");document.body.appendChild(b),b.onUserInput(t=>{e&&e(t)}),i.textItems=l(d(i.textItems,(e,t)=>{if(!Array.isArray(t))return t;for(const[e,n]of Object.entries(r))t.includes(e)&&(t.splice(t.indexOf(e),1),t=[...t,...n]);return t})),n=i.debugJumpTo?p(i.debugJumpTo):m(),(async()=>{for(;n.length>0;)await u(n.shift())})()})();
+const style = `
+* {
+  --light-gray: #eee;
+  --light-blue: rgba(79, 195, 247, 0.5);
+  --dot-size: 10px;
+}
+:root {
+  overflow: hidden;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+chat-bg {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-color: var(--light-gray);
+}
+messages-box {
+  overflow-y: auto;
+  position: absolute;
+  width: 100%;
+  bottom: 50px;
+  max-height: calc(100vh - 50px);
+  padding: 15px;
+}
+input-box {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+}
+input-box input {
+  height: 50px;
+  width: calc(100% - 50px);
+  padding: 15px;
+  margin: 0;
+  border: 0;
+  background-color: transparent;
+  outline: none;
+}
+input-box button {
+  display: flex;
+  justify-content: center;
+  width: 50px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  outline: 0;
+}
+message-bubble {
+  width: 100%;
+  transition: transform 0.3s, opacity 0.3s;
+  transform-origin: 0% 100%;
+  opacity: 1;
+  transform: scale(1.0);
+}
+message-bubble.entering {
+  opacity: 0;
+  transform: scale(0.7);
+}
+message-bubble.right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transform-origin: 100% 100%;
+}
+message-text {
+  display: block;
+  position: relative;
+  width: fit-content;
+  max-width: 75%;
+  padding: 10px 15px;
+  border-radius: 4px;
+  box-shadow: -9px 9px 30px 1px rgba(0,0,0,0.2);
+}
+message-bubble.image message-text,
+message-bubble img {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 4px;
+}
+message-text:after {
+  position: absolute;
+  bottom: 0;
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+message-bubble.left message-text {
+  background-color: var(--light-gray);
+  border-bottom-left-radius: 0px;
+}
+message-bubble.right message-text {
+  background-color: var(--light-blue);
+  border-bottom-right-radius: 0px;
+}
+message-bubble.left message-text:after {
+  left: -8px;
+  border-width: 0 0 8px 8px;
+  border-color: transparent transparent var(--light-gray) transparent;
+}
+message-bubble.right message-text:after {
+  right: -8px;
+  border-width: 8px 0 0 8px;
+  border-color: transparent transparent transparent var(--light-blue);
+}
+message-timestamp {
+  display: block;
+  padding: 5px 15px 15px;
+  font-size: 12px;
+}
+.dot {
+  display: inline-block;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  margin: 2px 0;
+  border-radius: 100%;
+  background-color: #aaa;
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+.dot:nth-child(2) { animation-delay: 200ms; }
+.dot:nth-child(3) { animation-delay: 400ms; }
+@keyframes pulse {
+  0%  { opacity: 0.5;  }
+  50% { opacity: 1.0;  }
+  100% { opacity: 0.5; }
+}
+`;
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  dateStyle: 'short',
+  timeStyle: 'short'
+});
+
+window.customElements.define('chat-widget', class ChatWidget extends HTMLElement {
+  constructor (props) {
+    super(props);
+  
+    this.listeners = [];
+    this.pendingMessages = { remote: undefined, user: undefined };
+    this.root = this.attachShadow({ mode: 'open' });
+    this.root.innerHTML = `
+      <style>${style}</style>
+      <chat-bg>
+        <messages-box></messages-box>
+        <input-box>
+          <input type="text" placeholder="Send a message">
+          <button>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#555"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+          </button>
+        </input-box>
+      </chat-bg>
+    `;
+  }
+
+  connectedCallback () {
+    this.messagesBox = this.root.querySelector('messages-box');
+    this.input = this.root.querySelector('input-box input');
+    this.button = this.root.querySelector('input-box button');
+
+    const handleUserSubmit = () => {
+      if (this.input.value === '') return
+
+      const text = this.input.value;
+
+      this.startMessage({ origin: 'user' });
+      this.commitMessage({ text, origin: 'user' });
+
+      for (const fn of this.listeners) {
+        fn(text);
+      }
+
+      this.input.value = '';
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter') handleUserSubmit();
+    };
+
+    this.input.addEventListener('keydown', handleKeyDown, { passive: true });
+
+    this.messagesBox.addEventListener('mousedown', this.input.blur, { passive: true });
+    this.messagesBox.addEventListener('touchstart', this.input.blur, { passive: true });
+
+    this.button.addEventListener('click', (e) => {
+      handleUserSubmit();
+      this.input.focus();
+    }, { passive: true });
+  }
+
+  /**
+   * Listen for when a user submits a message
+   * @param {Function} callback
+   */
+  onUserInput (callback) {
+    this.listeners.push(callback);
+  }
+
+  /**
+   * Trigger the start of a new message
+   * @param {Object} props
+   */
+  startMessage ({ origin = 'remote' }) {
+    const message = document.createElement('message-bubble');
+    message.classList.add('empty', 'entering');
+    message.classList.add(origin === 'remote' ? 'left' : 'right');
+
+    message.innerHTML = `
+      <message-text>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </message-text>
+      <message-timestamp></message-timestamp>
+    `;
+
+    this.pendingMessages[origin] = message;
+
+    this.messagesBox.appendChild(message);
+    message.scrollIntoView();
+    setTimeout(() => message.classList.remove('entering'), 100);
+  }
+
+  /**
+   * Send the message to the screen
+   * @param {Object} props
+   */
+  commitMessage ({ text = '', origin = 'remote' }) {
+    const message = this.pendingMessages[origin];
+    message.querySelector('message-text').innerHTML = text;
+    message.querySelector('message-timestamp').textContent = dateFormatter.format(new Date());
+    message.classList.remove('empty');
+    message.scrollIntoView();
+  }
+
+  commitImage ({ image, origin = 'remote' }) {
+    const message = this.pendingMessages[origin];
+    message.classList.add('image');
+    message.querySelector('message-text').innerHTML = `
+      <img src="${image}" />
+    `;
+  }
+});
+
+/**
+ * @TODO move inputs onto a stack, sleeping could cause bot to miss them
+ */
+const main = async () => {
+  let inputs = {};
+  let inputPromiseResolve;
+  let textItems = [];
+
+  const response = await window.fetch('./dialogue.json');
+  const config = await response.json();
+
+  const {
+    defaultSleepFor,
+    defaultSleepBefore,
+    variables
+  } = config;
+
+  const { parse, stringify } = JSON;
+
+  const getTextItems = () => {
+    return parse(stringify(config.textItems))
+  };
+
+  const fillVariables = () => {
+    config.textItems = parse(stringify(config.textItems, (_, value) => {
+      if (!Array.isArray(value)) return value
+
+      for (const [varKey, varVal] of Object.entries(variables)) {
+        if (value.includes(varKey)) {
+          value.splice(value.indexOf(varKey), 1);
+          value = [...value, ...varVal];
+        }
+      }
+
+      return value
+    }));
+  };
+
+  const startInputLoop = async () => {
+    while (textItems.length > 0) {
+      await textItem(textItems.shift());
+    }
+  };
+
+  /**
+   * Promisify setTimeout. Sleeps for n seconds.
+   * @param {number} seconds
+   * @returns {Promise}
+   */
+  const sleep = (seconds) => {
+    if (seconds === 0) return Promise.resolve()
+
+    return new Promise((resolve) => {
+      setTimeout(resolve, seconds * 1000);
+    })
+  };
+
+  /**
+   * Sets up a new promise that will resolve
+   * when user input is submitted
+   * @returns {Promise}
+   */
+  const listenForInput = () => {
+    return new Promise((resolve) => {
+      inputPromiseResolve = resolve;
+    })
+  };
+
+  const jumpToTextItem = (key) => {
+    let index;
+
+    if (key[0] === '$') {
+      key = key.slice(1);
+
+      index = config.textItems.findIndex((item) => {
+        const acceptedVals = item[key];
+        const inputval = inputs[key];
+        return acceptedVals && acceptedVals.includes(inputval)
+      });
+    } else {
+      index = config.textItems.findIndex((item) => {
+        return item.key === key
+      });
+    }
+
+    if (index > 0) {
+      console.log(getTextItems().slice(index));
+      return getTextItems().slice(index)
+    }
+
+    return getTextItems()
+  };
+
+  /**
+   * Handles a single text item within the dialogue
+   * @param {Object} item
+   */
+  const textItem = async (item) => {
+    const {
+      text,
+      image,
+      sleepFor = defaultSleepFor,
+      sleepBefore = defaultSleepBefore,
+      saveInputAs,
+      saveVariable,
+      waitFor = [],
+      conditionals = [],
+      waitForAnyInput = false,
+      defaultResponses = config.defaultResponses,
+      goto
+    } = item;
+
+    if (text || image) {
+      chat.startMessage({ origin: 'remote' });
+    }
+
+    await sleep(sleepBefore);
+
+    if (text) {
+      let modifiedText = text;
+
+      for (const [key, value] of Object.entries(inputs)) {
+        modifiedText = modifiedText.replace(`{${key}}`, value);
+      }
+
+      chat.commitMessage({ text: modifiedText });
+    }
+
+    if (image) {
+      chat.commitImage({ image });
+    }
+
+    if (saveInputAs) {
+      inputs[saveInputAs] = await listenForInput();
+    }
+
+    if (saveVariable) {
+      inputs = { ...inputs, ...saveVariable };
+    }
+
+    while (waitFor.length > 0) {
+      const input = await listenForInput();
+      let match;
+
+      for (const child of waitFor) {
+        if (match) break
+
+        for (const acceptedInput of child.acceptedInputs) {
+          if (input.toLowerCase().includes(acceptedInput.toLowerCase())) {
+            match = child;
+
+            if (match.continue !== true) {
+              waitFor.splice(waitFor.indexOf(child), 1);
+            }
+
+            if (child.saveInputAs) {
+              inputs[child.saveInputAs] = input.toLowerCase();
+              delete child.saveInputAs;
+            }
+
+            break
+          }
+        }
+      }
+
+      if (match) {
+        await textItem(match);
+
+        if (match.break) break
+      } else {
+        const rand = Math.random() * defaultResponses.length | 0;
+        await textItem(defaultResponses[rand]);
+      }
+    }
+
+    if (waitForAnyInput) {
+      await listenForInput();
+    }
+
+    for (const conditional of conditionals) {
+      const { variableEquals } = conditional;
+      const [key, val] = variableEquals;
+
+      if (inputs[key] === val) {
+        await textItem(conditional);
+        break
+      }
+    }
+
+    await sleep(sleepFor);
+
+    if (goto) {
+      textItems = jumpToTextItem(goto);
+      return true
+    }
+
+    return false
+  };
+
+  document.head.querySelector('title').textContent = 'Koschei Society';
+
+  const chat = document.createElement('chat-widget');
+  document.body.appendChild(chat);
+
+  chat.onUserInput((text) => {
+    if (inputPromiseResolve) {
+      inputPromiseResolve(text);
+    }
+  });
+
+  fillVariables();
+
+  if (config.debugJumpTo) {
+    textItems = jumpToTextItem(config.debugJumpTo);
+  } else {
+    textItems = getTextItems();
+  }
+
+  startInputLoop();
+};
+
+main();

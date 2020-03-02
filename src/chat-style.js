@@ -13,14 +13,12 @@ export const style = `
   margin: 0;
 }
 * {
+  box-sizing: border-box;
   font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
-*:not(style) {
-  display: block;
-  box-sizing: border-box;
-}
 chat-bg {
+  display: block;
   height: 100%;
   width: 100%;
   background-color: var(--light-gray);
@@ -77,6 +75,7 @@ message-bubble.right {
   transform-origin: 100% 100%;
 }
 message-text {
+  display: block;
   position: relative;
   width: fit-content;
   max-width: 75%;
@@ -117,6 +116,7 @@ message-bubble.right message-text:after {
   border-color: transparent transparent transparent var(--light-blue);
 }
 message-timestamp {
+  display: block;
   padding: 5px 15px 15px;
   font-size: 12px;
 }
