@@ -294,7 +294,7 @@
       "text": "As mentioned in the letter, we need to find out the latitude and longitude of the next comet’s appearance, how many hours it takes to prepare the potion, and under what phase of the moon it must be brewed... but let’s hold off on the moon phase for now.",
       "sleepFor": 2
     }, {"sleepBefore": 4,
-      "text": "Once you figure out the latitude and longitude of the next comet appearance, enter them one at a time in the format of 10N/10S and 10E/10W, etc. As for the brewing time, enter “3h” or “3 hours.”",
+      "text": "Once you figure out the coordinates of the next comet appearance, enter them one at a time in the format of 10N or 10S for the latitude, and 10E or 10W for the longitude. As for the brewing time, enter “3h” or “3 hours.”",
       "waitFor": [
         {
           "acceptedInputs": ["14h", "14hr", "14 h", "14 hr", "14hrs", "14 hrs", "14hours", "14 hour", "14 hours,"],
@@ -316,16 +316,16 @@
       "defaultResponses": [
         {
           "sleepBefore": 2,
-          "text": "Hmm, that didn't seem right. Did you make sure to add a letter and a number?",
+          "text": "Hmm, I get the feeling that's not right, you should double check your work. (And don't forget to make sure your answer always includes a number and a letter so that we're on the same page.)",
           "sleepFor": 0
         }
       ]
-    }, {
+    }, {"sleepBefore": 3,
       "text": "Thank you for helping us find the brew time and location! Now all we need to know is under what phase of the moon we should prepare the elixir.",
-      "sleepFor": 4
-    }, {
+      "sleepFor": 1
+    }, {"sleepBefore": 4,
       "text": "Keep in mind that this step could potentially compromise everything we’ve worked for. I realize that you may be skeptical of his plans, but Mr. Redmond has put his faith in you, and I hope you will not betray his trust.",
-      "sleepFor": 4
+      "sleepFor": 1
     }, {
       "key": "moonChoice",
       "text": "Consider your answer carefully - our fate is in your hands.",
@@ -346,7 +346,7 @@
       ],
       "defaultResponses": [
         {
-          "sleepBefore": 2,
+          "sleepBefore": 3,
           "text": "That doesn’t seem quite right. Historically, alchemists were known to brew their potions under a full or new moon.",
           "sleepFor": 0
         }
@@ -356,7 +356,7 @@
       "sleepFor": 1
     }, {"sleepBefore": 3,
       "text": "Oh, I almost forgot! Our research partners at the Emerens Institute in Sweden have shared a letter from their archive with us. We thought you may be interested, so I’ve mailed you a copy in a small envelope as a small token of our appreciation.",
-      "sleepFor": 2
+      "sleepFor": 1
     }, {
       "conditionals": [
         {
@@ -369,7 +369,8 @@
       ]
     }, {
       "text": "Until we speak again, take care of yourself."
-    }, {
+     
+    }, {"sleepBefore": 0,
     "text": "Jesse Wright has left the chat. To begin a new chat session please refresh the page."}
   ]
 }
