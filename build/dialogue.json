@@ -1,5 +1,5 @@
 {
-  "debugJumpTo": "moonChoice",
+  "debugJumpTo": null,
   "variables": {
     "$january": ["january", "jan", "1", "01"],
     "$february": ["february", "feb", "2", "02"],
