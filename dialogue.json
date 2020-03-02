@@ -1,5 +1,5 @@
 {
-  "debugJumpTo": null,
+  "debugJumpTo": "moonChoice",
   "variables": {
     "$january": ["january", "jan", "1", "01"],
     "$february": ["february", "feb", "2", "02"],
@@ -310,6 +310,13 @@
           "acceptedInputs": ["5w", "w5", "5 west"],
           "sleepBefore": 2,
           "text": "You found the longitude! Great work.",
+          "sleepFor": 0
+        }
+      ],
+      "defaultResponses": [
+        {
+          "sleepBefore": 2,
+          "text": "Hmm, that didn't seem right. Did you make sure to add a letter and a number?",
           "sleepFor": 0
         }
       ]
