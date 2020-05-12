@@ -1,10 +1,8 @@
-import './chat.js'
-
 /**
  * @TODO move inputs onto a stack, sleeping could cause bot to miss them
  */
-const main = async () => {
-  let missedInputs = []
+export const main = async (chatWidget) => {
+  let missedInput = ''
   let inputs = {}
   let inputPromiseResolve
   let textItems = []
@@ -114,7 +112,8 @@ const main = async () => {
     } = item
 
     if (text || image) {
-      chat.startMessage({ origin: 'remote' })
+      console.log('start')
+      chatWidget.startMessage('remote')
     }
 
     await sleep(sleepBefore)
@@ -126,15 +125,21 @@ const main = async () => {
         modifiedText = modifiedText.replace(`{${key}}`, value)
       }
 
-      chat.commitMessage({ text: modifiedText })
+      console.log('commit')
+      chatWidget.commitMessage(modifiedText)
     }
 
     if (image) {
-      chat.commitImage({ image })
+      chatWidget.commitImage(image)
     }
 
     if (saveInputAs) {
-      inputs[saveInputAs] = await listenForInput()
+      if (missedInput) {
+        inputs[saveInputAs] = missedInput
+        missedInput = ''
+      } else {
+        inputs[saveInputAs] = await listenForInput()
+      }
     }
 
     if (saveVariable) {
@@ -142,8 +147,15 @@ const main = async () => {
     }
 
     while (waitFor.length > 0) {
-      const input = await listenForInput()
+      let input = ''
       let match
+
+      if (missedInput) {
+        input = missedInput
+        missedInput = ''
+      } else {
+        input = await listenForInput()
+      }
 
       for (const child of waitFor) {
         if (match) break
@@ -200,15 +212,11 @@ const main = async () => {
     return false
   }
 
-  document.head.querySelector('title').textContent = 'Koschei Society'
-
-  const chat = document.createElement('chat-widget')
-  document.body.appendChild(chat)
-
-  chat.onUserInput((text) => {
-    missedInputs.push(text)
+  chatWidget.addEventListener('userinput', (e) => {
     if (inputPromiseResolve) {
-      inputPromiseResolve(text)
+      inputPromiseResolve(e.detail)
+    } else {
+      missedInput = e.detail
     }
   })
 
@@ -222,5 +230,3 @@ const main = async () => {
 
   startInputLoop()
 }
-
-main()

@@ -17,19 +17,13 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-
-  <style>
-    body {
-      overflow: hidden;
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      margin: 0;
-    }
-  </style>
+  <link rel="stylesheet" href="index.css" />
+  <script type="module">
+    Promise.all([
+      import('./index.js'),
+      import('./chat.js')
+    ]).then(([m]) => new m.default({ target: document.body }))
+  </script>
 </head>
 
-<body>
-</body>
-
-<script async type="module" src="index.js"></script>
+<body></body>
