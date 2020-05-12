@@ -1,5 +1,4 @@
 {
-  "debugJumpTo": null,
   "variables": {
     "$january": [
       "january",
@@ -51,31 +50,31 @@
       "package"
     ]
   },
-  "defaultSleepFor": 1,
-  "defaultSleepBefore": 2,
-  "defaultResponses": [
-    {
-      "sleepBefore": 2,
-      "text": "Hmm, I get the feeling that’s not quite right. Try taking another look.",
-      "sleepFor": 0
-    },
-    {
-      "sleepBefore": 2,
-      "text": "Hmm, I'm not sure that's it... Maybe take another look at that.",
-      "sleepFor": 0
-    },
-    {
-      "sleepBefore": 2,
-      "text": "That doesn’t seem right, I think you should double check your work.",
-      "sleepFor": 0
-    },
-    {
-      "sleepBefore": 2,
-      "text": "Something about that doesn't seem right to me. Try again and let me know what you get.",
-      "sleepFor": 0
+  "bot": {
+    "sleepBefore": 2,
+    "sleepAfter": 1,
+    "responses": {
+      "incorrect":  [
+        {
+          "text": "Hmm, I get the feeling that’s not quite right. Try taking another look.",
+          "sleepAfter": 0
+        },
+        {
+          "text": "Hmm, I'm not sure that's it... Maybe take another look at that.",
+          "sleepAfter": 0
+        },
+        {
+          "text": "That doesn’t seem right, I think you should double check your work.",
+          "sleepAfter": 0
+        },
+        {
+          "text": "Something about that doesn't seem right to me. Try again and let me know what you get.",
+          "sleepAfter": 0
+        }
+      ]
     }
-  ],
-  "textItems": [
+  },
+  "dialogue": [
     {
       "sleepBefore": 0,
       "text": "Hello! Welcome to Koschei Society webchat service. To confirm you are human, please enter the name of the month.",
@@ -88,14 +87,14 @@
             "$march"
           ],
           "saveInputAs": "month",
-          "sleepFor": 1
+          "sleepAfter": 1
         }
       ],
       "defaultResponses": [
         {
           "sleepBefore": 0,
           "text": "Invalid input. Please enter the month.",
-          "sleepFor": 0
+          "sleepAfter": 0
         }
       ]
     },
@@ -116,7 +115,7 @@
       ],
       "sleepBefore": 3,
       "text": "Hi {name}! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board.",
-      "sleepFor": 1
+      "sleepAfter": 1
     },
     {
       "sleepBefore": 2,
@@ -133,7 +132,7 @@
           ],
           "sleepBefore": 2,
           "text": "Ah, the entrance must be inside the Cathedral of St. Vitus then! Good work.",
-          "sleepFor": 0
+          "sleepAfter": 0
         },
         {
           "acceptedInputs": [
@@ -141,7 +140,7 @@
           ],
           "sleepBefore": 2,
           "text": "A truly fascinating species of butterfly. Well done.",
-          "sleepFor": 0
+          "sleepAfter": 0
         },
         {
           "acceptedInputs": [
@@ -149,7 +148,7 @@
           ],
           "sleepBefore": 2,
           "text": "Oh great, you figured out which crystal we need.",
-          "sleepFor": 0
+          "sleepAfter": 0
         },
         {
           "acceptedInputs": [
@@ -157,10 +156,10 @@
           ],
           "sleepBefore": 2,
           "text": "Good work, now we know we need the Sambucus plant.",
-          "sleepFor": 1
+          "sleepAfter": 1
         }
       ],
-      "sleepFor": 1
+      "sleepAfter": 1
     },
     {
       "sleepBefore": 2,
@@ -169,12 +168,12 @@
     {
       "sleepBefore": 3,
       "text": "If we manage to gain access to the tunnels underneath Prague, I have a strong feeling the answers we’re looking for are in there.",
-      "sleepFor": 1
+      "sleepAfter": 1
     },
     {
       "sleepBefore": 4,
       "text": "I’m going to search the cathedral for an entrance and dig around in our archives for any other relevant information. Keep an eye out for another package from us soon, and let me know once you’ve opened it and are ready to continue. Until then, take care.",
-      "sleepFor": 4
+      "sleepAfter": 4
     },
     {
       "sleepBefore": 0,
@@ -186,6 +185,7 @@
       "month": [
         "$february"
       ],
+      "key": "february",
       "text": "Hi {name}, great to hear from you again. Did you receive the second package and are ready to continue?",
       "waitFor": [
         {
@@ -195,21 +195,21 @@
           ],
           "sleepBefore": 2,
           "text": "Great, thanks for letting me know!",
-          "sleepFor": 0
+          "sleepAfter": 0
         }
       ],
       "defaultResponses": [
         {
           "sleepBefore": 2,
           "text": "Okay, just let me know when you're ready.",
-          "sleepFor": 0
+          "sleepAfter": 0
         }
       ]
     },
     {
       "sleepBefore": 4,
       "text": "With the items from this package you will need to find the names of 3 more potion ingredients (the snake, flower, and mushroom), the layout of the tunnels, and the location of the lab. You can work on finding all this information simultaneously, but I won’t plan on going down to the tunnels until you have everything.",
-      "sleepFor": 1
+      "sleepAfter": 1
     },
     {
       "sleepBefore": 4,
@@ -221,7 +221,7 @@
           ],
           "sleepBefore": 2,
           "text": "Great, you’ve figured out which snake bone we need.",
-          "sleepFor": 0
+          "sleepAfter": 0
         },
         {
           "acceptedInputs": [
@@ -229,7 +229,7 @@
           ],
           "sleepBefore": 2,
           "text": "Excellent, now we know which flower to use.",
-          "sleepFor": 0
+          "sleepAfter": 0
         },
         {
           "acceptedInputs": [
@@ -237,7 +237,7 @@
           ],
           "sleepBefore": 2,
           "text": "So that’s the mushroom we’re looking for! Good work.",
-          "sleepFor": 0
+          "sleepAfter": 0
         }
       ]
     },
@@ -275,7 +275,7 @@
     {
       "sleepBefore": 4,
       "text": "Excellent. Just remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W. I’m going to head down from the cathedral now!",
-      "sleepFor": 3
+      "sleepAfter": 3
     },
     {
       "sleepBefore": 4,
@@ -455,6 +455,7 @@
       "month": [
         "$march"
       ],
+      "key": "march",
       "text": "Hi {name}, great to hear from you again. Did you receive the third package and are ready to continue?",
       "waitFor": [
         {
@@ -464,21 +465,21 @@
           ],
           "sleepBefore": 2,
           "text": "Great, I’m happy to know you’re still with us.",
-          "sleepFor": 0
+          "sleepAfter": 0
         }
       ],
       "defaultResponses": [
         {
           "sleepBefore": 2,
           "text": "Okay, just let me know when you're ready.",
-          "sleepFor": 0
+          "sleepAfter": 0
         }
       ]
     },
     {
       "sleepBefore": 4,
       "text": "As mentioned in the letter, we need to find out the latitude and longitude of the next comet’s appearance, how many hours it takes to prepare the potion, and under what phase of the moon it must be brewed... but let’s hold off on the moon phase for now.",
-      "sleepFor": 2
+      "sleepAfter": 2
     },
     {
       "sleepBefore": 4,
@@ -498,7 +499,7 @@
           ],
           "sleepBefore": 2,
           "text": "14 hours? Wow. I guess that will be a very long and interesting night!",
-          "sleepFor": 0
+          "sleepAfter": 0
         },
         {
           "acceptedInputs": [
@@ -508,7 +509,7 @@
           ],
           "sleepBefore": 2,
           "text": "You found the latitude! Great work.",
-          "sleepFor": 0
+          "sleepAfter": 0
         },
         {
           "acceptedInputs": [
@@ -518,26 +519,26 @@
           ],
           "sleepBefore": 2,
           "text": "You found the longitude! Great work.",
-          "sleepFor": 0
+          "sleepAfter": 0
         }
       ],
       "defaultResponses": [
         {
           "sleepBefore": 2,
           "text": "Hmm, you should double check your work... and make sure your answer includes a number and a letter so that we're on the same page.",
-          "sleepFor": 0
+          "sleepAfter": 0
         }
       ]
     },
     {
       "sleepBefore": 3,
       "text": "Thank you for helping us find the brew time and location! Now all we need to know is under what phase of the moon we should prepare the elixir.",
-      "sleepFor": 1
+      "sleepAfter": 1
     },
     {
       "sleepBefore": 4,
       "text": "Keep in mind that this step could potentially compromise everything we’ve worked for. I realize that you may be skeptical of his plans, but Mr. Redmond has put his faith in you, and I hope you will not betray his trust.",
-      "sleepFor": 1
+      "sleepAfter": 1
     },
     {
       "key": "moonChoice",
@@ -551,7 +552,7 @@
           "saveVariable": {
             "moonPhase": "new"
           },
-          "sleepFor": 0,
+          "sleepAfter": 0,
           "break": true
         },
         {
@@ -562,7 +563,7 @@
           "saveVariable": {
             "moonPhase": "full"
           },
-          "sleepFor": 0,
+          "sleepAfter": 0,
           "break": true
         }
       ],
@@ -570,19 +571,19 @@
         {
           "sleepBefore": 3,
           "text": "That doesn’t seem quite right. Historically, alchemists were known to brew their potions under a full or new moon.",
-          "sleepFor": 0
+          "sleepAfter": 0
         }
       ]
     },
     {
       "sleepBefore": 2,
       "text": "Okay, then I should be off to begin preparations. Thank you again for all you have done.",
-      "sleepFor": 1
+      "sleepAfter": 1
     },
     {
       "sleepBefore": 3,
       "text": "Oh, I almost forgot! Our research partners at the Emerens Institute in Sweden have shared a letter from their archive with us. We thought you may be interested, so I’ve mailed you a copy in a small envelope as a small token of our appreciation.",
-      "sleepFor": 1
+      "sleepAfter": 1
     },
     {
       "conditionals": [

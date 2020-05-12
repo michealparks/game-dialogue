@@ -1,6 +1,30 @@
-/**
- * @TODO move inputs onto a stack, sleeping could cause bot to miss them
- */
+const fillVariables = (obj, vars) => {
+  const varkeys = Object.keys(vars)
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (typeof value === 'object' && value !== null) {
+      fillVariables(value, vars)
+    } else if (Array.isArray(value)) {
+      for (const varKey of varkeys) {
+        const i = value.indexOf(varKey)
+        if (i !== -1) {
+          obj[key].splice(i, 1)
+          obj[key] = [...obj[key], ...vars[varKey]]
+        }
+      }
+    } else {
+      const i = varkeys.indexOf(value)
+      if (i !== -1) {
+        obj[key] = [...vars[varkeys[i]]]
+      }
+    }
+  }
+}
+
+const clone = (obj) => {
+  return JSON.parse(JSON.stringify(obj))
+}
+
 export const main = async (chatWidget) => {
   let missedInput = ''
   let inputs = {}
@@ -9,33 +33,10 @@ export const main = async (chatWidget) => {
 
   const response = await window.fetch('./dialogue.json')
   const config = await response.json()
+  const debugJumpTo = window.location.hash.slice(1)
+  const { bot, dialogue } = config
 
-  const {
-    defaultSleepFor,
-    defaultSleepBefore,
-    variables
-  } = config
-
-  const { parse, stringify } = JSON
-
-  const getTextItems = () => {
-    return parse(stringify(config.textItems))
-  }
-
-  const fillVariables = () => {
-    config.textItems = parse(stringify(config.textItems, (_, value) => {
-      if (!Array.isArray(value)) return value
-
-      for (const [varKey, varVal] of Object.entries(variables)) {
-        if (value.includes(varKey)) {
-          value.splice(value.indexOf(varKey), 1)
-          value = [...value, ...varVal]
-        }
-      }
-
-      return value
-    }))
-  }
+  fillVariables(dialogue, config.variables)
 
   const startInputLoop = async () => {
     while (textItems.length > 0) {
@@ -62,6 +63,10 @@ export const main = async (chatWidget) => {
    * @returns {Promise}
    */
   const listenForInput = () => {
+    if (missedInput) {
+      return Promise.resolve(missedInput)
+    }
+
     return new Promise((resolve) => {
       inputPromiseResolve = resolve
     })
@@ -73,23 +78,20 @@ export const main = async (chatWidget) => {
     if (key[0] === '$') {
       key = key.slice(1)
 
-      index = config.textItems.findIndex((item) => {
+      index = dialogue.findIndex((item) => {
         const acceptedVals = item[key]
         const inputval = inputs[key]
         return acceptedVals && acceptedVals.includes(inputval)
       })
     } else {
-      index = config.textItems.findIndex((item) => {
-        return item.key === key
-      })
+      index = dialogue.findIndex((item) => item.key === key)
     }
 
     if (index > 0) {
-      console.log(getTextItems().slice(index))
-      return getTextItems().slice(index)
+      return clone(dialogue).slice(index)
     }
 
-    return getTextItems()
+    return clone(dialogue)
   }
 
   /**
@@ -99,21 +101,20 @@ export const main = async (chatWidget) => {
   const textItem = async (item) => {
     const {
       text,
-      info = false,
       image,
-      sleepFor = defaultSleepFor,
-      sleepBefore = defaultSleepBefore,
+      info = false,
+      sleepBefore = bot.sleepBefore,
+      sleepAfter = bot.sleepAfter,
       saveInputAs,
       saveVariable,
       waitFor = [],
       conditionals = [],
       waitForAnyInput = false,
-      defaultResponses = config.defaultResponses,
+      defaultResponses = bot.responses.incorrect,
       goto
     } = item
 
     if (text || image) {
-      console.log('start')
       chatWidget.startMessage({ info, user: false })
     }
 
@@ -126,7 +127,6 @@ export const main = async (chatWidget) => {
         modifiedText = modifiedText.replace(`{${key}}`, value)
       }
 
-      console.log('commit')
       chatWidget.commitMessage(modifiedText)
     }
 
@@ -135,12 +135,11 @@ export const main = async (chatWidget) => {
     }
 
     if (saveInputAs) {
-      if (missedInput) {
-        inputs[saveInputAs] = missedInput
-        missedInput = ''
-      } else {
-        inputs[saveInputAs] = await listenForInput()
-      }
+      inputs[saveInputAs] = await listenForInput()
+    }
+
+    if (waitForAnyInput) {
+      await listenForInput()
     }
 
     if (saveVariable) {
@@ -148,15 +147,9 @@ export const main = async (chatWidget) => {
     }
 
     while (waitFor.length > 0) {
-      let input = ''
       let match
 
-      if (missedInput) {
-        input = missedInput
-        missedInput = ''
-      } else {
-        input = await listenForInput()
-      }
+      const input = await listenForInput()
 
       for (const child of waitFor) {
         if (match) break
@@ -191,10 +184,6 @@ export const main = async (chatWidget) => {
       }
     }
 
-    if (waitForAnyInput) {
-      await listenForInput()
-    }
-
     for (const conditional of conditionals) {
       const { variableEquals } = conditional
       const [key, val] = variableEquals
@@ -205,7 +194,7 @@ export const main = async (chatWidget) => {
       }
     }
 
-    await sleep(sleepFor)
+    await sleep(sleepAfter)
 
     if (goto) {
       textItems = jumpToTextItem(goto)
@@ -219,16 +208,14 @@ export const main = async (chatWidget) => {
     if (inputPromiseResolve) {
       inputPromiseResolve(e.detail)
     } else {
-      missedInput = e.detail
+      missedInput += ` ${e.detail}`
     }
   })
 
-  fillVariables()
-
-  if (config.debugJumpTo) {
-    textItems = jumpToTextItem(config.debugJumpTo)
+  if (debugJumpTo) {
+    textItems = jumpToTextItem(debugJumpTo)
   } else {
-    textItems = getTextItems()
+    textItems = cloneDialogue()
   }
 
   startInputLoop()
