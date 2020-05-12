@@ -31,8 +31,6 @@ export const startMessage = (config = {}) => {
     ...config
   })
 
-  console.log(messages[messages.length - 1])
-
   pendingMessage = true
 }
 
@@ -88,11 +86,7 @@ const handleKeyUp = (e) => {
   <chat-messages>
     {#each messages as message, i (i)}
       <message-bubble class:user={message.user} use:handleMessageMount>
-        <message-text
-          class:info={message.info}
-          class:typing={message.typing}
-          class:user={message.user}
-        >
+        <message-text class:info={message.info} class:user={message.user}>
           {@html message.value}
         </message-text>
         <datetime-stamp class:info={message.info}>
@@ -137,7 +131,6 @@ const handleKeyUp = (e) => {
 * {
   --light-gray: #eee;
   --light-blue: rgba(79, 195, 247, 0.5);
-  --dot-size: 10px;
 
   box-sizing: border-box;
   font-size: 16px;
@@ -247,8 +240,8 @@ message-text:not(.user)::after {
 
 message-dot {
   display: inline-block;
-  width: var(--dot-size);
-  height: var(--dot-size);
+  width: 10px;
+  height: 10px;
   margin: 2px 0;
   border-radius: 100%;
   background-color: #aaa;
