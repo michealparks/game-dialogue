@@ -18,19 +18,17 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
   timeStyle: 'short'
 })
 
-export const startMessage = (origin) => {
+export const startMessage = (config = {}) => {
   if (pendingMessage) {
     throw new Error('message already pending')
   }
 
-  const user = (origin === 'user')
-
-  typing = !user
+  typing = !config.user && !config.info
 
   messages.push({
-    user,
     value: '',
-    datetime: Date.now()
+    datetime: Date.now(),
+    ...config
   })
 
   console.log(messages[messages.length - 1])
@@ -59,7 +57,7 @@ export const commitImage = (imgsrc) => {
 const handleUserInput = () => {
   if (inputValue === '') return
 
-  startMessage('user')
+  startMessage({ user: true })
   commitMessage(inputValue)
 
   widgetElement.dispatchEvent(new CustomEvent('userinput', {
@@ -90,10 +88,14 @@ const handleKeyUp = (e) => {
   <chat-messages>
     {#each messages as message, i (i)}
       <message-bubble class:user={message.user} use:handleMessageMount>
-        <message-text class:typing={message.typing} class:user={message.user}>
+        <message-text
+          class:info={message.info}
+          class:typing={message.typing}
+          class:user={message.user}
+        >
           {@html message.value}
         </message-text>
-        <datetime-stamp>
+        <datetime-stamp class:info={message.info}>
           {dateFormatter.format(message.datetime)}
         </datetime-stamp>
       </message-bubble>
@@ -142,6 +144,10 @@ const handleKeyUp = (e) => {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+:global(a) {
+  color: #00785A;
+}
+
 chat-widget-root {
   overflow: hidden;
   position: absolute;
@@ -172,8 +178,8 @@ message-bubble {
 }
 
 @keyframes enter {
-  from { opacity: 0; transform: scale(0.9) }
-  to   { opacity: 1; transform: scale(1.0) }
+  from { opacity: 0; transform: translate(0px, 8px) }
+  to   { opacity: 1; transform: translate(0px, 0px) }
 }
 
 message-bubble {
@@ -194,6 +200,12 @@ message-text {
   padding: 10px 15px;
   border-radius: 4px;
   box-shadow: -9px 9px 30px 1px rgba(0,0,0,0.2);
+}
+
+message-text.info {
+  padding-bottom: 20px;
+  box-shadow: none;
+  color: #666;
 }
 
 message-text.user {
@@ -256,6 +268,10 @@ datetime-stamp {
   display: block;
   padding: 5px 15px 15px;
   font-size: 12px;
+}
+
+datetime-stamp.info {
+  display: none;
 }
 
 /**************/

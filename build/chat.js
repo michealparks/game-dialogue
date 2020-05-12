@@ -358,7 +358,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (91:4) {#each messages as message, i (i)}
+// (89:4) {#each messages as message, i (i)}
 function create_each_block(key_1, ctx) {
 	let message_bubble;
 	let message_text;
@@ -379,8 +379,10 @@ function create_each_block(key_1, ctx) {
 			t0 = space();
 			datetime_stamp = element("datetime-stamp");
 			t1 = text(t1_value);
+			toggle_class(message_text, "info", /*message*/ ctx[17].info);
 			toggle_class(message_text, "typing", /*message*/ ctx[17].typing);
 			toggle_class(message_text, "user", /*message*/ ctx[17].user);
+			toggle_class(datetime_stamp, "info", /*message*/ ctx[17].info);
 			toggle_class(message_bubble, "user", /*message*/ ctx[17].user);
 			this.first = message_bubble;
 		},
@@ -397,6 +399,10 @@ function create_each_block(key_1, ctx) {
 		p(ctx, dirty) {
 			if (dirty & /*messages*/ 8 && raw_value !== (raw_value = /*message*/ ctx[17].value + "")) message_text.innerHTML = raw_value;
 			if (dirty & /*messages*/ 8) {
+				toggle_class(message_text, "info", /*message*/ ctx[17].info);
+			}
+
+			if (dirty & /*messages*/ 8) {
 				toggle_class(message_text, "typing", /*message*/ ctx[17].typing);
 			}
 
@@ -405,6 +411,10 @@ function create_each_block(key_1, ctx) {
 			}
 
 			if (dirty & /*messages*/ 8 && t1_value !== (t1_value = /*dateFormatter*/ ctx[5].format(/*message*/ ctx[17].datetime) + "")) set_data(t1, t1_value);
+
+			if (dirty & /*messages*/ 8) {
+				toggle_class(datetime_stamp, "info", /*message*/ ctx[17].info);
+			}
 
 			if (dirty & /*messages*/ 8) {
 				toggle_class(message_bubble, "user", /*message*/ ctx[17].user);
@@ -417,7 +427,7 @@ function create_each_block(key_1, ctx) {
 	};
 }
 
-// (102:4) {#if typing}
+// (104:4) {#if typing}
 function create_if_block(ctx) {
 	let message_bubble;
 	let handleMessageMount_action;
@@ -578,14 +588,19 @@ function instance($$self, $$props, $$invalidate) {
 			timeStyle: "short"
 		});
 
-	const startMessage = origin => {
+	const startMessage = (config = {}) => {
 		if (pendingMessage) {
 			throw new Error("message already pending");
 		}
 
-		const user = origin === "user";
-		$$invalidate(4, typing = !user);
-		messages.push({ user, value: "", datetime: Date.now() });
+		$$invalidate(4, typing = !config.user && !config.info);
+
+		messages.push({
+			value: "",
+			datetime: Date.now(),
+			...config
+		});
+
 		console.log(messages[messages.length - 1]);
 		pendingMessage = true;
 	};
@@ -610,7 +625,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	const handleUserInput = () => {
 		if (inputValue === "") return;
-		startMessage("user");
+		startMessage({ user: true });
 		commitMessage(inputValue);
 
 		widgetElement.dispatchEvent(new CustomEvent("userinput",
@@ -674,7 +689,7 @@ function instance($$self, $$props, $$invalidate) {
 class ChatWidget extends SvelteElement {
 	constructor(options) {
 		super();
-		this.shadowRoot.innerHTML = `<style>*{--light-gray:#eee;--light-blue:rgba(79, 195, 247, 0.5);--dot-size:10px;box-sizing:border-box;font-size:16px;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}chat-widget-root{overflow:hidden;position:absolute;display:block;height:100%;width:100%;background-color:var(--light-gray);margin:0}chat-messages{overflow-y:auto;position:absolute;width:100%;bottom:50px;max-height:calc(100vh - 50px);padding:15px}message-bubble{width:100%;transition:transform 0.3s, opacity 0.3s;transform-origin:0% 100%;animation:0.25s ease-out 0s 1 normal forwards running enter}@keyframes enter{from{opacity:0;transform:scale(0.9) }to{opacity:1;transform:scale(1.0) }}message-bubble{display:flex;flex-direction:column}message-bubble.user{align-items:flex-end;transform-origin:100% 100%}message-text{display:block;position:relative;width:fit-content;max-width:75%;padding:10px 15px;border-radius:4px;box-shadow:-9px 9px 30px 1px rgba(0,0,0,0.2)}message-text.user{background-color:var(--light-blue);border-bottom-right-radius:0px}message-text:not(.user){background-color:var(--light-gray);border-bottom-left-radius:0px}message-bubble :global(img){width:100%;max-width:100%;border-radius:4px}message-text::after{position:absolute;bottom:0;content:'';width:0;height:0;border-style:solid}message-text.user::after{right:-8px;border-width:8px 0 0 8px;border-color:transparent transparent transparent var(--light-blue)}message-text:not(.user)::after{left:-8px;border-width:0 0 8px 8px;border-color:transparent transparent var(--light-gray) transparent}message-dot{display:inline-block;width:var(--dot-size);height:var(--dot-size);margin:2px 0;border-radius:100%;background-color:#aaa;animation:1s linear 0s infinite normal none running pulse}message-dot:nth-child(2){animation-delay:200ms}message-dot:nth-child(3){animation-delay:400ms}@keyframes pulse{0%{opacity:0.5}50%{opacity:1.0}100%{opacity:0.5}}datetime-stamp{display:block;padding:5px 15px 15px;font-size:12px}input-box{display:flex;position:absolute;bottom:0;left:0;width:100%;background-color:#fff}input{height:50px;width:calc(100% - 50px);padding:15px;margin:0;border:0;background-color:transparent;outline:none}button{display:flex;justify-content:center;width:50px;padding:0;border:0;background:transparent;outline:0}svg{width:24px;height:24px;stroke:#555;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none}</style>`;
+		this.shadowRoot.innerHTML = `<style>*{--light-gray:#eee;--light-blue:rgba(79, 195, 247, 0.5);--dot-size:10px;box-sizing:border-box;font-size:16px;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"}:global(a){color:#00785A}chat-widget-root{overflow:hidden;position:absolute;display:block;height:100%;width:100%;background-color:var(--light-gray);margin:0}chat-messages{overflow-y:auto;position:absolute;width:100%;bottom:50px;max-height:calc(100vh - 50px);padding:15px}message-bubble{width:100%;transition:transform 0.3s, opacity 0.3s;transform-origin:0% 100%;animation:0.25s ease-out 0s 1 normal forwards running enter}@keyframes enter{from{opacity:0;transform:translate(0px, 8px) }to{opacity:1;transform:translate(0px, 0px) }}message-bubble{display:flex;flex-direction:column}message-bubble.user{align-items:flex-end;transform-origin:100% 100%}message-text{display:block;position:relative;width:fit-content;max-width:75%;padding:10px 15px;border-radius:4px;box-shadow:-9px 9px 30px 1px rgba(0,0,0,0.2)}message-text.info{padding-bottom:20px;box-shadow:none;color:#666}message-text.user{background-color:var(--light-blue);border-bottom-right-radius:0px}message-text:not(.user){background-color:var(--light-gray);border-bottom-left-radius:0px}message-bubble :global(img){width:100%;max-width:100%;border-radius:4px}message-text::after{position:absolute;bottom:0;content:'';width:0;height:0;border-style:solid}message-text.user::after{right:-8px;border-width:8px 0 0 8px;border-color:transparent transparent transparent var(--light-blue)}message-text:not(.user)::after{left:-8px;border-width:0 0 8px 8px;border-color:transparent transparent var(--light-gray) transparent}message-dot{display:inline-block;width:var(--dot-size);height:var(--dot-size);margin:2px 0;border-radius:100%;background-color:#aaa;animation:1s linear 0s infinite normal none running pulse}message-dot:nth-child(2){animation-delay:200ms}message-dot:nth-child(3){animation-delay:400ms}@keyframes pulse{0%{opacity:0.5}50%{opacity:1.0}100%{opacity:0.5}}datetime-stamp{display:block;padding:5px 15px 15px;font-size:12px}datetime-stamp.info{display:none}input-box{display:flex;position:absolute;bottom:0;left:0;width:100%;background-color:#fff}input{height:50px;width:calc(100% - 50px);padding:15px;margin:0;border:0;background-color:transparent;outline:none}button{display:flex;justify-content:center;width:50px;padding:0;border:0;background:transparent;outline:0}svg{width:24px;height:24px;stroke:#555;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none}</style>`;
 
 		init(this, { target: this.shadowRoot }, instance, create_fragment, safe_not_equal, {
 			startMessage: 9,

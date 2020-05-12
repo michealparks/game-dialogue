@@ -1,12 +1,55 @@
 {
   "debugJumpTo": null,
   "variables": {
-    "$january": ["january", "jan", "1", "01"],
-    "$february": ["february", "feb", "2", "02"],
-    "$march": ["march", "mar", "3", "03"],
-    "$yes": ["ready", "yes", "yep", "yeah", "okay", "yee", "yea", "yup", "ya", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"],
-    "$second": ["second", "2nd", "package"],
-    "$third": ["third", "3rd", "package"]
+    "$january": [
+      "january",
+      "jan",
+      "1",
+      "01"
+    ],
+    "$february": [
+      "february",
+      "feb",
+      "2",
+      "02"
+    ],
+    "$march": [
+      "march",
+      "mar",
+      "3",
+      "03"
+    ],
+    "$yes": [
+      "ready",
+      "yes",
+      "yep",
+      "yeah",
+      "okay",
+      "yee",
+      "yea",
+      "yup",
+      "ya",
+      "I am",
+      "indeed",
+      "sure",
+      "aye",
+      "si",
+      "of course",
+      "certainly",
+      "affirmative",
+      "OK",
+      "oui"
+    ],
+    "$second": [
+      "second",
+      "2nd",
+      "package"
+    ],
+    "$third": [
+      "third",
+      "3rd",
+      "package"
+    ]
   },
   "defaultSleepFor": 1,
   "defaultSleepBefore": 2,
@@ -15,27 +58,35 @@
       "sleepBefore": 2,
       "text": "Hmm, I get the feeling that’s not quite right. Try taking another look.",
       "sleepFor": 0
-    }, {
+    },
+    {
       "sleepBefore": 2,
       "text": "Hmm, I'm not sure that's it... Maybe take another look at that.",
       "sleepFor": 0
-    }, {
+    },
+    {
       "sleepBefore": 2,
       "text": "That doesn’t seem right, I think you should double check your work.",
       "sleepFor": 0
-    }, {
+    },
+    {
       "sleepBefore": 2,
       "text": "Something about that doesn't seem right to me. Try again and let me know what you get.",
       "sleepFor": 0
     }
   ],
   "textItems": [
-    {  "sleepBefore": 0,
+    {
+      "sleepBefore": 0,
       "text": "Hello! Welcome to Koschei Society webchat service. To confirm you are human, please enter the name of the month.",
       "waitFor": [
         {
           "sleepBefore": 0,
-          "acceptedInputs": ["$january", "$february", "$march"],
+          "acceptedInputs": [
+            "$january",
+            "$february",
+            "$march"
+          ],
           "saveInputAs": "month",
           "sleepFor": 1
         }
@@ -47,65 +98,101 @@
           "sleepFor": 0
         }
       ]
-    }, { "sleepBefore": 0,
+    },
+    {
+      "sleepBefore": 0,
       "text": "Thank you. Please enter your first name to continue.",
       "saveInputAs": "name"
-    }, {  "sleepBefore": 0,
+    },
+    {
+      "sleepBefore": 0,
       "text": "Connecting to User: Jesse Wright...",
+      "info": true,
       "goto": "$month"
-    }, {
-      "month": ["$january"],
+    },
+    {
+      "month": [
+        "$january"
+      ],
       "sleepBefore": 3,
       "text": "Hi {name}! Jesse here, nice to meet you. Thank you for agreeing to help us, we are very happy to have you on board.",
       "sleepFor": 1
-    }, { "sleepBefore": 2,
+    },
+    {
+      "sleepBefore": 2,
       "text": "I'm sure you've got a lot of work ahead of you, so I won't take up any of your time."
-    }, {
+    },
+    {
       "sleepBefore": 4,
       "text": "Just to confirm, our immediate goal with these documents is to find the names of 3 potion ingredients, and the location of the tunnel entrance. When you have figured out any one of those things, please send them over, one at a time.",
       "waitFor": [
         {
-          "acceptedInputs": ["cathedral", "vitus"],
+          "acceptedInputs": [
+            "cathedral",
+            "vitus"
+          ],
           "sleepBefore": 2,
           "text": "Ah, the entrance must be inside the Cathedral of St. Vitus then! Good work.",
           "sleepFor": 0
-        }, {
-          "acceptedInputs": ["davius"],
+        },
+        {
+          "acceptedInputs": [
+            "davius"
+          ],
           "sleepBefore": 2,
           "text": "A truly fascinating species of butterfly. Well done.",
           "sleepFor": 0
-        }, {
-          "acceptedInputs": ["malachite"],
+        },
+        {
+          "acceptedInputs": [
+            "malachite"
+          ],
           "sleepBefore": 2,
           "text": "Oh great, you figured out which crystal we need.",
           "sleepFor": 0
-        }, {
-          "acceptedInputs": ["sambucus"],
+        },
+        {
+          "acceptedInputs": [
+            "sambucus"
+          ],
           "sleepBefore": 2,
           "text": "Good work, now we know we need the Sambucus plant.",
           "sleepFor": 1
         }
       ],
       "sleepFor": 1
-    }, { "sleepBefore": 2,
+    },
+    {
+      "sleepBefore": 2,
       "text": "Thank you so much, {name}, you clearly have a talent for this."
-    }, { "sleepBefore": 3,
+    },
+    {
+      "sleepBefore": 3,
       "text": "If we manage to gain access to the tunnels underneath Prague, I have a strong feeling the answers we’re looking for are in there.",
       "sleepFor": 1
-      }, { "sleepBefore": 4,
+    },
+    {
+      "sleepBefore": 4,
       "text": "I’m going to search the cathedral for an entrance and dig around in our archives for any other relevant information. Keep an eye out for another package from us soon, and let me know once you’ve opened it and are ready to continue. Until then, take care.",
       "sleepFor": 4
-    }, { "sleepBefore": 0,
+    },
+    {
+      "sleepBefore": 0,
       "text": "Jesse Wright has left the chat. To begin a new session with this user please send a new message or refresh the page.",
+      "info": true,
       "waitForAnyInput": true
     },
-
     {
-      "month": ["$february"],
+      "month": [
+        "$february"
+      ],
       "text": "Hi {name}, great to hear from you again. Did you receive the second package and are ready to continue?",
       "waitFor": [
         {
-          "acceptedInputs": ["$yes", "$second"],
+          "acceptedInputs": [
+            "$yes",
+            "$second"
+          ],
           "sleepBefore": 2,
           "text": "Great, thanks for letting me know!",
           "sleepFor": 0
@@ -118,35 +205,50 @@
           "sleepFor": 0
         }
       ]
-    }, { "sleepBefore": 4,
+    },
+    {
+      "sleepBefore": 4,
       "text": "With the items from this package you will need to find the names of 3 more potion ingredients (the snake, flower, and mushroom), the layout of the tunnels, and the location of the lab. You can work on finding all this information simultaneously, but I won’t plan on going down to the tunnels until you have everything.",
       "sleepFor": 1
-    }, 
-{ "sleepBefore": 4,
+    },
+    {
+      "sleepBefore": 4,
       "text": " As I mentioned in the letter, I’ll need your help to program navigation instructions into the bot since we don’t know what the conditions are like down there. But first things first! Let me know the names of the 3 potion ingredients, one at a time.",
       "waitFor": [
         {
-          "acceptedInputs": ["eryx"],
+          "acceptedInputs": [
+            "eryx"
+          ],
           "sleepBefore": 2,
           "text": "Great, you’ve figured out which snake bone we need.",
           "sleepFor": 0
-        }, {
-          "acceptedInputs": ["vantia"],
+        },
+        {
+          "acceptedInputs": [
+            "vantia"
+          ],
           "sleepBefore": 2,
           "text": "Excellent, now we know which flower to use.",
           "sleepFor": 0
-        }, {
-          "acceptedInputs": ["agricosa"],
+        },
+        {
+          "acceptedInputs": [
+            "agricosa"
+          ],
           "sleepBefore": 2,
           "text": "So that’s the mushroom we’re looking for! Good work.",
           "sleepFor": 0
         }
       ]
-    }, { "sleepBefore": 3,
+    },
+    {
+      "sleepBefore": 3,
       "text": "Now that we know the 3 ingredients, have you used the map and the window images to figure out the tunnel layout and where the lab is located?",
       "waitFor": [
         {
-          "acceptedInputs": ["$yes"]
+          "acceptedInputs": [
+            "$yes"
+          ]
         }
       ],
       "defaultResponses": [
@@ -154,11 +256,14 @@
           "text": "Okay, just let me know when you're ready."
         }
       ]
-    }, {
+    },
+    {
       "text": "Are you ready to help me navigate to the lab through the tunnels?",
       "waitFor": [
         {
-          "acceptedInputs": ["$yes"]
+          "acceptedInputs": [
+            "$yes"
+          ]
         }
       ],
       "defaultResponses": [
@@ -166,20 +271,31 @@
           "text": "Okay, just let me know when you’re ready."
         }
       ]
-    },  {           "sleepBefore": 4,
+    },
+    {
+      "sleepBefore": 4,
       "text": "Excellent. Just remember that we will need to enter our instructions in the form of a numerical distance and cardinal direction (such as N for north, S for south, etc.) We will use the rosary beads as a scale for distance, so if you want me to go 7 beads west, for example, you can give me an instruction like 7W. I’m going to head down from the cathedral now!",
       "sleepFor": 3
-    }, 
-{           "sleepBefore": 4,
+    },
+    {
+      "sleepBefore": 4,
       "text": "As soon as I get downstairs, there is a path east and a path south. Enter the number of units and either E or S for the direction. Keep in mind that if we don’t find anything at a particular spot then the bot will just return to its previous position."
-    }, {
+    },
+    {
       "key": "startLocation",
       "waitFor": [
         {
-          "acceptedInputs": ["6s", "s6", "6 south"],
+          "acceptedInputs": [
+            "6s",
+            "s6",
+            "6 south"
+          ],
           "break": true
-        }, {
-          "acceptedInputs": ["e"],
+        },
+        {
+          "acceptedInputs": [
+            "e"
+          ],
           "text": "It looks like there is nothing east of here, so let’s go back to the entrance - let me know how far south I should go.",
           "continue": true
         }
@@ -189,27 +305,54 @@
           "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
         }
       ]
-    }, {
+    },
+    {
       "text": "Okay, I’ve arrived at a four-way intersection and can go south, east, or west."
-    }, {
+    },
+    {
       "key": "locationTwo",
       "waitFor": [
         {
-          "acceptedInputs": ["12e", "e12", "12 east"],
+          "acceptedInputs": [
+            "12e",
+            "e12",
+            "12 east"
+          ],
           "text": "Wow, this path goes pretty far, but I’ve finally reached another intersection. I can go north, south, or keep going east.",
           "break": true,
           "goto": "locationFive"
-        }, {
-          "acceptedInputs": ["21e", "e21", "21 east"],
+        },
+        {
+          "acceptedInputs": [
+            "21e",
+            "e21",
+            "21 east"
+          ],
           "text": "Alright, I’ve gone as far east as I can go now, and I can either turn north or south.",
           "break": true,
           "goto": "locationEight"
-        }, {
-          "acceptedInputs": ["6w", "7w", "w6", "w7", "6 west", "7 west"],
+        },
+        {
+          "acceptedInputs": [
+            "6w",
+            "7w",
+            "w6",
+            "w7",
+            "6 west",
+            "7 west"
+          ],
           "text": "Wow, the tunnel gets really narrow down this way. I guess they didn’t want too many people going down here… There is a room here with a lot of containers - boxes, chests, vessels - but they’re all empty. I'll return to that 4-way interaction, and can try going east or south.",
           "continue": true
-        }, {
-          "acceptedInputs": ["8s", "9s", "s8", "s9", "8 south", "9 south"],
+        },
+        {
+          "acceptedInputs": [
+            "8s",
+            "9s",
+            "s8",
+            "s9",
+            "8 south",
+            "9 south"
+          ],
           "text": "Hmm... I see a room with a whole lot of armour and weaponry, but that seems to be all that's here. I’m going to turn back to the previous intersection and can head east or west.",
           "continue": true
         }
@@ -219,20 +362,40 @@
           "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
         }
       ]
-    }, {
+    },
+    {
       "key": "locationFive",
       "waitFor": [
         {
-          "acceptedInputs": ["9e", "e9", "9 east"],
+          "acceptedInputs": [
+            "9e",
+            "e9",
+            "9 east"
+          ],
           "text": "Alright, I’ve gone as far east as I can go now, and I can either turn north or south.",
           "break": true
         },
         {
-          "acceptedInputs": ["7s", "8s", "s7", "s8", "7 south", "8 south"],
+          "acceptedInputs": [
+            "7s",
+            "8s",
+            "s7",
+            "s8",
+            "7 south",
+            "8 south"
+          ],
           "text": "This is a really long path… we must be way past the city center at this point... I do see a big cellar full of barrels! I guess they used to store wine down here. I wonder if there’s any still around… but that's for another time. I’m going back to the intersection now, and can head east or north.",
           "continue": true
-        }, {
-          "acceptedInputs": ["3n", "4n", "n3", "n4", "3 north", "4 north"],
+        },
+        {
+          "acceptedInputs": [
+            "3n",
+            "4n",
+            "n3",
+            "n4",
+            "3 north",
+            "4 north"
+          ],
           "text": "I went north but hit a dead end pretty quickly... and it looks like someone else may have hit a dead end here too… I’m going to go back to the intersection and can go east or south.",
           "continue": true
         }
@@ -242,14 +405,25 @@
           "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
         }
       ]
-    }, {
+    },
+    {
       "key": "locationEight",
       "waitFor": [
         {
-          "acceptedInputs": ["4n", "5n", "n4", "n5", "4 north", "5 north"],
+          "acceptedInputs": [
+            "4n",
+            "5n",
+            "n4",
+            "n5",
+            "4 north",
+            "5 north"
+          ],
           "break": true
-        }, {
-          "acceptedInputs": ["s"],
+        },
+        {
+          "acceptedInputs": [
+            "s"
+          ],
           "text": "Oh no, this is a dead end! I’m going to go back and try going north. Let me know how far to go.",
           "continue": true
         }
@@ -259,25 +433,35 @@
           "text": "It doesn’t look like there is anything here. Let’s return to the previous position and try again. Let me know the next direction when you’re ready."
         }
       ]
-    }, {
+    },
+    {
       "text": "Wow, I think this is it, I can’t believe it! You've got to check out the view from the camera feed."
-    }, {
+    },
+    {
       "text": "<img src='camfeed.jpg' style='width:100%'/>"
-    },  {
+    },
+    {
       "text": "Thank you again for all your help, I could have never done it without you."
-    }, {
+    },
+    {
       "text": "I’m going to investigate in there and see what I can find. I’m sure there will be a lot to go through, so you can expect another package soon with our findings. Get in touch with me when you open it, and in the meantime, be sure to get some rest, you’ve earned it!"
-    }, {
+    },
+    {
       "text": "Jesse Wright has left the chat. To begin a new session with this user please send a new message or refresh the page.",
+      "info": true,
       "waitForAnyInput": true
     },
-
     {
-      "month": ["$march"],
+      "month": [
+        "$march"
+      ],
       "text": "Hi {name}, great to hear from you again. Did you receive the third package and are ready to continue?",
       "waitFor": [
         {
-          "acceptedInputs": ["$yes", "$third"],
+          "acceptedInputs": [
+            "$yes",
+            "$third"
+          ],
           "sleepBefore": 2,
           "text": "Great, I’m happy to know you’re still with us.",
           "sleepFor": 0
@@ -290,24 +474,48 @@
           "sleepFor": 0
         }
       ]
-    }, {"sleepBefore": 4,
+    },
+    {
+      "sleepBefore": 4,
       "text": "As mentioned in the letter, we need to find out the latitude and longitude of the next comet’s appearance, how many hours it takes to prepare the potion, and under what phase of the moon it must be brewed... but let’s hold off on the moon phase for now.",
       "sleepFor": 2
-    }, {"sleepBefore": 4,
+    },
+    {
+      "sleepBefore": 4,
       "text": "Once you figure out the coordinates of the next comet appearance, enter them one at a time in the format of 10N or 10S for the latitude, and 10E or 10W for the longitude. As for the brewing time, enter it in the format of “3h” or “3 hours.”",
       "waitFor": [
         {
-          "acceptedInputs": ["14h", "14hr", "14 h", "14 hr", "14hrs", "14 hrs", "14hours", "14 hour", "14 hours,"],
+          "acceptedInputs": [
+            "14h",
+            "14hr",
+            "14 h",
+            "14 hr",
+            "14hrs",
+            "14 hrs",
+            "14hours",
+            "14 hour",
+            "14 hours,"
+          ],
           "sleepBefore": 2,
-          "text": "14 hours? Wow. I guess that will be a very long an interesting night!",
+          "text": "14 hours? Wow. I guess that will be a very long and interesting night!",
           "sleepFor": 0
-        }, {
-          "acceptedInputs": ["55n", "n55", "55 north"],
+        },
+        {
+          "acceptedInputs": [
+            "55n",
+            "n55",
+            "55 north"
+          ],
           "sleepBefore": 2,
           "text": "You found the latitude! Great work.",
           "sleepFor": 0
-        }, {
-          "acceptedInputs": ["5w", "w5", "5 west"],
+        },
+        {
+          "acceptedInputs": [
+            "5w",
+            "w5",
+            "5 west"
+          ],
           "sleepBefore": 2,
           "text": "You found the longitude! Great work.",
           "sleepFor": 0
@@ -320,26 +528,40 @@
           "sleepFor": 0
         }
       ]
-    }, {"sleepBefore": 3,
+    },
+    {
+      "sleepBefore": 3,
       "text": "Thank you for helping us find the brew time and location! Now all we need to know is under what phase of the moon we should prepare the elixir.",
       "sleepFor": 1
-    }, {"sleepBefore": 4,
+    },
+    {
+      "sleepBefore": 4,
       "text": "Keep in mind that this step could potentially compromise everything we’ve worked for. I realize that you may be skeptical of his plans, but Mr. Redmond has put his faith in you, and I hope you will not betray his trust.",
       "sleepFor": 1
-    }, {
+    },
+    {
       "key": "moonChoice",
       "text": "Consider your answer carefully - our fate is in your hands.",
       "waitFor": [
         {
-          "acceptedInputs": ["new"],
+          "acceptedInputs": [
+            "new"
+          ],
           "sleepBefore": 2,
-          "saveVariable": { "moonPhase": "new" },
+          "saveVariable": {
+            "moonPhase": "new"
+          },
           "sleepFor": 0,
           "break": true
-        }, {
-          "acceptedInputs": ["full"],
+        },
+        {
+          "acceptedInputs": [
+            "full"
+          ],
           "sleepBefore": 2,
-          "saveVariable": { "moonPhase": "full" },
+          "saveVariable": {
+            "moonPhase": "full"
+          },
           "sleepFor": 0,
           "break": true
         }
@@ -351,26 +573,42 @@
           "sleepFor": 0
         }
       ]
-    }, {"sleepBefore": 2,
+    },
+    {
+      "sleepBefore": 2,
       "text": "Okay, then I should be off to begin preparations. Thank you again for all you have done.",
       "sleepFor": 1
-    }, {"sleepBefore": 3,
+    },
+    {
+      "sleepBefore": 3,
       "text": "Oh, I almost forgot! Our research partners at the Emerens Institute in Sweden have shared a letter from their archive with us. We thought you may be interested, so I’ve mailed you a copy in a small envelope as a small token of our appreciation.",
       "sleepFor": 1
-    }, {
+    },
+    {
       "conditionals": [
         {
-          "variableEquals": ["moonPhase", "new"],
+          "variableEquals": [
+            "moonPhase",
+            "new"
+          ],
           "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our <a target='_tab' href='https://www.koscheisociety.org/whatsnew'>news page</a> for any updates."
-        }, {
-          "variableEquals": ["moonPhase", "full"],
+        },
+        {
+          "variableEquals": [
+            "moonPhase",
+            "full"
+          ],
           "text": "Things are about to get very busy, so I won’t be online much, but keep an eye on our <a target='_tab' href='https://www.koscheisociety.org/news'>news page</a> for any updates."
         }
       ]
-    }, {
+    },
+    {
       "text": "Until we speak again, take care of yourself."
-     
-    }, {"sleepBefore": 0,
-    "text": "Jesse Wright has left the chat. To begin a new chat session please refresh the page."}
+    },
+    {
+      "sleepBefore": 0,
+      "info": true,
+      "text": "Jesse Wright has left the chat. To begin a new chat session please refresh the page."
+    }
   ]
 }

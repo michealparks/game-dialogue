@@ -330,6 +330,7 @@ const main = async (chatWidget) => {
   const textItem = async (item) => {
     const {
       text,
+      info = false,
       image,
       sleepFor = defaultSleepFor,
       sleepBefore = defaultSleepBefore,
@@ -344,7 +345,7 @@ const main = async (chatWidget) => {
 
     if (text || image) {
       console.log('start');
-      chatWidget.startMessage('remote');
+      chatWidget.startMessage({ info, user: false });
     }
 
     await sleep(sleepBefore);
@@ -392,7 +393,9 @@ const main = async (chatWidget) => {
         if (match) break
 
         for (const acceptedInput of child.acceptedInputs) {
-          if (input.toLowerCase().includes(acceptedInput.toLowerCase())) {
+          const sanitized = input.replace(/\s\s+/g, ' ').toLowerCase();
+
+          if (sanitized.includes(acceptedInput.toLowerCase())) {
             match = child;
 
             if (match.continue !== true) {
