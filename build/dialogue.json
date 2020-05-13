@@ -221,13 +221,15 @@
           "answers": ["12e", "e12", "12 east"],
           "text": "Wow, this path goes pretty far, but I’ve finally reached another intersection. I can go north, south, or keep going east.",
           "satisfies": true,
-          "goto": "locationFive"
+          "goto": "locationFive",
+          "sleepAfter": 0
         },
         {
           "answers": ["21e", "e21", "21 east"],
           "text": "Alright, I’ve gone as far east as I can go now, and I can either turn north or south.",
           "satisfies": true,
-          "goto": "locationEight"
+          "goto": "locationEight",
+          "sleepAfter": 0
         },
         {
           "answers": [
@@ -322,9 +324,7 @@
           "satisfies": true
         },
         {
-          "answers": [
-            "s"
-          ],
+          "answers": ["s"],
           "text": "Oh no, this is a dead end! I’m going to go back and try going north. Let me know how far to go.",
           "repeat": true,
           "sleepAfter": 0

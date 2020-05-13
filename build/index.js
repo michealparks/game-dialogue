@@ -283,8 +283,11 @@ const main = async (chatWidget) => {
    * @returns {Promise}
    */
   const listenForInput = () => {
+    console.log('missedInput: ', missedInput);
     if (missedInput) {
-      return Promise.resolve(missedInput)
+      const result = `${missedInput}`;
+      missedInput = '';
+      return Promise.resolve(result)
     }
 
     return new Promise((resolve) => {
@@ -420,8 +423,10 @@ const main = async (chatWidget) => {
   };
 
   chatWidget.addEventListener('userinput', (e) => {
+    console.log('userInput: ', e.detail, inputPromiseResolve);
     if (inputPromiseResolve) {
       inputPromiseResolve(e.detail);
+      inputPromiseResolve = undefined;
     } else {
       missedInput += ` ${e.detail}`;
     }
