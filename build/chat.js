@@ -393,7 +393,7 @@ function create_each_block(key_1, ctx) {
 			append(message_bubble, datetime_stamp);
 			append(datetime_stamp, t1);
 			if (remount) dispose();
-			dispose = action_destroyer(handleMessageMount_action = /*handleMessageMount*/ ctx[6].call(null, message_bubble));
+			dispose = action_destroyer(handleMessageMount_action = /*handleMessageMount*/ ctx[8].call(null, message_bubble));
 		},
 		p(ctx, dirty) {
 			if (dirty & /*messages*/ 8 && raw_value !== (raw_value = /*message*/ ctx[18].value + "")) message_text.innerHTML = raw_value;
@@ -439,7 +439,7 @@ function create_if_block(ctx) {
 		m(target, anchor, remount) {
 			insert(target, message_bubble, anchor);
 			if (remount) dispose();
-			dispose = action_destroyer(handleMessageMount_action = /*handleMessageMount*/ ctx[6].call(null, message_bubble));
+			dispose = action_destroyer(handleMessageMount_action = /*handleMessageMount*/ ctx[8].call(null, message_bubble));
 		},
 		d(detaching) {
 			if (detaching) detach(message_bubble);
@@ -506,7 +506,7 @@ function create_fragment(ctx) {
 			append(chat_widget_root, input_box);
 			append(input_box, input);
 			/*input_binding*/ ctx[15](input);
-			set_input_value(input, /*inputValue*/ ctx[0]);
+			set_input_value(input, /*inputValue*/ ctx[2]);
 			append(input_box, t2);
 			append(input_box, button);
 			/*chat_widget_root_binding*/ ctx[17](chat_widget_root);
@@ -514,13 +514,13 @@ function create_fragment(ctx) {
 
 			dispose = [
 				listen(input, "input", /*input_input_handler*/ ctx[16]),
-				listen(input, "keyup", /*handleKeyUp*/ ctx[7]),
-				listen(button, "click", /*handleClick*/ ctx[8]),
+				listen(input, "keyup", /*handleKeyUp*/ ctx[6]),
+				listen(button, "click", /*handleClick*/ ctx[7]),
 				listen(chat_widget_root, "mousedown", function () {
-					if (is_function(/*inputElement*/ ctx[2].blur)) /*inputElement*/ ctx[2].blur.apply(this, arguments);
+					if (is_function(/*inputElement*/ ctx[1].blur)) /*inputElement*/ ctx[1].blur.apply(this, arguments);
 				}),
 				listen(chat_widget_root, "touchstart", function () {
-					if (is_function(/*inputElement*/ ctx[2].blur)) /*inputElement*/ ctx[2].blur.apply(this, arguments);
+					if (is_function(/*inputElement*/ ctx[1].blur)) /*inputElement*/ ctx[1].blur.apply(this, arguments);
 				})
 			];
 		},
@@ -543,8 +543,8 @@ function create_fragment(ctx) {
 				if_block = null;
 			}
 
-			if (dirty & /*inputValue*/ 1 && input.value !== /*inputValue*/ ctx[0]) {
-				set_input_value(input, /*inputValue*/ ctx[0]);
+			if (dirty & /*inputValue*/ 4 && input.value !== /*inputValue*/ ctx[2]) {
+				set_input_value(input, /*inputValue*/ ctx[2]);
 			}
 		},
 		i: noop,
@@ -565,9 +565,9 @@ function create_fragment(ctx) {
 }
 
 function instance($$self, $$props, $$invalidate) {
-	let inputValue = "";
 	let widgetElement;
 	let inputElement;
+	let inputValue = "";
 	let messages = [];
 	let typing = false;
 	let pendingMessage = false;
@@ -617,6 +617,15 @@ function instance($$self, $$props, $$invalidate) {
 		pendingMessage = false;
 	};
 
+	const handleKeyUp = e => {
+		if (e.key === "Enter") handleUserInput();
+	};
+
+	const handleClick = e => {
+		inputElement.focus();
+		handleUserInput();
+	};
+
 	const handleUserInput = () => {
 		if (inputValue === "") return;
 		startMessage({ user: true });
@@ -631,49 +640,40 @@ function instance($$self, $$props, $$invalidate) {
 				detail: inputValue
 			}));
 
-		$$invalidate(0, inputValue = "");
+		$$invalidate(2, inputValue = "");
 	};
 
 	const handleMessageMount = node => {
 		node.scrollIntoView();
 	};
 
-	const handleKeyUp = e => {
-		if (e.key === "Enter") handleUserInput();
-	};
-
-	const handleClick = e => {
-		inputElement.focus();
-		handleUserInput();
-	};
-
 	function input_binding($$value) {
 		binding_callbacks[$$value ? "unshift" : "push"](() => {
-			$$invalidate(2, inputElement = $$value);
+			$$invalidate(1, inputElement = $$value);
 		});
 	}
 
 	function input_input_handler() {
 		inputValue = this.value;
-		$$invalidate(0, inputValue);
+		$$invalidate(2, inputValue);
 	}
 
 	function chat_widget_root_binding($$value) {
 		binding_callbacks[$$value ? "unshift" : "push"](() => {
-			$$invalidate(1, widgetElement = $$value);
+			$$invalidate(0, widgetElement = $$value);
 		});
 	}
 
 	return [
-		inputValue,
 		widgetElement,
 		inputElement,
+		inputValue,
 		messages,
 		typing,
 		dateFormatter,
-		handleMessageMount,
 		handleKeyUp,
 		handleClick,
+		handleMessageMount,
 		startMessage,
 		cancelMessage,
 		commitMessage,

@@ -1,9 +1,9 @@
 <svelte:options tag='chat-widget' />
 
 <script>
-let inputValue = ''
 let widgetElement
 let inputElement
+let inputValue = ''
 let messages = []
 let typing = false
 let pendingMessage = false
@@ -52,6 +52,15 @@ export const commitImage = (imgsrc) => {
   pendingMessage = false
 }
 
+const handleKeyUp = (e) => {
+  if (e.key === 'Enter') handleUserInput()
+}
+
+const handleClick = (e) => {
+  inputElement.focus()
+  handleUserInput()
+}
+
 const handleUserInput = () => {
   if (inputValue === '') return
 
@@ -71,15 +80,6 @@ const handleUserInput = () => {
 
 const handleMessageMount = (node) => {
   node.scrollIntoView()
-}
-
-const handleKeyUp = (e) => {
-  if (e.key === 'Enter') handleUserInput()
-}
-
-const handleClick = (e) => {
-  inputElement.focus()
-  handleUserInput()
 }
 </script>
 
