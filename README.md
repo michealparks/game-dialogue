@@ -26,7 +26,10 @@ An example of the schema / language:
       text: 'Hello! Please enter the month.',
       wait: {
         responses: [
-
+          {
+            text: "Hmm, I get the feeling that’s not quite right. Try taking another look.",
+            sleepAfter: 0
+          }
         ]
       }
     }

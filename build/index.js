@@ -229,64 +229,53 @@ class SvelteComponent {
     }
 }
 
-const fillVariables = (obj, vars) => {
-  const varkeys = Object.keys(vars);
+/**
+  * Promisify setTimeout. Sleeps for n seconds.
+  * @param {number} seconds
+  * @returns {Promise}
+  */
+const sleep = (seconds) => {
+  if (seconds === 0) return Promise.resolve()
 
-  for (const [key, value] of Object.entries(obj)) {
-    if (typeof value === 'object' && value !== null) {
-      fillVariables(value, vars);
-    } else if (Array.isArray(value)) {
-      for (const varKey of varkeys) {
-        const i = value.indexOf(varKey);
-        if (i !== -1) {
-          obj[key].splice(i, 1);
-          obj[key] = [...obj[key], ...vars[varKey]];
-        }
-      }
-    } else {
-      const i = varkeys.indexOf(value);
-      if (i !== -1) {
-        obj[key] = [...vars[varkeys[i]]];
-      }
-    }
-  }
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  })
 };
 
-const clone = (obj) => {
-  return JSON.parse(JSON.stringify(obj))
+/**
+ * Replaces $ prefixed variables in the dialog.json file
+ * @param {*} obj Object to replace variables within
+ * @param {*} vars List of variables and their values
+ */
+const setVariables = (obj, vars) => {
+  const entries = Object.entries(vars);
+
+  return JSON.parse(JSON.stringify(obj), (key, value) => {
+    if (!Array.isArray(value)) return value
+
+    for (const [varkey, varval] of entries) {
+      const i = value.indexOf(varkey);
+      if (i !== -1) {
+        value.splice(i, 1);
+        value = [...value, ...varval];
+      }
+    }
+
+    return value
+  })
 };
 
 const main = async (chatWidget) => {
+  let jumped = false;
   let missedInput = '';
-  let inputs = {};
+  let savedUserInputs = {};
   let inputPromiseResolve;
-  let textItems = [];
+  let dialogueIndex = 0;
 
   const response = await window.fetch('./dialogue.json');
   const config = await response.json();
-  const debugJumpTo = window.location.hash.slice(1);
-  const { bot, dialogue } = config;
-
-  fillVariables(dialogue, config.variables);
-
-  const startInputLoop = async () => {
-    while (textItems.length > 0) {
-      await textItem(textItems.shift());
-    }
-  };
-
-  /**
-   * Promisify setTimeout. Sleeps for n seconds.
-   * @param {number} seconds
-   * @returns {Promise}
-   */
-  const sleep = (seconds) => {
-    if (seconds === 0) return Promise.resolve()
-
-    return new Promise((resolve) => {
-      setTimeout(resolve, seconds * 1000);
-    })
-  };
+  const debugJumpTo = new URLSearchParams(window.location.search).get('debug');
+  const { bot, dialogue, variables } = config;
 
   /**
    * Sets up a new promise that will resolve
@@ -304,25 +293,45 @@ const main = async (chatWidget) => {
   };
 
   const jumpToTextItem = (key) => {
-    let index;
-
     if (key[0] === '$') {
       key = key.slice(1);
 
-      index = dialogue.findIndex((item) => {
-        const acceptedVals = item[key];
-        const inputval = inputs[key];
-        return acceptedVals && acceptedVals.includes(inputval)
-      });
+      dialogueIndex = dialogue
+        .findIndex((item) => {
+          return item[key] && setVariables(item[key], variables).includes(savedUserInputs[key])
+        });
     } else {
-      index = dialogue.findIndex((item) => item.key === key);
+      dialogueIndex = dialogue
+        .findIndex((item) => item.key === key);
     }
 
-    if (index > 0) {
-      return clone(dialogue).slice(index)
-    }
+    jumped = true;
+    console.log('jump: ', dialogueIndex, dialogue[dialogueIndex]);
+  };
 
-    return clone(dialogue)
+  const findMatch = (input, wait) => {
+    const spaces = /\s\s+/g;
+
+    let i = 0;
+    for (const item of wait) {
+      for (const answer of item.answers) {
+        const readyinput = input.replace(spaces, ' ').toLowerCase();
+        if (readyinput.includes(answer.toLowerCase())) {
+          const match = item;
+
+          if (!match.repeat) wait.splice(i, 1);
+
+          if (match.saveInputAs) {
+            savedUserInputs[match.saveInputAs] = readyinput;
+            match.saveInputAs = undefined;
+          }
+
+          return match
+        }
+      }
+
+      i += 1;
+    }
   };
 
   /**
@@ -343,7 +352,9 @@ const main = async (chatWidget) => {
       waitForAnyInput = false,
       defaultResponses = bot.responses.incorrect,
       goto
-    } = item;
+    } = setVariables(item, variables);
+
+    console.log('item: ', item);
 
     if (text || image) {
       chatWidget.startMessage({ info, user: false });
@@ -354,7 +365,7 @@ const main = async (chatWidget) => {
     if (text) {
       let modifiedText = text;
 
-      for (const [key, value] of Object.entries(inputs)) {
+      for (const [key, value] of Object.entries(savedUserInputs)) {
         modifiedText = modifiedText.replace(`{${key}}`, value);
       }
 
@@ -366,7 +377,7 @@ const main = async (chatWidget) => {
     }
 
     if (saveInputAs) {
-      inputs[saveInputAs] = await listenForInput();
+      savedUserInputs[saveInputAs] = await listenForInput();
     }
 
     if (waitForAnyInput) {
@@ -374,41 +385,17 @@ const main = async (chatWidget) => {
     }
 
     if (saveVariable) {
-      inputs = { ...inputs, ...saveVariable };
+      savedUserInputs = { ...savedUserInputs, ...saveVariable };
     }
 
     while (waitFor.length > 0) {
-      let match;
+      console.log('waitFor: ', waitFor);
 
-      const input = await listenForInput();
-
-      for (const child of waitFor) {
-        if (match) break
-
-        for (const acceptedInput of child.acceptedInputs) {
-          const sanitized = input.replace(/\s\s+/g, ' ').toLowerCase();
-
-          if (sanitized.includes(acceptedInput.toLowerCase())) {
-            match = child;
-
-            if (match.continue !== true) {
-              waitFor.splice(waitFor.indexOf(child), 1);
-            }
-
-            if (child.saveInputAs) {
-              inputs[child.saveInputAs] = input.toLowerCase();
-              delete child.saveInputAs;
-            }
-
-            break
-          }
-        }
-      }
+      const match = findMatch(await listenForInput(), waitFor);
 
       if (match) {
         await textItem(match);
-
-        if (match.break) break
+        if (match.satisfies) break
       } else {
         const rand = Math.random() * defaultResponses.length | 0;
         await textItem(defaultResponses[rand]);
@@ -419,7 +406,7 @@ const main = async (chatWidget) => {
       const { variableEquals } = conditional;
       const [key, val] = variableEquals;
 
-      if (inputs[key] === val) {
+      if (savedUserInputs[key] === val) {
         await textItem(conditional);
         break
       }
@@ -428,11 +415,8 @@ const main = async (chatWidget) => {
     await sleep(sleepAfter);
 
     if (goto) {
-      textItems = jumpToTextItem(goto);
-      return true
+      jumpToTextItem(goto);
     }
-
-    return false
   };
 
   chatWidget.addEventListener('userinput', (e) => {
@@ -444,12 +428,20 @@ const main = async (chatWidget) => {
   });
 
   if (debugJumpTo) {
-    textItems = jumpToTextItem(debugJumpTo);
-  } else {
-    textItems = cloneDialogue();
+    jumpToTextItem(debugJumpTo);
+    jumped = false;
   }
 
-  startInputLoop();
+  while (dialogueIndex < dialogue.length) {
+    await textItem(dialogue[dialogueIndex]);
+
+    console.log(jumped, dialogueIndex);
+    if (jumped) {
+      jumped = false;
+    } else {
+      dialogueIndex += 1;
+    }
+  }
 };
 
 /* src\index.svelte generated by Svelte v3.22.2 */
