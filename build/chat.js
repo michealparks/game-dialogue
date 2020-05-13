@@ -353,19 +353,19 @@ if (typeof HTMLElement === 'function') {
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[17] = list[i];
-	child_ctx[19] = i;
+	child_ctx[18] = list[i];
+	child_ctx[20] = i;
 	return child_ctx;
 }
 
-// (87:4) {#each messages as message, i (i)}
+// (92:4) {#each messages as message, i (i)}
 function create_each_block(key_1, ctx) {
 	let message_bubble;
 	let message_text;
-	let raw_value = /*message*/ ctx[17].value + "";
+	let raw_value = /*message*/ ctx[18].value + "";
 	let t0;
 	let datetime_stamp;
-	let t1_value = /*dateFormatter*/ ctx[5].format(/*message*/ ctx[17].datetime) + "";
+	let t1_value = /*dateFormatter*/ ctx[5].format(/*message*/ ctx[18].datetime) + "";
 	let t1;
 	let handleMessageMount_action;
 	let dispose;
@@ -379,10 +379,10 @@ function create_each_block(key_1, ctx) {
 			t0 = space();
 			datetime_stamp = element("datetime-stamp");
 			t1 = text(t1_value);
-			toggle_class(message_text, "info", /*message*/ ctx[17].info);
-			toggle_class(message_text, "user", /*message*/ ctx[17].user);
-			toggle_class(datetime_stamp, "info", /*message*/ ctx[17].info);
-			toggle_class(message_bubble, "user", /*message*/ ctx[17].user);
+			toggle_class(message_text, "info", /*message*/ ctx[18].info);
+			toggle_class(message_text, "user", /*message*/ ctx[18].user);
+			toggle_class(datetime_stamp, "info", /*message*/ ctx[18].info);
+			toggle_class(message_bubble, "user", /*message*/ ctx[18].user);
 			this.first = message_bubble;
 		},
 		m(target, anchor, remount) {
@@ -393,26 +393,26 @@ function create_each_block(key_1, ctx) {
 			append(message_bubble, datetime_stamp);
 			append(datetime_stamp, t1);
 			if (remount) dispose();
-			dispose = action_destroyer(handleMessageMount_action = /*handleMessageMount*/ ctx[7].call(null, message_bubble));
+			dispose = action_destroyer(handleMessageMount_action = /*handleMessageMount*/ ctx[6].call(null, message_bubble));
 		},
 		p(ctx, dirty) {
-			if (dirty & /*messages*/ 8 && raw_value !== (raw_value = /*message*/ ctx[17].value + "")) message_text.innerHTML = raw_value;
+			if (dirty & /*messages*/ 8 && raw_value !== (raw_value = /*message*/ ctx[18].value + "")) message_text.innerHTML = raw_value;
 			if (dirty & /*messages*/ 8) {
-				toggle_class(message_text, "info", /*message*/ ctx[17].info);
+				toggle_class(message_text, "info", /*message*/ ctx[18].info);
 			}
 
 			if (dirty & /*messages*/ 8) {
-				toggle_class(message_text, "user", /*message*/ ctx[17].user);
+				toggle_class(message_text, "user", /*message*/ ctx[18].user);
 			}
 
-			if (dirty & /*messages*/ 8 && t1_value !== (t1_value = /*dateFormatter*/ ctx[5].format(/*message*/ ctx[17].datetime) + "")) set_data(t1, t1_value);
+			if (dirty & /*messages*/ 8 && t1_value !== (t1_value = /*dateFormatter*/ ctx[5].format(/*message*/ ctx[18].datetime) + "")) set_data(t1, t1_value);
 
 			if (dirty & /*messages*/ 8) {
-				toggle_class(datetime_stamp, "info", /*message*/ ctx[17].info);
+				toggle_class(datetime_stamp, "info", /*message*/ ctx[18].info);
 			}
 
 			if (dirty & /*messages*/ 8) {
-				toggle_class(message_bubble, "user", /*message*/ ctx[17].user);
+				toggle_class(message_bubble, "user", /*message*/ ctx[18].user);
 			}
 		},
 		d(detaching) {
@@ -422,7 +422,7 @@ function create_each_block(key_1, ctx) {
 	};
 }
 
-// (98:4) {#if typing}
+// (103:4) {#if typing}
 function create_if_block(ctx) {
 	let message_bubble;
 	let handleMessageMount_action;
@@ -439,7 +439,7 @@ function create_if_block(ctx) {
 		m(target, anchor, remount) {
 			insert(target, message_bubble, anchor);
 			if (remount) dispose();
-			dispose = action_destroyer(handleMessageMount_action = /*handleMessageMount*/ ctx[7].call(null, message_bubble));
+			dispose = action_destroyer(handleMessageMount_action = /*handleMessageMount*/ ctx[6].call(null, message_bubble));
 		},
 		d(detaching) {
 			if (detaching) detach(message_bubble);
@@ -461,7 +461,7 @@ function create_fragment(ctx) {
 	let button;
 	let dispose;
 	let each_value = /*messages*/ ctx[3];
-	const get_key = ctx => /*i*/ ctx[19];
+	const get_key = ctx => /*i*/ ctx[20];
 
 	for (let i = 0; i < each_value.length; i += 1) {
 		let child_ctx = get_each_context(ctx, each_value, i);
@@ -505,17 +505,17 @@ function create_fragment(ctx) {
 			append(chat_widget_root, t1);
 			append(chat_widget_root, input_box);
 			append(input_box, input);
-			/*input_binding*/ ctx[14](input);
+			/*input_binding*/ ctx[15](input);
 			set_input_value(input, /*inputValue*/ ctx[0]);
 			append(input_box, t2);
 			append(input_box, button);
-			/*chat_widget_root_binding*/ ctx[16](chat_widget_root);
+			/*chat_widget_root_binding*/ ctx[17](chat_widget_root);
 			if (remount) run_all(dispose);
 
 			dispose = [
-				listen(input, "input", /*input_input_handler*/ ctx[15]),
-				listen(input, "keyup", /*handleKeyUp*/ ctx[8]),
-				listen(button, "click", /*handleUserInput*/ ctx[6]),
+				listen(input, "input", /*input_input_handler*/ ctx[16]),
+				listen(input, "keyup", /*handleKeyUp*/ ctx[7]),
+				listen(button, "click", /*handleClick*/ ctx[8]),
 				listen(chat_widget_root, "mousedown", function () {
 					if (is_function(/*inputElement*/ ctx[2].blur)) /*inputElement*/ ctx[2].blur.apply(this, arguments);
 				}),
@@ -557,8 +557,8 @@ function create_fragment(ctx) {
 			}
 
 			if (if_block) if_block.d();
-			/*input_binding*/ ctx[14](null);
-			/*chat_widget_root_binding*/ ctx[16](null);
+			/*input_binding*/ ctx[15](null);
+			/*chat_widget_root_binding*/ ctx[17](null);
 			run_all(dispose);
 		}
 	};
@@ -642,6 +642,11 @@ function instance($$self, $$props, $$invalidate) {
 		if (e.key === "Enter") handleUserInput();
 	};
 
+	const handleClick = e => {
+		inputElement.focus();
+		handleUserInput();
+	};
+
 	function input_binding($$value) {
 		binding_callbacks[$$value ? "unshift" : "push"](() => {
 			$$invalidate(2, inputElement = $$value);
@@ -666,14 +671,15 @@ function instance($$self, $$props, $$invalidate) {
 		messages,
 		typing,
 		dateFormatter,
-		handleUserInput,
 		handleMessageMount,
 		handleKeyUp,
+		handleClick,
 		startMessage,
 		cancelMessage,
 		commitMessage,
 		commitImage,
 		pendingMessage,
+		handleUserInput,
 		input_binding,
 		input_input_handler,
 		chat_widget_root_binding

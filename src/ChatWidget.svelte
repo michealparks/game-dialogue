@@ -76,6 +76,11 @@ const handleMessageMount = (node) => {
 const handleKeyUp = (e) => {
   if (e.key === 'Enter') handleUserInput()
 }
+
+const handleClick = (e) => {
+  inputElement.focus()
+  handleUserInput()
+}
 </script>
 
 <chat-widget-root
@@ -114,7 +119,7 @@ const handleKeyUp = (e) => {
       bind:value={inputValue}
       on:keyup={handleKeyUp}
     />
-    <button on:click={handleUserInput}>
+    <button on:click={handleClick}>
       <svg viewBox="0 0 24 24">
         <line x1="22" y1="2" x2="11" y2="13" />
         <polygon points="22 2 15 22 11 13 2 9 22 2" />
