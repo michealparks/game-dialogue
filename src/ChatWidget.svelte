@@ -1,7 +1,7 @@
 <svelte:options tag='chat-widget' />
 
 <script>
-let inputValue
+let inputValue = ''
 let widgetElement
 let inputElement
 let messages = []

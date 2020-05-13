@@ -565,7 +565,7 @@ function create_fragment(ctx) {
 }
 
 function instance($$self, $$props, $$invalidate) {
-	let inputValue;
+	let inputValue = "";
 	let widgetElement;
 	let inputElement;
 	let messages = [];
