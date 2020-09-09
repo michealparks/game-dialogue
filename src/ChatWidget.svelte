@@ -13,9 +13,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
   month: 'numeric',
   day: 'numeric',
   hour: 'numeric',
-  minute: 'numeric',
-  dateStyle: 'short',
-  timeStyle: 'short'
+  minute: 'numeric'
 })
 
 export const startMessage = (config = {}) => {
@@ -295,8 +293,8 @@ input {
 }
 
 button {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  place-content: center;
   width: 50px;
   padding: 0;
   border: 0;
