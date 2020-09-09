@@ -18,7 +18,6 @@ export const main = async (chatWidget) => {
    * @returns {Promise}
    */
   const listenForInput = () => {
-    console.log('missedInput: ', missedInput)
     if (missedInput) {
       const result = `${missedInput}`
       missedInput = ''
@@ -44,7 +43,6 @@ export const main = async (chatWidget) => {
     }
 
     jumped = true
-    console.log('jump: ', dialogueIndex, dialogue[dialogueIndex])
   }
 
   const findMatch = (input, wait) => {
@@ -92,8 +90,6 @@ export const main = async (chatWidget) => {
       goto
     } = setVariables(item, variables)
 
-    console.log('item: ', item)
-
     if (text || image) {
       chatWidget.startMessage({ info, user: false })
     }
@@ -127,8 +123,6 @@ export const main = async (chatWidget) => {
     }
 
     while (waitFor.length > 0) {
-      console.log('waitFor: ', waitFor)
-
       const match = findMatch(await listenForInput(), waitFor)
 
       if (match) {
@@ -158,7 +152,6 @@ export const main = async (chatWidget) => {
   }
 
   chatWidget.addEventListener('userinput', (e) => {
-    console.log('userInput: ', e.detail, inputPromiseResolve)
     if (inputPromiseResolve) {
       inputPromiseResolve(e.detail)
       inputPromiseResolve = undefined
@@ -174,8 +167,6 @@ export const main = async (chatWidget) => {
 
   while (dialogueIndex < dialogue.length) {
     await textItem(dialogue[dialogueIndex])
-
-    console.log(jumped, dialogueIndex)
     if (jumped) {
       jumped = false
     } else {

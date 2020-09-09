@@ -1,20 +1,14 @@
 <svelte:options tag='chat-widget' />
 
 <script>
+import { formatDatetime } from './util.js'
+
 let widgetElement
 let inputElement
 let inputValue = ''
 let messages = []
 let typing = false
 let pendingMessage = false
-
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric'
-})
 
 export const startMessage = (config = {}) => {
   if (pendingMessage) {
@@ -93,7 +87,7 @@ const handleMessageMount = (node) => {
           {@html message.value}
         </message-text>
         <datetime-stamp class:info={message.info}>
-          {dateFormatter.format(message.datetime)}
+          {formatDatetime(message.datetime)}
         </datetime-stamp>
       </message-bubble>
     {/each}

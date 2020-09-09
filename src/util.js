@@ -33,3 +33,21 @@ export const setVariables = (obj, vars) => {
     return value
   })
 }
+
+/**
+ * Returns a human readable date.
+ * @param {string} datetime
+ */
+export const formatDatetime = (datetime) => {
+  try {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    }).format(datetime)
+  } catch (err) {
+    return ''
+  }
+}
