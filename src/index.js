@@ -48,8 +48,7 @@ export const main = async (chatWidget) => {
   const findMatch = (input, wait) => {
     const spaces = /\s\s+/g
 
-    let i = 0
-    for (const item of wait) {
+    for (const [i, item] of wait.entries()) {
       for (const answer of item.answers) {
         const readyinput = input.replace(spaces, ' ').toLowerCase()
         if (readyinput.includes(answer.toLowerCase())) {
@@ -65,8 +64,6 @@ export const main = async (chatWidget) => {
           return match
         }
       }
-
-      i += 1
     }
   }
 
