@@ -3,6 +3,10 @@
     "$january": ["january", "jan", "1", "01"],
     "$february": ["february", "feb", "2", "02"],
     "$march": ["march", "mar", "3", "03"],
+    "$april": ["april", "apr", "4", "04"],
+    "$may": ["may", "5", "05"],
+    "$november": ["november", "nov", "11"],
+    "$december": ["december", "dec"],
     "$yes": ["ready", "yes", "yep", "yeah", "okay", "yee", "yea", "yup", "ya", "I am", "indeed", "sure", "aye", "si", "of course", "certainly", "affirmative", "OK", "oui"],
     "$second": ["second", "2nd", "package"],
     "$third": ["third", "3rd", "package"]
@@ -33,12 +37,13 @@
   },
   "dialogue": [
     {
+      "key": "start",
       "sleepBefore": 0,
       "text": "Hello! Welcome to Koschei Society webchat service. To confirm you are human, please enter the name of the month.",
       "waitFor": [
         {
           "sleepBefore": 0,
-          "answers": ["$january", "$february", "$march"],
+          "answers": ["$january", "$february", "$march", "$april", "$may", "$november", "$december"],
           "saveInputAs": "month",
           "sleepAfter": 1
         }
@@ -502,7 +507,96 @@
     {
       "sleepBefore": 0,
       "info": true,
-      "text": "Jesse Wright has left the chat. To begin a new chat session please refresh the page."
+      "text": "Jesse Wright has left the chat. To begin a new chat session please refresh the page.",
+      "waitForAnyInput": true,
+      "goto": "start"
+    },
+    {
+      "key": "april",
+      "month": ["$april"],
+      "text": "Hello! I was hoping to hear from you… I imagine you must be getting in touch because you found something in the letter we sent you. I knew that if there was a hidden message you would be the one to find it. What does it say?",
+      "waitFor": [
+        {
+          "answers": [
+            "meet me at lake vattern",
+            "where the ancient stags dash like the winds"
+          ],
+          "sleepBefore": 4,
+          "text": "Well, that’s certainly very interesting. Aside from the fact that Lake Vattern is in Sweden, I have no idea what that message is referring to... Yet another mystery to add to our collection, I suppose! I’m sure we will be in touch if we find out anything else. Thank you again for your help. You’ve truly been an invaluable part of this project. Until we speak again, take good care of yourself.",
+          "sleepAfter": 0
+        }
+      ]
+    },
+    {
+      "sleepBefore": 2,
+      "info": true,
+      "text": "Your chat session has ended. To begin a new session please refresh the page.",
+      "waitForAnyInput": true,
+      "goto": "start"
+    },
+    {
+      "key": "may",
+      "month": ["$may"],
+      "text": "Hello again! I knew we could count on you to figure out what to do with that strange box. Did you find out any information about the location of the alchemist at the time?",
+      "waitFor": [
+        {
+          "answers": ["sterjn"],
+          "sleepBefore": 4,
+          "text": "Excellent work, as always. I knew I could count on you to figure this out. We’re going to contact The Emerens Institute to find out if they have anything in their archives from that location. Thank you for your diligence.",
+          "sleepAfter": 0
+        }
+      ]
+    },
+    {
+      "sleepBefore": 2,
+      "info": true,
+      "text": "Your chat session has ended. To begin a new session please refresh the page.",
+      "waitForAnyInput": true,
+      "goto": "start"
+    },
+    {
+      "key": "november",
+      "month": ["$november"],
+      "text": "Hi there! Thanks for taking a look at that postcard we found. Were you able to figure out what it says?",
+      "waitFor": [
+        {
+          "answers": ["cellar"],
+          "sleepBefore": 4,
+          "text": "Wow, that’s fantastic! We will go and search the area and will send you new material to inspect as soon as we find it. Keep an eye out for more material from us next month. Thank you so much for your help!",
+          "sleepAfter": 0
+        }
+      ]
+    },
+    {
+      "sleepBefore": 2,
+      "info": true,
+      "text": "Your chat session has ended. To begin a new session please refresh the page.",
+      "waitForAnyInput": true,
+      "goto": "start"
+    },
+    {
+      "key": "december",
+      "month": ["$december"],
+      "text": "Hi there! Nice to hear from you. Were you able to figure out what the drawing with the hands says? We’re hoping it will give us the location we need to search next.",
+      "waitFor": [
+        {
+          "answers": ["old town hall"],
+          "sleepBefore": 4,
+          "text": "Amazing! I can tell you were made for this kind of work.",
+          "sleepAfter": 0
+        }
+      ]
+    },
+    {
+      "sleepBefore": 2,
+      "text": "Well, the Town Hall is quite a big space, so we’ve got a lot of searching ahead of us. If we discover anything there, I hope you’ll be available to assist us with our findings. Thank you again for all your help!"
+    },
+    {
+      "sleepBefore": 2,
+      "info": true,
+      "text": "Your chat session has ended. To begin a new session please refresh the page.",
+      "waitForAnyInput": true,
+      "goto": "start"
     }
   ]
 }
