@@ -202,7 +202,7 @@
       "text": "As soon as I get downstairs, there is a path east and a path south. Enter the number of units and either E or S for the direction. Keep in mind that if we don’t find anything at a particular spot then the bot will just return to its previous position.",
       "waitFor": [
         {
-          "answers": ["6s", "s6", "6 south"],
+          "answers": ["7s", "s7", "7 south"],
           "satisfies": true
         },
         {
@@ -223,14 +223,14 @@
       "text": "Okay, I’ve arrived at a four-way intersection and can go south, east, or west.",
       "waitFor": [
         {
-          "answers": ["12e", "e12", "12 east"],
+          "answers": ["13e", "e13", "13 east"],
           "text": "Wow, this path goes pretty far, but I’ve finally reached another intersection. I can go north, south, or keep going east.",
           "satisfies": true,
           "goto": "locationFive",
           "sleepAfter": 0
         },
         {
-          "answers": ["21e", "e21", "21 east"],
+          "answers": ["23e", "e23", "23 east"],
           "text": "Alright, I’ve gone as far east as I can go now, and I can either turn north or south.",
           "satisfies": true,
           "goto": "locationEight",
@@ -251,11 +251,11 @@
         },
         {
           "answers": [
-            "8s",
             "9s",
-            "s8",
+            "10s",
             "s9",
-            "8 south",
+            "s10",
+            "10 south",
             "9 south"
           ],
           "text": "Hmm... I see a room with a whole lot of armour and weaponry, but that seems to be all that's here. I’m going to turn back to the previous intersection and can head east or west.",
@@ -274,9 +274,9 @@
       "waitFor": [
         {
           "answers": [
-            "9e",
-            "e9",
-            "9 east"
+            "10e",
+            "e10",
+            "10 east"
           ],
           "text": "Alright, I’ve gone as far east as I can go now, and I can either turn north or south.",
           "satisfies": true
