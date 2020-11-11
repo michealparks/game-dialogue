@@ -32,6 +32,14 @@
           "text": "Something about that doesn't seem right to me. Try again and let me know what you get.",
           "sleepAfter": 0
         }
+         {
+          "text": "I'm not sure if that makes sense. Try looking at it again and let me know what you find.",
+          "sleepAfter": 0
+        }
+         {
+          "text": "Hmm, something tells me that's not what we're looking for.",
+          "sleepAfter": 0
+        }
       ]
     }
   },
@@ -557,7 +565,7 @@
     {
       "key": "november",
       "month": ["$november"],
-      "text": "Hi there! Thanks for taking a look at that postcard we found. Were you able to figure out what it says?",
+      "text": "Hi there! Thanks for taking a look at that postcard, I knew you would be the right person to ask. What is the hidden message you found?",
       "waitFor": [
         {
           "answers": ["cellar"],
@@ -577,7 +585,7 @@
     {
       "key": "december",
       "month": ["$december"],
-      "text": "Hi there! Nice to hear from you. Were you able to figure out what the drawing with the hands says? We’re hoping it will give us the location we need to search next.",
+      "text": "Hi there! Nice to hear from you. I hope you were able to decipher the page with the hands that we sent you! What does it say?",
       "waitFor": [
         {
           "answers": ["old town hall"],
