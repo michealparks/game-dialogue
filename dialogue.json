@@ -31,12 +31,12 @@
         {
           "text": "Something about that doesn't seem right to me. Try again and let me know what you get.",
           "sleepAfter": 0
-        }
-         {
+        },
+        {
           "text": "I'm not sure if that makes sense. Try looking at it again and let me know what you find.",
           "sleepAfter": 0
-        }
-         {
+        },
+        {
           "text": "Hmm, something tells me that's not what we're looking for.",
           "sleepAfter": 0
         }
