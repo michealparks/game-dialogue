@@ -428,7 +428,7 @@
             "5 west"
           ],
           "sleepBefore": 2,
-          "text": "You found the longitude! Great work.",
+          "text": "You found the longitude! Well done.",
           "sleepAfter": 0
         }
       ],
@@ -565,12 +565,12 @@
     {
       "key": "november",
       "month": ["$november"],
-      "text": "Hi there! Thanks for taking a look at that postcard, I knew you would be the right person to ask. What is the hidden message you found?",
+      "text": "Hi {name}! Thanks for taking a look at that postcard, I knew you would be the right person to ask. What is the hidden message you found?",
       "waitFor": [
         {
           "answers": ["cellar"],
           "sleepBefore": 4,
-          "text": "Wow, that’s fantastic! We will go and search the area and will send you new material to inspect as soon as we find it. Keep an eye out for more material from us next month. Thank you so much for your help!",
+          "text": "Wow, that’s fantastic! We will go search the cellar and will send you our findings for inspection. Keep an eye out for more material from us next month. Thank you so much for your help!",
           "sleepAfter": 0
         }
       ]
@@ -585,7 +585,7 @@
     {
       "key": "december",
       "month": ["$december"],
-      "text": "Hi there! Nice to hear from you. I hope you were able to decipher the page with the hands that we sent you! What does it say?",
+      "text": "Hi {name}, nice to hear from you! I hope you were able to decipher the page with the hands that we sent you. What does it say?",
       "waitFor": [
         {
           "answers": ["old town hall"],
