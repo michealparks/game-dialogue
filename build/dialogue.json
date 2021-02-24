@@ -537,12 +537,12 @@
     {
       "key": "may",
       "month": ["$may"],
-      "text": "Hello again! I knew we could count on you to figure out what to do with that strange box. Did you find out any information about the location of the alchemist at the time?",
+      "text": "Hello again! I knew we could count on you to figure out what to do with that strange box. Were you able to find out the location of the alchemist at the time?",
       "waitFor": [
         {
           "answers": ["sterjn"],
           "sleepBefore": 4,
-          "text": "Excellent work, as always. I knew I could count on you to figure this out. We’re going to contact The Emerens Institute to find out if they have anything in their archives from that location. Thank you for your diligence.",
+          "text": "Excellent work, as always. We’re going to contact The Emerens Institute to find out if they have anything in their archives from that location. Thank you for your diligence.",
           "sleepAfter": 0
         }
       ]
