@@ -52,13 +52,13 @@ describe('chat app', () => {
     cy.input('yes')
 
     cy.text(/enter the number of units and either e or s for the direction/i)
-    cy.input('6 south')
+    cy.input('7 south')
 
     cy.text(/arrived at a four-way intersection/i)
-    cy.input('12 east')
+    cy.input('13 east')
 
     cy.text(/i can go north, south, or keep going east/i)
-    cy.input('9 east')
+    cy.input('10 east')
 
     cy.text(/gone as far east as I can go now, and I can either turn north or south/)
     cy.input('4 north')

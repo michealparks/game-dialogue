@@ -10,7 +10,7 @@ export let env: string
 export let bot: Bot
 export let dialogue: Dialog[]
 export let variables: Variables
-export let debugJumpTo: string
+export let debugJumpTo: keyof Dialog
 
 let messages: MessageData[] = []
 let typing = false
@@ -51,14 +51,14 @@ const handleInput = (e: CustomEvent) => {
   })
 }
 
-const jumpToTextItem = (key: string) => {
+const jumpToTextItem = (key: keyof Dialog) => {
   if (key[0] === '$') {
-    key = key.slice(1)
+    key = key.slice(1) as keyof Dialog
 
     dialogueIndex = dialogue
       .findIndex((item: Dialog) => {
         const obj = item[key]
-        return obj && setDialogValues(obj, variables).includes(savedUserInputs[key])
+        return obj && setDialogValues(obj as object, variables).includes(savedUserInputs[key])
       })
   } else {
     dialogueIndex = dialogue

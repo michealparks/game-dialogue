@@ -2,7 +2,7 @@ type Mapping = Record<string, boolean>
 type Argument = string | Mapping
 
 export const cx = (...args: Argument[]): string => {
-  let result: string[] = []
+  const result: string[] = []
 
   for (const arg of args) {
     if (!arg) continue
