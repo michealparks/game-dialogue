@@ -345,7 +345,7 @@
       "text": "Wow, I think this is it, I can’t believe it! You've got to check out the view from the camera feed."
     },
     {
-      "text": "<img src='camfeed.jpg' style='width:100%'/>"
+      "image": "/assets/camfeed.jpg"
     },
     {
       "text": "Thank you again for all your help, I could have never done it without you."
@@ -397,7 +397,7 @@
             "14 hrs",
             "14hours",
             "14 hour",
-            "14 hours,"
+            "14 hours"
           ],
           "sleepBefore": 2,
           "text": "14 hours? Wow. I guess that will be a very long and interesting night!",
