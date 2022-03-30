@@ -85,8 +85,7 @@ dialogue:
   - key: start
     sleepBefore: 0
     text: >-
-      Hello! Welcome to Koschei Society webchat service. To confirm you are
-      human, please enter the name of the month.
+      Hello! Welcome to Koschei Society webchat service. To continue, please enter the month of our most recent correspondence.
     waitFor:
       - sleepBefore: 0
         answers:
