@@ -10,7 +10,7 @@ export let env: string
 export let bot: Bot
 export let dialogue: Dialog[]
 export let variables: Variables
-export let debugJumpTo: keyof Dialog
+export let debugJumpTo: keyof Dialog | null
 
 let messages: MessageData[] = []
 let typing = false

@@ -46,3 +46,10 @@ export interface Dialog {
 }
 
 export type Variables = Record<string, string>
+
+export interface Yaml {
+  bot: Bot
+  dialogue: Dialog
+  variables: Variables
+}
+
