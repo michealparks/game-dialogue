@@ -38,6 +38,7 @@ const handleUserInput = () => {
     on:keyup={handleKeyUp}
   />
   <button
+    aria-label="Send message"
     class='grid place-content-center h-full w-12 p-0 border-0 bg-transparent outline-none'
     on:click={handleMessageSubmit}
   >
