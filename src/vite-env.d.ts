@@ -3,9 +3,9 @@
 
 declare module '*.yaml' {
   const value: {
-    bot: unknown
-    dialogue: unknown
-    variables: unknown
+    bot: any
+    dialogue: any
+    variables: any
   }
   export = value;
 }
