@@ -10,7 +10,7 @@ describe('chat app', () => {
   const name = 'Mikey'
 
   it('can complete the January section', () => {
-    cy.text(/enter the name of the month/)
+    cy.text(/please enter the month of our most recent correspondence/i)
     cy.input('Jan')
   
     cy.text(/enter your first name to continue./i)
@@ -30,7 +30,7 @@ describe('chat app', () => {
   })
 
   it('can complete the February section', () => {
-    cy.text(/enter the name of the month/)
+    cy.text(/please enter the month of our most recent correspondence/i)
     cy.input('Feb')
 
     cy.text(/enter your first name to continue./i)
@@ -60,21 +60,21 @@ describe('chat app', () => {
     cy.text(/i can go north, south, or keep going east/i)
     cy.input('10 east')
 
-    cy.text(/gone as far east as I can go now, and I can either turn north or south/)
+    cy.text(/gone as far east as i can go now, and i can either turn north or south/i)
     cy.input('4 north')
 
     cy.text(/has left the chat/i)
   })
 
   it('can complete the March section', () => {
-    cy.text(/enter the name of the month/)
+    cy.text(/please enter the month of our most recent correspondence/i)
     cy.input('March')
 
     cy.text(/enter your first name to continue./i)
     cy.input(name)
 
     cy.text(/connecting/i)
-    cy.text(new RegExp(`Hi ${name}`, 'i'))
+    cy.text(new RegExp(`hi ${name}`, 'i'))
     cy.input('Yes')
 
     cy.text(/enter them one at a time/i)

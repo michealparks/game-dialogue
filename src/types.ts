@@ -16,6 +16,7 @@ export interface Config {
 
 export interface MessageData extends Config {
   value: string
+  image?: { description: string; src: string }
   datetime: number
 }
 

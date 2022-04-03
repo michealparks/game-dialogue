@@ -216,8 +216,8 @@ export const commitMessage = (value: string) => {
   messages = messages
 }
 
-export const commitImage = (imgsrc: string) => {
-  messages[messages.length - 1]!.value = `<img src="${imgsrc}" />`
+export const commitImage = (image: { description: string; src: string }) => {
+  messages[messages.length - 1]!.image = image
   typing = false
   messages = messages
   pendingMessage = false
