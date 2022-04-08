@@ -4,13 +4,12 @@ import Input from './components/Input.svelte'
 import Message from './components/Message.svelte'
 import { sleep } from './lib/sleep'
 import { setDialogValues } from './lib/setDialogValues'
-import type { Bot, Dialog, MessageData, Config, DialogAnswer, Variables } from './types'
+import type { Bot, BotMessage, BotResponse, MessageData, Config, BotConditionalResponse } from './types'
 
 export let env: string
 export let bot: Bot
-export let dialogue: Dialog[]
-export let variables: Variables
-export let debugJumpTo: keyof Dialog | null
+export let dialogue: BotMessage[]
+export let debugJumpTo: keyof BotMessage | null
 
 let messages: MessageData[] = []
 let typing = false
@@ -51,14 +50,14 @@ const handleInput = (e: CustomEvent) => {
   })
 }
 
-const jumpToTextItem = (key: keyof Dialog) => {
+const jumpToTextItem = (key: string) => {
   if (key[0] === '$') {
-    key = key.slice(1) as keyof Dialog
+    key = key.slice(1)
 
     dialogueIndex = dialogue
-      .findIndex((item: Dialog) => {
+      .findIndex((item: BotMessage) => {
         const obj = item[key]
-        return obj && setDialogValues(obj as object, variables).includes(savedUserInputs[key])
+        return obj && typeof obj === 'object' && setDialogValues(obj).includes(savedUserInputs[key])
       })
   } else {
     dialogueIndex = dialogue
@@ -68,23 +67,22 @@ const jumpToTextItem = (key: keyof Dialog) => {
   jumped = true
 }
 
-const findMatch = (input: string, wait: DialogAnswer[]): DialogAnswer | false => {
+const findResponseMatch = (input: string, wait: BotResponse[]): BotResponse | false => {
   const spaces = /\s\s+/g
 
-  for (const [i, item] of wait.entries()) {
-    for (const answer of item.answers!) {
-      const readyinput = input.replace(spaces, ' ').toLowerCase()
+  for (const [i, botResponse] of wait.entries()) {
+    for (const answer of botResponse.answers) {
+      const readyinput = input.replace(spaces, ' ').toLowerCase().trim()
+
       if (readyinput.includes(answer.toLowerCase())) {
-        const match = item
+        if (!botResponse.repeat) wait.splice(i, 1)
 
-        if (!match.repeat) wait.splice(i, 1)
-
-        if (match.saveInputAs) {
-          savedUserInputs[match.saveInputAs]! = readyinput
-          match.saveInputAs = undefined
+        if (botResponse.saveInputAs) {
+          savedUserInputs[botResponse.saveInputAs] = readyinput
+          botResponse.saveInputAs = undefined
         }
 
-        return match
+        return botResponse
       }
     }
   }
@@ -95,7 +93,7 @@ const findMatch = (input: string, wait: DialogAnswer[]): DialogAnswer | false =>
 /**
  * Handles a single text item within the dialogue
  */
-const textItem = async (item: object) => {
+const textItem = async (item: BotMessage | BotResponse | BotConditionalResponse) => {
   const {
     text,
     image,
@@ -109,7 +107,7 @@ const textItem = async (item: object) => {
     waitForAnyInput = false,
     defaultResponses = bot.responses.incorrect,
     goto
-  } = setDialogValues(item, variables)
+  } = setDialogValues(item)
 
   if (text || image) {
     startMessage({ info, user: false })
@@ -144,14 +142,14 @@ const textItem = async (item: object) => {
   }
 
   while (waitFor.length > 0) {
-    const match = findMatch(await listenForInput(), waitFor)
+    const botResponse = findResponseMatch(await listenForInput(), waitFor)
 
-    if (match) {
-      await textItem(match)
-      if (match.satisfies) break
+    if (botResponse) {
+      await textItem(botResponse)
+      if (botResponse.satisfies) break
     } else {
-      const rand = Math.random() * defaultResponses.length | 0
-      await textItem(defaultResponses[rand])
+      const randomInt = Math.random() * defaultResponses.length | 0
+      await textItem(defaultResponses[randomInt])
     }
   }
 

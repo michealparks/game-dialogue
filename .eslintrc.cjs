@@ -121,7 +121,7 @@ module.exports = {
     'unicorn/custom-error-definition': 'error',
     'unicorn/import-index': 'error',
     'unicorn/import-style': 'error',
-    // @todo : re-anable prefer-at when support exists https://caniuse.com/mdn-javascript_builtins_array_at
+    // @todo : re-enable prefer-at when support exists https://caniuse.com/mdn-javascript_builtins_array_at
     'unicorn/prefer-at': 'off',
     'unicorn/prefer-object-has-own': 'error',
     'unicorn/prefer-string-replace-all': 'error',

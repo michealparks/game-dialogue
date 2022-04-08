@@ -20,7 +20,7 @@ export interface MessageData extends Config {
   datetime: number
 }
 
-export interface DialogAnswer {
+export interface BotResponse {
   sleepBefore: number
   answers: string[]
   sleepAfter: number
@@ -29,7 +29,12 @@ export interface DialogAnswer {
   saveInputAs?: string
 }
 
-export interface Dialog {
+export interface BotConditionalResponse {
+  variableEquals: string[]
+  text: string
+}
+
+export interface BotMessage {
   key?: string
   sleepBefore?: number
   sleepAfter?: number
@@ -37,20 +42,17 @@ export interface Dialog {
   goto?: string
   text: string
   waitForAnyInput: true
-  waitFor?: DialogAnswer[]
+  waitFor?: BotResponse[]
   info?: true
-  defaultResponses?: Dialog[]
-  conditionals?: {
-    variableEquals: string[]
-    text: string
-  }[]
+  defaultResponses?: BotMessage[]
+  conditionals?: []
 }
 
 export type Variables = Record<string, string>
 
 export interface Yaml {
   bot: Bot
-  dialogue: Dialog
+  dialogue: BotMessage
   variables: Variables
 }
 
