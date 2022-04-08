@@ -78,7 +78,7 @@ const findResponseMatch = (input: string, wait: BotResponse[]): BotResponse | fa
         if (!botResponse.repeat) wait.splice(i, 1)
 
         if (botResponse.saveInputAs) {
-          savedUserInputs[botResponse.saveInputAs] = readyinput
+          savedUserInputs[botResponse.saveInputAs] = answer.toLowerCase()
           botResponse.saveInputAs = undefined
         }
 
