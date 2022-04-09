@@ -14,10 +14,22 @@ export interface Config {
   info?: boolean
 }
 
+export interface Image {
+  src: string
+  description: string
+}
+
+export interface Link {
+  title: string
+  href: string
+  img: Image
+}
+
 export interface MessageData extends Config {
   value: string
-  image?: { description: string; src: string }
   datetime: number
+  image?: Image
+  link?: Link
 }
 
 export interface BotResponse {

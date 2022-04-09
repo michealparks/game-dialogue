@@ -1,6 +1,7 @@
 <script lang='ts'>
   import cx from '../lib/cx'
   import { formatDatetime } from '../lib/formatDatetime'
+  import type { Link } from '../types'
 
   export let typing = false
   export let user = false
@@ -8,6 +9,7 @@
   export let value = ''
   export let image: undefined | { src: string; description: string } = undefined
   export let datetime: number | Date = 0
+  export let link: Link | undefined = undefined
 
   const handleMessageMount = (node: HTMLElement) => {
     node.scrollIntoView()
@@ -15,23 +17,23 @@
 </script>
 
 <message-bubble
-  class={cx('flex flex-col w-full', {
+  class={cx('flex flex-col w-full rounded-md', {
     'origin-bottom-left': !user,
     'items-end origin-bottom-right': user,
   })}
   use:handleMessageMount
 >
   <message-text
-    class={cx('relative block w-fit max-w-[75%] rounded', {
-      'px-4 py-2.5': !image,
+    class={cx('relative block w-fit max-w-[75%] rounded-md', {
+      'px-4 py-2.5': !image && !link,
       'shadow-xl': !info,
       'pb-5 text-gray-500': info,
-      'bg-blue-200 rounded-br-none': user,
-      'bg-gray-50 rounded-bl-none': !info && !user
+      'bg-blue-200 rounded-br-none': !image && !link && user,
+      'bg-gray-50 rounded-bl-none': !image && !link && !info && !user
     })}
   >
     {#if image}
-      <img class='block w-full rounded' alt={image.description} src={image.src} />
+      <img class='block w-full rounded-md' alt={image.description} src={image.src} />
     {/if}
 
     {@html value}
@@ -44,13 +46,23 @@
       </message-text>
     {/if}
 
-    {#if !info && !image}
+    {#if !info && !image && !link}
       <div
         class={cx('absolute bottom-0 w-0 h-0 border-solid', {
           '-right-2 border-0 border-t-8 border-l-8 border-l-blue-200 border-t-transparent': user,
           '-left-2 border-b-8 border-l-8 border-b-gray-50 border-l-transparent': !user,
         })}
       />
+    {/if}
+
+    {#if link}
+      <a target='_tab' href={link.href}>
+        <img class='block w-full rounded-t-md' alt={link.img.description} src={link.img.src} />
+        <div class='flex flex-col p-2'>
+          <small>{link.title}</small>
+          <small class='text-gray-500'>{new URL(link.href).hostname}</small>
+        </div>
+      </a>
     {/if}
   </message-text>
 

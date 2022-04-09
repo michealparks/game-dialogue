@@ -508,16 +508,28 @@ dialogue:
         text: >-
           Things are about to get very busy, so I won’t be online much, but keep
           an eye on our <a target='_tab'
-          href='https://www.koscheisociety.org/whatsnew'>news page</a> for any
-          updates.
+          href='https://koscheisociety.org/whatsnew'>news page</a> for any
+          updates:
+        link:
+          title: What's new
+          href: https://koscheisociety.org/whatsnew
+          img:  
+            src: './society.jpg'
+            description: 'The Koschei Society building'
       - variableEquals:
           - moonPhase
           - full
         text: >-
           Things are about to get very busy, so I won’t be online much, but keep
           an eye on our <a target='_tab'
-          href='https://www.koscheisociety.org/news'>news page</a> for any
-          updates.
+          href='https://koscheisociety.org/news'>news page</a> for any
+          updates:
+        link:
+          title: News
+          href: https://koscheisociety.org/news
+          img:
+            src: './society.jpg'
+            description: 'The Koschei Society building'
   - text: 'Until we speak again, take care of yourself.'
   - sleepBefore: 0
     info: true

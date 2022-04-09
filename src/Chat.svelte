@@ -4,7 +4,8 @@ import Input from './components/Input.svelte'
 import Message from './components/Message.svelte'
 import { sleep } from './lib/sleep'
 import { setDialogValues } from './lib/setDialogValues'
-import type { Bot, BotMessage, BotResponse, MessageData, Config, BotConditionalResponse } from './types'
+import { findResponseMatch } from './lib/findResponseMatch'
+import type { Bot, BotMessage, BotResponse, MessageData, Config, BotConditionalResponse, Image, Link } from './types'
 
 export let env: string
 export let bot: Bot
@@ -16,7 +17,7 @@ let typing = false
 let pendingMessage = false
 let jumped = false
 let missedInput = ''
-let savedUserInputs: Record<string, string> = {}
+let userInputs: Record<string, string> = {}
 let inputPromiseResolve: undefined | ((value: string | PromiseLike<string>) => void)
 let dialogueIndex = 0
 
@@ -57,7 +58,7 @@ const jumpToTextItem = (key: string) => {
     dialogueIndex = dialogue
       .findIndex((item: BotMessage) => {
         const obj = item[key]
-        return obj && typeof obj === 'object' && setDialogValues(obj).includes(savedUserInputs[key])
+        return obj && typeof obj === 'object' && setDialogValues(obj).includes(userInputs[key])
       })
   } else {
     dialogueIndex = dialogue
@@ -65,29 +66,6 @@ const jumpToTextItem = (key: string) => {
   }
 
   jumped = true
-}
-
-const findResponseMatch = (input: string, wait: BotResponse[]): BotResponse | false => {
-  const spaces = /\s\s+/g
-
-  for (const [i, botResponse] of wait.entries()) {
-    for (const answer of botResponse.answers) {
-      const readyinput = input.replace(spaces, ' ').toLowerCase().trim()
-
-      if (readyinput.includes(answer.toLowerCase())) {
-        if (!botResponse.repeat) wait.splice(i, 1)
-
-        if (botResponse.saveInputAs) {
-          savedUserInputs[botResponse.saveInputAs] = answer.toLowerCase()
-          botResponse.saveInputAs = undefined
-        }
-
-        return botResponse
-      }
-    }
-  }
-
-  return false
 }
 
 /**
@@ -106,7 +84,8 @@ const textItem = async (item: BotMessage | BotResponse | BotConditionalResponse)
     conditionals = [],
     waitForAnyInput = false,
     defaultResponses = bot.responses.incorrect,
-    goto
+    goto,
+    link,
   } = setDialogValues(item)
 
   if (text || image) {
@@ -118,7 +97,7 @@ const textItem = async (item: BotMessage | BotResponse | BotConditionalResponse)
   if (text) {
     let modifiedText = text
 
-    for (const [key, value] of Object.entries(savedUserInputs)) {
+    for (const [key, value] of Object.entries(userInputs)) {
       modifiedText = modifiedText.replace(`{${key}}`, value)
     }
 
@@ -129,8 +108,13 @@ const textItem = async (item: BotMessage | BotResponse | BotConditionalResponse)
     commitImage(image)
   }
 
+  if (link) {
+    startMessage()
+    commitLink(link)
+  }
+
   if (saveInputAs) {
-    savedUserInputs[saveInputAs] = await listenForInput()
+    userInputs[saveInputAs] = await listenForInput()
   }
 
   if (waitForAnyInput) {
@@ -138,11 +122,11 @@ const textItem = async (item: BotMessage | BotResponse | BotConditionalResponse)
   }
 
   if (saveVariable) {
-    savedUserInputs = { ...savedUserInputs, ...saveVariable }
+    userInputs = { ...userInputs, ...saveVariable }
   }
 
   while (waitFor.length > 0) {
-    const botResponse = findResponseMatch(await listenForInput(), waitFor)
+    const botResponse = findResponseMatch(await listenForInput(), waitFor, userInputs)
 
     if (botResponse) {
       await textItem(botResponse)
@@ -157,7 +141,7 @@ const textItem = async (item: BotMessage | BotResponse | BotConditionalResponse)
     const { variableEquals } = conditional
     const [key, val] = variableEquals
 
-    if (savedUserInputs[key] === val) {
+    if (userInputs[key] === val) {
       await textItem(conditional)
       break
     }
@@ -214,8 +198,15 @@ export const commitMessage = (value: string) => {
   messages = messages
 }
 
-export const commitImage = (image: { description: string; src: string }) => {
+export const commitImage = (image: Image) => {
   messages[messages.length - 1]!.image = image
+  typing = false
+  messages = messages
+  pendingMessage = false
+}
+
+const commitLink = (link: Link) => {
+  messages[messages.length - 1]!.link = link
   typing = false
   messages = messages
   pendingMessage = false
