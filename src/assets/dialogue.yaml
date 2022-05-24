@@ -430,7 +430,7 @@ dialogue:
           - 14 hrs
           - 14hours
           - 14 hour
-          - '14 hours,'
+          - 14 hours
         sleepBefore: 2
         text: 14 hours? Wow. I guess that will be a very long and interesting night!
         sleepAfter: 0

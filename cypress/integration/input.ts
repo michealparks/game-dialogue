@@ -9,7 +9,7 @@ describe('chat app variable inputs', () => {
 
   const inputs = [
     [' JaN', '  mikey '],
-    ['mmmmmarchhhhhh', 'mïkēy '],
+    ['it is march', 'mïkēy '],
     ['march. ', 'MIKE.']
   ]
 
