@@ -39,7 +39,7 @@ const handleInput = (e: CustomEvent) => {
  * Sets up a new promise that will resolve
  * when user input is submitted
  */
-  const listenForInput = (): Promise<string> => {
+const listenForInput = (): Promise<string> => {
   if (missedInput) {
     const result = `${missedInput}`
     missedInput = ''

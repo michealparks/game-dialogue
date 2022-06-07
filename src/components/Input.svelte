@@ -23,8 +23,6 @@ const handleUserInput = () => {
   dispatch('input', { value })
 
   value = ''
-
-  input.blur()
 }
 </script>
 
